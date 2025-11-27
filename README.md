@@ -14,8 +14,8 @@ Repo này phù hợp cho người mới bắt đầu Backend, giúp bạn xây d
 ## Nội dung chính
 
 ### 1. Sách Hướng Dẫn Backend
-- **backend-book.md**: Sách toàn diện từ cơ bản (HTTP, API, JSON) đến nâng cao (Database, Auth, Frameworks, Testing, Deployment). Bao gồm cả Node.js và .NET song song.
-- **backend-learning-guide.md**: Lộ trình học từng bước với 5 bước, hướng dẫn thực hành cho cả hai framework.
+- **backend-book.md**: Sách toàn diện từ cơ bản (HTTP, API, JSON) đến nâng cao (Database, Auth, Frameworks, Testing, Deployment). Bao gồm lộ trình học từng bước, tài liệu, phương pháp học. Hướng dẫn cả Node.js và .NET song song.
+- **backend-thinking-exercises.md**: Bộ bài tập tư duy backend, giải quyết vấn đề và dự án thực tế để rèn luyện kỹ năng nâng cao.
 
 ### 2. Challenges và Bài Tập
 - Thư mục `challenges/`: 20 challenges từ cơ bản đến nâng cao (challenge-1.md đến challenge-20.md).

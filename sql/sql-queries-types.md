@@ -1,13 +1,7 @@
 # Các Loại Truy Vấn Trong SQL
 
 ## Giới thiệu
-SQL (Structured Query Language) là ngôn ngữ chuẩn để quản lý và thao tác cơ sở dữ liệu quan hệ. Các truy vấn SQL được phân loại theo chức năng thành 5 nhóm chính: DQL, DML, DDL, DCL, TCL. Bài viết này cung cấp Lý thuyết, ví dụ chi tiết và 30 bài tập thực hành, tập trung vào ứng dụng trong backend development với Node.js.
-
-### Tại sao phân loại truy vấn?
-- Giúp tổ chức và hiểu rõ mục đích của từng lệnh.
-- Trong backend development, DML và DQL được sử dụng hàng ngày để thao tác dữ liệu trong APIs.
-- DDL quan trọng cho thiết kế schema và migrations.
-- DCL và TCL đảm bảo bảo mật và tính toàn vẹn dữ liệu trong multi-user apps.
+SQL (Structured Query Language) là ngôn ngữ chuẩn để quản lý và thao tác cơ sở dữ liệu quan hệ. Các truy vấn SQL được phân loại theo chức năng thành 5 nhóm chính: DQL, DML, DDL, DCL, TCL
 
 ### SQL trong Backend Development
 - **Kết nối DB**: Sử dụng libraries như `pg` (PostgreSQL) hoặc Sequelize ORM trong Node.js.

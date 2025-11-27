@@ -725,6 +725,100 @@ Bạn có thể chọn một trong hai: Node.js (dễ học, phổ biến) hoặ
 
 #### Mục Tiêu Chung: Lưu và truy xuất dữ liệu từ DB.
 
+## 11. Authentication & Authorization
+
+Authentication (Xác thực) là kiểm tra danh tính người dùng, Authorization (Ủy quyền) là kiểm tra quyền truy cập.
+
+#### Lý Thuyết Cơ Bản
+##### Phương Pháp Cơ Bản:
+- **Basic Auth**: Gửi username/password trong header, mã hóa base64. Đơn giản nhưng kém bảo mật.
+- **JWT (JSON Web Tokens)**: Token stateless chứa claims (thông tin user), ký bằng secret key. Không cần lưu session trên server, dễ scale.
+- **OAuth**: Framework ủy quyền, cho phép app truy cập tài nguyên user từ provider thứ ba (Google, Facebook) mà không cần password.
+
+##### JWT Cơ Bản:
+- **Cấu trúc**: Header (alg, typ), Payload (claims như user ID, exp), Signature (ký để verify).
+- **Flow**: Client gửi credentials → Server tạo JWT → Client lưu và gửi trong Authorization header → Server verify signature.
+- **Ưu điểm**: Stateless, cross-domain, tự chứa thông tin.
+- **Nhược điểm**: Không thể revoke dễ dàng, cần refresh tokens cho bảo mật.
+
+##### Bảo Mật Cơ Bản:
+- Hash password (bcrypt/scrypt).
+- Sử dụng HTTPS để mã hóa truyền tải.
+- Refresh tokens để gia hạn JWT mà không lộ secret.
+
+#### Implementation với Frameworks
+
+##### Với Node.js
+1. Cài bcryptjs và jsonwebtoken.
+2. Tạo endpoint đăng ký: Hash password, lưu user.
+3. Tạo endpoint đăng nhập: Verify password, tạo JWT.
+4. Middleware để verify JWT cho protected routes.
+   ```javascript
+   const jwt = require('jsonwebtoken');
+   const auth = (req, res, next) => {
+     const token = req.header('Authorization').replace('Bearer ', '');
+     try {
+       req.user = jwt.verify(token, 'secret');
+       next();
+     } catch (e) { res.status(401).send('Unauthorized'); }
+   };
+   ```
+
+##### Với .NET
+- Sử dụng JWT: `dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer`.
+- Tạo endpoints đăng ký/đăng nhập, middleware verify token.
+
+#### Mục Tiêu Chung: Bảo vệ API với JWT.
+
+### Phần 4: Best Practices và Nâng Cao
+
+## 12. Coding Conventions
+
+Coding conventions là các quy tắc viết code thống nhất, giúp code dễ đọc, maintain và collaborate. Áp dụng conventions từ đầu để tránh refactor sau này.
+
+#### Quy Tắc Chung
+- **Naming**: Sử dụng camelCase cho variables/functions (JavaScript), PascalCase cho classes (JavaScript/.NET). Ví dụ: `userName`, `UserController`.
+- **Indentation**: 2 spaces (JavaScript) hoặc 4 spaces (.NET). Consistent.
+- **Comments**: Comment functions, classes. Sử dụng JSDoc cho JavaScript.
+- **File Naming**: Kebab-case cho files (user-controller.js), PascalCase cho classes.
+- **Line Length**: Giới hạn 80-120 characters.
+- **Imports/Using**: Group imports, sort alphabetically.
+
+#### Với Node.js
+- Sử dụng ESLint với Airbnb config.
+- Async/await thay vì callbacks.
+- Destructuring, arrow functions.
+- Ví dụ:
+  ```javascript
+  // Bad
+  function getuser(id){return db.find(id)}
+
+  // Good
+  async function getUser(id) {
+    const user = await db.find(id);
+    return user;
+  }
+  ```
+
+#### Với .NET
+- Sử dụng StyleCop hoặc EditorConfig.
+- PascalCase cho methods/properties, camelCase cho locals.
+- Braces on new line.
+- Ví dụ:
+  ```csharp
+  // Good
+  public class UserController
+  {
+      public async Task<IActionResult> GetUser(int id)
+      {
+          var user = await _context.Users.FindAsync(id);
+          return Ok(user);
+      }
+  }
+  ```
+
+#### Lợi Ích: Code professional, dễ review.
+
 ## 13. Testing và Deployment
 
 ### Testing:
@@ -783,55 +877,6 @@ ENTRYPOINT ["dotnet", "MyApi.dll"]
 
 #### Mục Tiêu: Code tested, app online, code được lưu trên GitHub/GitLab.
 
-### Phần 4: Best Practices và Nâng Cao
-
-## 12. Coding Conventions
-
-Coding conventions là các quy tắc viết code thống nhất, giúp code dễ đọc, maintain và collaborate. Áp dụng conventions từ đầu để tránh refactor sau này.
-
-#### Quy Tắc Chung
-- **Naming**: Sử dụng camelCase cho variables/functions (JavaScript), PascalCase cho classes (JavaScript/.NET). Ví dụ: `userName`, `UserController`.
-- **Indentation**: 2 spaces (JavaScript) hoặc 4 spaces (.NET). Consistent.
-- **Comments**: Comment functions, classes. Sử dụng JSDoc cho JavaScript.
-- **File Naming**: Kebab-case cho files (user-controller.js), PascalCase cho classes.
-- **Line Length**: Giới hạn 80-120 characters.
-- **Imports/Using**: Group imports, sort alphabetically.
-
-#### Với Node.js
-- Sử dụng ESLint với Airbnb config.
-- Async/await thay vì callbacks.
-- Destructuring, arrow functions.
-- Ví dụ:
-  ```javascript
-  // Bad
-  function getuser(id){return db.find(id)}
-
-  // Good
-  async function getUser(id) {
-    const user = await db.find(id);
-    return user;
-  }
-  ```
-
-#### Với .NET
-- Sử dụng StyleCop hoặc EditorConfig.
-- PascalCase cho methods/properties, camelCase cho locals.
-- Braces on new line.
-- Ví dụ:
-  ```csharp
-  // Good
-  public class UserController
-  {
-      public async Task<IActionResult> GetUser(int id)
-      {
-          var user = await _context.Users.FindAsync(id);
-          return Ok(user);
-      }
-  }
-  ```
-
-#### Lợi Ích: Code professional, dễ review.
-
 ## 14. Performance Optimization
 
 Tối ưu hóa performance giúp ứng dụng nhanh, scalable. Tập trung vào bottlenecks: DB queries, CPU, memory.
@@ -858,51 +903,6 @@ Tối ưu hóa performance giúp ứng dụng nhanh, scalable. Tập trung vào 
 #### Monitoring: Sử dụng PM2 (Node.js) hoặc Application Insights (.NET) để track performance.
 
 #### Mục Tiêu: App responsive, handle high load.
-
-## 11. Authentication & Authorization
-
-Authentication (Xác thực) là kiểm tra danh tính người dùng, Authorization (Ủy quyền) là kiểm tra quyền truy cập.
-
-#### Lý Thuyết Cơ Bản
-##### Phương Pháp Cơ Bản:
-- **Basic Auth**: Gửi username/password trong header, mã hóa base64. Đơn giản nhưng kém bảo mật.
-- **JWT (JSON Web Tokens)**: Token stateless chứa claims (thông tin user), ký bằng secret key. Không cần lưu session trên server, dễ scale.
-- **OAuth**: Framework ủy quyền, cho phép app truy cập tài nguyên user từ provider thứ ba (Google, Facebook) mà không cần password.
-
-##### JWT Cơ Bản:
-- **Cấu trúc**: Header (alg, typ), Payload (claims như user ID, exp), Signature (ký để verify).
-- **Flow**: Client gửi credentials → Server tạo JWT → Client lưu và gửi trong Authorization header → Server verify signature.
-- **Ưu điểm**: Stateless, cross-domain, tự chứa thông tin.
-- **Nhược điểm**: Không thể revoke dễ dàng, cần refresh tokens cho bảo mật.
-
-##### Bảo Mật Cơ Bản:
-- Hash password (bcrypt/scrypt).
-- Sử dụng HTTPS để mã hóa truyền tải.
-- Refresh tokens để gia hạn JWT mà không lộ secret.
-
-#### Implementation với Frameworks
-
-##### Với Node.js
-1. Cài bcryptjs và jsonwebtoken.
-2. Tạo endpoint đăng ký: Hash password, lưu user.
-3. Tạo endpoint đăng nhập: Verify password, tạo JWT.
-4. Middleware để verify JWT cho protected routes.
-   ```javascript
-   const jwt = require('jsonwebtoken');
-   const auth = (req, res, next) => {
-     const token = req.header('Authorization').replace('Bearer ', '');
-     try {
-       req.user = jwt.verify(token, 'secret');
-       next();
-     } catch (e) { res.status(401).send('Unauthorized'); }
-   };
-   ```
-
-##### Với .NET
-- Sử dụng JWT: `dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer`.
-- Tạo endpoints đăng ký/đăng nhập, middleware verify token.
-
-#### Mục Tiêu Chung: Bảo vệ API với JWT.
 
 ## 15. Bảo Mật Backend
 

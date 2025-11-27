@@ -1,76 +1,82 @@
-# Pre-Backend Course Guide
+# Pre-Backend Challenges - Tài Liệu Tự Học Backend
 
 ## Giới thiệu
-Chào mừng bạn đến với khóa học Pre-Backend! Khóa học này được thiết kế để chuẩn bị cho bạn kiến thức cơ bản về phát triển backend, bao gồm Node.js, SQL, NoSQL và các công nghệ liên quan. Bạn sẽ học qua các bài giảng, bài tập thực hành và dự án nhỏ để củng cố kiến thức.
+Chào mừng bạn đến với repo "Pre-Backend Challenges"! Đây là bộ tài liệu toàn diện để tự học phát triển Backend từ cơ bản đến nâng cao. Repo bao gồm sách hướng dẫn chi tiết, lộ trình học tập, bài tập thực hành (challenges), và tài liệu chuyên sâu về Node.js, .NET, và SQL. Bạn có thể chọn học với Node.js (JavaScript) hoặc .NET (C#) tùy theo sở thích.
 
-## Mục tiêu khóa học
-- Hiểu rõ các khái niệm cơ bản và nâng cao của backend development.
-- Thành thạo Node.js để xây dựng ứng dụng server-side mạnh mẽ và scalable.
-- Học cách làm việc chuyên sâu với cơ sở dữ liệu PostgreSQL (SQL) và MongoDB (NoSQL).
-- Phát triển kỹ năng giải quyết vấn đề thực tế thông qua các challenge và dự án.
-- Áp dụng các best practices như testing, security, và deployment.
+Repo này phù hợp cho người mới bắt đầu Backend, giúp bạn xây dựng kiến thức vững chắc qua lý thuyết và thực hành.
 
-## Nội dung khóa học
+## Mục tiêu
+- Nắm vững khái niệm cơ bản và nâng cao của Backend development.
+- Học cách xây dựng API, tích hợp database, thêm authentication, testing, và deployment.
+- Thực hành qua challenges để áp dụng kiến thức.
+- Chọn framework: Node.js (dễ học, phổ biến) hoặc .NET (enterprise, mạnh mẽ).
 
-### 1. Node.js Basics và Advanced
-- Cài đặt Node.js và npm, quản lý phiên bản với nvm.
-- Modules, require, exports, ES6 modules.
-- Asynchronous programming: callbacks, promises, async/await, event loop.
-- Xây dựng HTTP server với Express.js: middleware, routing, error handling.
-- Advanced: Streams, child processes, clustering cho scalability.
+## Nội dung chính
 
-### 2. PostgreSQL Databases (SQL)
-- Giới thiệu Relational Databases và ACID properties.
-- Cài đặt và sử dụng PostgreSQL: psql, pgAdmin.
-- Cú pháp SQL nâng cao: JOINs, subqueries, indexes, views, stored procedures.
-- Thiết kế database schema: normalization, relationships, constraints.
-- Quy tắc chung: Mỗi bảng sử dụng UUID làm primary key, và cần có các trường created_at, updated_at, created_by, updated_by để tracking audit.
-- Transactions, concurrency, và optimization.
-- Kết nối và truy vấn với Node.js sử dụng pg hoặc Sequelize ORM.
+### 1. Sách Hướng Dẫn Backend
+- **backend-book.md**: Sách toàn diện từ cơ bản (HTTP, API, JSON) đến nâng cao (Database, Auth, Frameworks, Testing, Deployment). Bao gồm cả Node.js và .NET song song.
+- **backend-learning-guide.md**: Lộ trình học từng bước với 5 bước, hướng dẫn thực hành cho cả hai framework.
 
-### 3. NoSQL Databases (MongoDB)
-- Sự khác biệt giữa SQL và NoSQL: khi nào dùng gì.
-- MongoDB: Documents, Collections, Indexes, Aggregation Pipeline.
-- CRUD operations, schema validation, replication.
-- Kết nối MongoDB với Node.js sử dụng Mongoose: models, middleware, validation.
+### 2. Challenges và Bài Tập
+- Thư mục `challenges/`: 20 challenges từ cơ bản đến nâng cao (challenge-1.md đến challenge-20.md).
+- Mỗi challenge có mô tả, yêu cầu, dữ liệu mẫu, và hướng dẫn giải quyết.
+- Áp dụng kiến thức qua bài tập thực tế.
 
-### 4. Các chủ đề chuyên sâu và tổng quát
-- RESTful APIs và GraphQL.
-- Authentication (JWT, OAuth), Authorization (RBAC), Sessions.
-- Security: CORS, Helmet, rate limiting, input validation.
-- Error handling, logging với Winston, monitoring.
-- Testing: Unit tests với Jest, integration tests, TDD.
-- Deployment: Docker, Kubernetes, CI/CD với GitHub Actions.
-- Performance: Caching (Redis), load balancing, profiling.
-- Best practices: Code structure, environment variables, API versioning.
-- File uploads, email sending, scheduling tasks, WebSockets.
+### 3. Tài Liệu Chuyên Sâu
+- **node/**: `node-express-guide.md` – Hướng dẫn chi tiết Node.js, Express.js, OOP, Database, Testing, Projects.
+- **dotnet/**: `dotnet-aspnet-guide.md` – Hướng dẫn tương tự cho .NET, ASP.NET Core.
+- **sql/**: `sql-queries-types.md` – Cơ bản SQL, các loại truy vấn, bài tập.
 
-## Tài liệu tham khảo
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [Express.js Guide](https://expressjs.com/en/guide/routing.html)
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [Sequelize ORM](https://sequelize.org/)
-- [MongoDB Manual](https://docs.mongodb.com/manual/)
-- [Mongoose Documentation](https://mongoosejs.com/docs/)
+### 4. Tài Liệu Khác
+- **table-of-contents.md**: Danh sách tổng quan các challenges.
+
+## Cách Sử Dụng Repo Để Tự Học
+
+1. **Bắt Đầu với Lý Thuyết**:
+   - Đọc `backend-book.md` từ đầu để nắm khái niệm cơ bản.
+   - Hoặc dùng `backend-learning-guide.md` cho lộ trình từng bước.
+
+2. **Chọn Framework**:
+   - Nếu mới bắt đầu: Chọn Node.js (dễ học).
+   - Nếu thích C# hoặc enterprise: Chọn .NET.
+   - Tham khảo phần tương ứng trong sách và hướng dẫn.
+
+3. **Thực Hành với Challenges**:
+   - Bắt đầu từ challenge-1.md (cơ bản HTTP).
+   - Làm tuần tự, áp dụng kiến thức từ sách.
+   - Xem `table-of-contents.md` để tổng quan.
+
+4. **Đi Sâu với Tài Liệu Chuyên Sâu**:
+   - Sau khi hiểu cơ bản, đọc `node-express-guide.md` hoặc `dotnet-aspnet-guide.md` cho chi tiết hơn.
+   - Học SQL qua `sql-queries-types.md`.
+
+5. **Thực Hành Dự Án**:
+   - Xây dựng dự án nhỏ như Todo App, Blog, hoặc API đơn giản.
+   - Sử dụng Git để lưu code trên GitHub/GitLab (xem hướng dẫn Git trong sách).
+
+6. **Testing và Deployment**:
+   - Học testing với Jest (Node.js) hoặc xUnit (.NET).
+   - Containerize với Docker, deploy lên Heroku/Azure.
+
+### Mẹo Học Tập:
+- Học mỗi ngày: Lý thuyết + thực hành.
+- Làm challenges để củng cố.
+- Tham gia cộng đồng: Stack Overflow, Reddit.
+- Nếu gặp khó, quay lại sách để ôn tập.
+
+## Tài Liệu Tham Khảo
+- [Node.js Docs](https://nodejs.org/en/docs/)
+- [Express.js Guide](https://expressjs.com/)
+- [.NET Docs](https://learn.microsoft.com/dotnet/)
+- [ASP.NET Core Docs](https://learn.microsoft.com/aspnet/core/)
+- [PostgreSQL Docs](https://www.postgresql.org/docs/)
+- [MongoDB Docs](https://docs.mongodb.com/)
 - [Jest Testing](https://jestjs.io/)
 - [Docker Docs](https://docs.docker.com/)
 
-Ngoài ra, xem file `sql/sql-queries-types.md` cho chi tiết về các loại truy vấn SQL và bài tập.
+Xem chi tiết trong các file của repo.
 
-## Challenges và Bài tập
-Trong thư mục này, bạn sẽ tìm thấy các challenge thực tế để áp dụng kiến thức đã học, bao gồm từ cơ bản Node.js, database, đến advanced topics như authentication, testing, deployment, caching, GraphQL, và microservices. Mỗi challenge bao gồm:
-- Mô tả yêu cầu.
-- Dữ liệu mẫu.
-- Hướng dẫn giải quyết.
+## Liên Hệ
+Nếu có câu hỏi, tạo issue trên GitHub hoặc thảo luận trong cộng đồng.
 
-Hãy bắt đầu với challenge đầu tiên và dần dần tiến bộ!
-
-## Cách sử dụng
-1. Clone repository này về máy.
-2. Cài đặt dependencies: `npm install`
-3. Chạy các challenge theo hướng dẫn trong từng thư mục.
-
-## Liên hệ
-Nếu có câu hỏi, hãy tạo issue trên GitHub hoặc liên hệ với giảng viên.
-
-Chúc bạn học tập hiệu quả!
+Chúc bạn học tập hiệu quả và trở thành Backend Developer giỏi!

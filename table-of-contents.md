@@ -3,6 +3,10 @@
 ## Giới thiệu
 Dưới đây là danh sách các bài tập (challenges) trong khóa học Pre-Backend. Mỗi bài tập được thiết kế để giúp bạn áp dụng kiến thức chuyên sâu về Node.js, PostgreSQL, MongoDB và các chủ đề backend tổng quát. Hãy hoàn thành từng bài tập theo thứ tự để xây dựng nền tảng vững chắc.
 
+### Tài liệu Lý thuyết
+- [Node.js và Express.js Guide](./node/node-express-guide.md) - Lý thuyết và bài tập về Node.js, Express, thiết kế source, tư duy backend.
+- [SQL Queries Types](./sql/sql-queries-types.md) - Các loại truy vấn SQL, NoSQL và bài tập thực hành.
+
 ## Danh sách Bài tập
 
 ### 1. [Challenge 1: Hello World với Node.js](./challenges/challenge-1.md)

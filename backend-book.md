@@ -27,29 +27,36 @@ Chào mừng bạn đến với hành trình học Backend! Tài liệu này cun
 - Networking: Kết nối với cộng đồng dev.
 
 ## Mục Lục
-### Phần 1: Lý Thuyết Cơ Bản
+### Phần 1: Giới Thiệu và Lộ Trình Học
 1. [Giới Thiệu Về Backend](#1-giới-thiệu-về-backend)
-2. [HTTP và Client-Server Flow](#2-http-và-client-server-flow)
-3. [API và JSON](#3-api-và-json)
-4. [Swagger/OpenAPI](#4-swaggeropenapi)
-5. [Database Cơ Bản](#5-database-cơ-bản)
-6. [Authentication & Authorization](#6-authentication--authorization)
+2. [Lộ Trình Học Backend](#2-lộ-trình-học-backend)
 
-### Phần 2: Frameworks và Tools
-7. [Frameworks và Tools Phổ Biến](#7-frameworks-và-tools-phổ-biến)
-8. [Xây Dựng API Đơn Giản](#8-xây-dựng-api-đơn-giản)
-9. [Tích Hợp Database](#9-tích-hợp-database)
-10. [Authentication & Authorization](#10-authentication--authorization)
-11. [Testing và Deployment](#11-testing-và-deployment)
+### Phần 2: Lý Thuyết Cơ Bản
+3. [HTTP và Client-Server Flow](#3-http-và-client-server-flow)
+4. [API và JSON](#4-api-và-json)
+5. [Swagger/OpenAPI](#5-swaggeropenapi)
+6. [Database Cơ Bản](#6-database-cơ-bản)
 
-### Phần 3: Lộ Trình Học và Tài Liệu
-12. [Lộ Trình Học Backend](#12-lộ-trình-học-backend)
-13. [Challenges và Bài Tập](#13-challenges-và-bài-tập)
-14. [Tài Nguyên Học Thêm](#14-tài-nguyên-học-thêm)
+### Phần 3: Cấu Trúc và Frameworks
+7. [Cấu Trúc Dự Án Backend](#7-cấu-trúc-dự-án-backend)
+8. [Frameworks và Tools Phổ Biến](#8-frameworks-và-tools-phổ-biến)
+
+### Phần 4: Implementation và Bảo Mật
+9. [Xây Dựng API Đơn Giản](#9-xây-dựng-api-đơn-giản)
+10. [Tích Hợp Database](#10-tích-hợp-database)
+11. [Authentication & Authorization](#11-authentication--authorization)
+12. [Coding Conventions](#12-coding-conventions)
+13. [Testing và Deployment](#13-testing-và-deployment)
+14. [Performance Optimization](#14-performance-optimization)
+15. [Bảo Mật Backend](#15-bảo-mật-backend)
+
+### Phần 5: Thực Hành và Tài Nguyên
+16. [Challenges và Bài Tập](#16-challenges-và-bài-tập)
+17. [Tài Nguyên Học Thêm](#17-tài-nguyên-học-thêm)
 
 ### Phụ Lục
-15. [Bộ Bài Tập Tư Duy Backend và Dự Án Thực Tế](#15-bộ-bài-tập-tư-duy-backend-và-dự-án-thực-tế)
-16. [Tóm Tắt và Kết Luận](#16-tóm-tắt-và-kết-luận)
+18. [Bộ Bài Tập Tư Duy Backend và Dự Án Thực Tế](#18-bộ-bài-tập-tư-duy-backend-và-dự-án-thực-tế)
+19. [Tóm Tắt và Kết Luận](#19-tóm-tắt-và-kết-luận)
 
 ---
 
@@ -63,7 +70,433 @@ Backend là phần xử lý logic phía server, quản lý dữ liệu và giao 
 - API development
 - Security và performance
 
-## 2. HTTP và Client-Server Flow
+## 2. Lộ Trình Học Backend
+
+Hướng dẫn từng bước học Backend cho người mới bắt đầu. Lộ trình này giúp bạn nắm vững từ cơ bản đến nâng cao qua thực hành.
+
+### Chuẩn Bị
+**Công Cụ Cần Thiết:**
+- **Ngôn Ngữ Lập Trình**: Chọn **JavaScript với Node.js** (dễ học, phổ biến) hoặc **C# với .NET** (enterprise, mạnh mẽ).
+- **Editor**: VS Code với extensions: Prettier, ESLint, GitLens (cho JS); C# extension (cho .NET).
+- **Tools**: Git, Postman, Docker.
+- **Tài Khoản**: GitHub hoặc GitLab (free), Heroku/AWS (free tier).
+
+**Hướng Dẫn Git Cơ Bản:**
+Git giúp quản lý code và hợp tác. Cài đặt từ [git-scm.com](https://git-scm.com/), cấu hình user.name và user.email.
+- Khởi tạo repo: `git init`
+- Thêm file: `git add .` (hoặc `git add <file>` cho file cụ thể)
+- Commit: `git commit -m "Initial commit"`
+- Kiểm tra trạng thái: `git status`
+- Xem lịch sử: `git log --oneline`
+- Tạo repo trên GitHub/GitLab, liên kết: `git remote add origin <url>`
+- Push: `git push -u origin main`
+Để chi tiết hơn, xem phần "Hướng Dẫn Git và GitHub/GitLab" ở trên.
+
+### Bước 1: Học Cơ Bản
+Bắt đầu với nền tảng. Đọc Phần 2: Lý Thuyết Cơ Bản ở trên.
+**Những Gì Cần Học:**
+- HTTP: Methods, request/response, status codes, HTTPS.
+- Client-Server Flow: Luồng request-response, các thành phần.
+- JSON: Cấu trúc, parse/serialize.
+- API: RESTful API, endpoints, versioning.
+**Thực Hành:**
+- Sử dụng Postman để test HTTP requests.
+- Viết script gửi GET request (fetch trong JS hoặc HttpClient trong C#).
+- Làm challenges liên quan trong `challenges/`.
+**Mục Tiêu:** Hiểu cách client và server giao tiếp.
+
+### Bước 2: Xây Dựng API Đơn Giản
+Tạo API đầu tiên. Tham khảo Phần 3: Frameworks và Implementation.
+**Lựa Chọn Framework:** Node.js (dễ) hoặc .NET (enterprise).
+**Với Node.js và Express.js:**
+1. Cài Node.js/npm.
+2. Tạo project: `npm init -y` và cài `express`.
+3. Code cơ bản:
+   ```javascript
+   const express = require('express');
+   const app = express();
+   app.use(express.json());
+   app.get('/api/hello', (req, res) => res.json({ message: 'Hello World!' }));
+   app.listen(3000, () => console.log('Server running on port 3000'));
+   ```
+4. Chạy: `node app.js`.
+5. Test với Postman.
+**Với C# và ASP.NET Core:**
+1. Cài .NET SDK.
+2. Tạo project: `dotnet new webapi -n MyApi`.
+3. Code:
+   ```csharp
+   var builder = WebApplication.CreateBuilder(args);
+   var app = builder.Build();
+   app.MapGet("/api/hello", () => new { message = "Hello World!" });
+   app.Run();
+   ```
+4. Chạy: `dotnet run`.
+**Mục Tiêu:** Xây dựng và test API cơ bản.
+
+### Bước 3: Tích Hợp Database
+Lưu dữ liệu persistent. Tham khảo Phần 3.
+**Chọn Database:** MongoDB (NoSQL) hoặc PostgreSQL (SQL).
+**Với Node.js:**
+- MongoDB: Cài mongoose, tạo model, kết nối.
+- PostgreSQL: Cài pg, tạo table, queries.
+**Với .NET:** Sử dụng EF Core hoặc MongoDB.Driver.
+**Mục Tiêu:** Lưu và truy xuất dữ liệu từ DB.
+
+### Bước 4: Thêm Authentication
+Bảo mật API. Tham khảo Phần 3.
+**Với Node.js:** Cài bcryptjs, jsonwebtoken, tạo endpoints đăng ký/đăng nhập, middleware JWT.
+**Với .NET:** Sử dụng JWT package.
+**Mục Tiêu:** Bảo vệ API với JWT.
+
+### Bước 5: Testing và Deployment
+Đảm bảo ổn định và deploy. Tham khảo Phần 3: Testing và Deployment.
+**Mục Tiêu:** Code tested, app online, code được lưu trên GitHub/GitLab.
+
+## 7. Cấu Trúc Dự Án Backend
+
+Cấu trúc dự án backend giúp tổ chức code một cách logic, dễ bảo trì và mở rộng. Dưới đây là cấu trúc thư mục điển hình cho một dự án backend, với giải thích mục đích của từng thành phần. Cấu trúc này áp dụng cho cả Node.js (Express.js) và .NET (ASP.NET Core), với một số điều chỉnh nhỏ.
+
+### Cấu Trúc Thư Mục Cơ Bản
+
+```
+/project-root
+├── /src (hoặc /app cho .NET)
+│   ├── /controllers (hoặc /Controllers)
+│   ├── /models (hoặc /Models)
+│   ├── /routes (hoặc /Endpoints, /Controllers với routing)
+│   ├── /middleware (hoặc /Middlewares)
+│   ├── /config (hoặc /Configuration)
+│   ├── /services (hoặc /Services)
+│   ├── /utils (hoặc /Helpers)
+│   └── /tests (hoặc /Tests)
+├── /public (cho static files nếu cần)
+├── /node_modules (cho Node.js)
+├── /bin, /obj (cho .NET)
+├── package.json (Node.js) hoặc .csproj ( .NET)
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
+└── .gitignore
+```
+
+### Giải Thích Mục Đích Từng Thành Phần
+
+1. **/controllers (Controllers)**:
+   - **Mục đích**: Chứa logic xử lý request/response cho từng endpoint. Đây là nơi thực hiện business logic chính, như validate input, gọi services, và trả về response.
+   - **Ví dụ**: UserController xử lý CRUD cho users (getUsers, createUser, updateUser, deleteUser).
+   - **Lợi ích**: Tách biệt logic xử lý, dễ test và maintain.
+
+2. **/models (Models)**:
+   - **Mục đích**: Định nghĩa cấu trúc dữ liệu, schema cho database. Bao gồm models cho entities như User, Product.
+   - **Ví dụ**: User model với fields như id, name, email; hoặc Entity Framework DbContext trong .NET.
+   - **Lợi ích**: Centralized data definitions, dễ thay đổi schema.
+
+3. **/routes (Routes/Endpoints)**:
+   - **Mục đích**: Định nghĩa các API endpoints và map chúng đến controllers. Đây là nơi khai báo URL patterns và HTTP methods.
+   - **Ví dụ**: app.get('/api/users', userController.getUsers) trong Express; hoặc [HttpGet("users")] trong ASP.NET.
+   - **Lợi ích**: Tách routing khỏi logic, dễ quản lý API versioning.
+
+4. **/middleware (Middlewares)**:
+   - **Mục đích**: Chứa các hàm middleware để xử lý cross-cutting concerns như authentication, logging, error handling, CORS.
+   - **Ví dụ**: authMiddleware để verify JWT; errorHandler để catch errors.
+   - **Lợi ích**: Reusable, áp dụng cho nhiều routes.
+
+5. **/config (Configuration)**:
+   - **Mục đích**: Lưu trữ cấu hình ứng dụng như database connection strings, environment variables, API keys.
+   - **Ví dụ**: config/database.js với MongoDB URI; appsettings.json trong .NET.
+   - **Lợi ích**: Tách config khỏi code, dễ deploy trên môi trường khác nhau.
+
+6. **/services (Services)**:
+   - **Mục đích**: Chứa logic nghiệp vụ phức tạp, tương tác với external APIs, database queries nặng.
+   - **Ví dụ**: EmailService để gửi email; PaymentService để xử lý thanh toán.
+   - **Lợi ích**: Tách business logic khỏi controllers, dễ test và reuse.
+
+7. **/utils (Utils/Helpers)**:
+   - **Mục đích**: Các hàm tiện ích chung, như format date, validate email, hash password.
+   - **Ví dụ**: hashPassword function; dateFormatter.
+   - **Lợi ích**: DRY (Don't Repeat Yourself), centralized utilities.
+
+8. **/tests (Tests)**:
+   - **Mục đích**: Chứa unit tests, integration tests cho code.
+   - **Ví dụ**: userController.test.js với Jest; UserControllerTests.cs với xUnit.
+   - **Lợi ích**: Đảm bảo code hoạt động đúng, dễ refactor.
+
+### Khác Biệt Giữa Node.js và .NET
+
+- **Node.js (Express.js)**: Thư mục thường flat hơn, sử dụng CommonJS hoặc ES modules. Ví dụ: /controllers, /models.
+- **.NET (ASP.NET Core)**: Thường theo cấu trúc MVC hoặc Clean Architecture, với /Controllers, /Models, /Services. Sử dụng dependency injection built-in.
+
+### Lợi Ích Của Cấu Trúc Tốt
+- **Maintainability**: Dễ tìm và sửa code.
+- **Scalability**: Dễ thêm features mới.
+- **Collaboration**: Nhiều developers làm việc song song mà không conflict.
+- **Testing**: Dễ viết và chạy tests.
+
+### Ví Dụ Cấu Trúc Cho Dự Án Nhỏ
+Cho một API đơn giản với users và products:
+
+```
+/my-backend-app
+├── /controllers
+│   ├── userController.js
+│   └── productController.js
+├── /models
+│   ├── User.js
+│   └── Product.js
+├── /routes
+│   ├── userRoutes.js
+│   └── productRoutes.js
+├── /middleware
+│   └── auth.js
+├── /config
+│   └── database.js
+├── /services
+│   └── emailService.js
+├── /utils
+│   └── validators.js
+├── /tests
+│   ├── userController.test.js
+│   └── productController.test.js
+├── app.js
+├── package.json
+└── README.md
+```
+
+### Ví Dụ Code Chi Tiết Cho Từng Thành Phần
+
+#### Với Node.js (Express.js)
+
+- **models/User.js**:
+  ```javascript
+  const mongoose = require('mongoose');
+  const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+  });
+  module.exports = mongoose.model('User', userSchema);
+  ```
+
+- **controllers/userController.js**:
+  ```javascript
+  const User = require('../models/User');
+  const bcrypt = require('bcryptjs');
+  const jwt = require('jsonwebtoken');
+
+  exports.register = async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({ name, email, password: hashedPassword });
+      await user.save();
+      res.status(201).json({ message: 'User registered' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  exports.login = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user || !await bcrypt.compare(password, user.password)) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: '1h' });
+      res.json({ token });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  exports.getUsers = async (req, res) => {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  ```
+
+- **routes/userRoutes.js**:
+  ```javascript
+  const express = require('express');
+  const router = express.Router();
+  const userController = require('../controllers/userController');
+  const auth = require('../middleware/auth');
+
+  router.post('/register', userController.register);
+  router.post('/login', userController.login);
+  router.get('/', auth, userController.getUsers);
+
+  module.exports = router;
+  ```
+
+- **middleware/auth.js**:
+  ```javascript
+  const jwt = require('jsonwebtoken');
+
+  module.exports = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+    try {
+      req.user = jwt.verify(token, 'secret');
+      next();
+    } catch (error) {
+      res.status(401).json({ message: 'Invalid token' });
+    }
+  };
+  ```
+
+- **config/database.js**:
+  ```javascript
+  const mongoose = require('mongoose');
+  const connectDB = async () => {
+    try {
+      await mongoose.connect('mongodb://localhost:27017/myapp', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+      console.log('MongoDB connected');
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+  };
+  module.exports = connectDB;
+  ```
+
+- **services/emailService.js**:
+  ```javascript
+  const nodemailer = require('nodemailer');
+
+  const transporter = nodemailer.createTransporter({
+    service: 'gmail',
+    auth: { user: 'your-email@gmail.com', pass: 'your-password' }
+  });
+
+  exports.sendWelcomeEmail = async (email) => {
+    await transporter.sendMail({
+      from: 'your-email@gmail.com',
+      to: email,
+      subject: 'Welcome!',
+      text: 'Welcome to our app!'
+    });
+  };
+  ```
+
+- **utils/validators.js**:
+  ```javascript
+  exports.isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+  ```
+
+- **tests/userController.test.js**:
+  ```javascript
+  const request = require('supertest');
+  const app = require('../app'); // Giả sử app.js export app
+
+  describe('User Controller', () => {
+    it('should register a user', async () => {
+      const res = await request(app)
+        .post('/api/users/register')
+        .send({ name: 'Test', email: 'test@example.com', password: '123456' });
+      expect(res.status).toBe(201);
+    });
+  });
+  ```
+
+#### Với .NET (ASP.NET Core)
+
+- **Models/User.cs**:
+  ```csharp
+  public class User
+  {
+      public int Id { get; set; }
+      public string Name { get; set; }
+      public string Email { get; set; }
+      public string Password { get; set; }
+      public DateTime CreatedAt { get; set; } = DateTime.Now;
+  }
+  ```
+
+- **Controllers/UserController.cs**:
+  ```csharp
+  [ApiController]
+  [Route("api/[controller]")]
+  public class UserController : ControllerBase
+  {
+      private readonly AppDbContext _context;
+      public UserController(AppDbContext context) => _context = context;
+
+      [HttpPost("register")]
+      public async Task<IActionResult> Register([FromBody] RegisterModel model)
+      {
+          var user = new User { Name = model.Name, Email = model.Email, Password = BCrypt.Net.BCrypt.HashPassword(model.Password) };
+          _context.Users.Add(user);
+          await _context.SaveChangesAsync();
+          return Ok("User registered");
+      }
+
+      [HttpPost("login")]
+      public async Task<IActionResult> Login([FromBody] LoginModel model)
+      {
+          var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+          if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+              return Unauthorized("Invalid credentials");
+          var token = GenerateJwtToken(user);
+          return Ok(new { token });
+      }
+
+      [HttpGet, Authorize]
+      public async Task<IActionResult> GetUsers() => Ok(await _context.Users.ToListAsync());
+
+      private string GenerateJwtToken(User user)
+      {
+          var tokenHandler = new JwtSecurityTokenHandler();
+          var key = Encoding.ASCII.GetBytes("your-secret-key");
+          var tokenDescriptor = new SecurityTokenDescriptor
+          {
+              Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+              Expires = DateTime.UtcNow.AddHours(1),
+              SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+          };
+          var token = tokenHandler.CreateToken(tokenDescriptor);
+          return tokenHandler.WriteToken(token);
+      }
+  }
+  ```
+
+- **Services/EmailService.cs**:
+  ```csharp
+  public class EmailService
+  {
+      public async Task SendWelcomeEmail(string email)
+      {
+          // Code to send email using SmtpClient or library like MailKit
+      }
+  }
+  ```
+
+- **Utils/Validators.cs**:
+  ```csharp
+  public static class Validators
+  {
+      public static bool IsValidEmail(string email)
+      {
+          return Regex.IsMatch(email, @"^[^\s@]+@[^\s@]+\.[^\s@]+$");
+      }
+  }
+  ```
+
+Khi bắt đầu dự án, luôn nghĩ về cấu trúc này để code được tổ chức tốt. Tham khảo các best practices từ docs của framework bạn chọn.
+
+## 3. HTTP và Client-Server Flow
 
 ### HTTP (HyperText Transfer Protocol)
 
@@ -335,7 +768,7 @@ Mô hình client-server là kiến trúc mạng nơi client (trình duyệt, ứ
 - **Scalable**: Có thể thêm nhiều server để xử lý tải.
 - **Security**: Cần bảo mật dữ liệu truyền tải (HTTPS).
 
-## 3. API và JSON
+## 4. API và JSON
 
 ### API (Application Programming Interface)
 
@@ -379,7 +812,7 @@ JSON là định dạng dữ liệu nhẹ, dễ đọc và dễ phân tích. Đ�
 - Parse JSON từ request body.
 - Serialize object thành JSON để response.
 
-## 4. Swagger/OpenAPI
+## 5. Swagger/OpenAPI
 
 Swagger là công cụ để thiết kế, xây dựng và tài liệu hóa API. Hiện tại là OpenAPI Specification.
 
@@ -408,7 +841,7 @@ paths:
           description: Success
 ```
 
-## 5. Database Cơ Bản
+## 6. Database Cơ Bản
 
 Database là nơi lưu trữ dữ liệu cho ứng dụng. Backend thường tương tác với database để lưu và truy xuất dữ liệu.
 
@@ -429,26 +862,7 @@ INSERT INTO users (name, email) VALUES ('Nguyen', 'nguyen@example.com');
 #### Kết Nối Database Trong Code:
 - Sử dụng ORM như Sequelize (Node.js) hoặc Entity Framework (.NET) để tương tác dễ dàng.
 
-## 7. Authentication & Authorization
-
-Authentication (Xác thực) là kiểm tra danh tính người dùng, Authorization (Ủy quyền) là kiểm tra quyền truy cập.
-
-#### Phương Pháp Cơ Bản:
-- **Basic Auth**: Username/Password qua header.
-- **JWT (JSON Web Tokens)**: Token chứa thông tin user, không cần lưu session trên server.
-- **OAuth**: Cho phép ứng dụng truy cập tài nguyên của user từ provider khác (Google, Facebook).
-
-#### Ví Dụ JWT Flow:
-1. User đăng nhập, server tạo JWT.
-2. Client gửi JWT trong header cho mỗi request.
-3. Server verify JWT để xác thực.
-
-#### Bảo Mật:
-- Hash password (bcrypt).
-- Sử dụng HTTPS.
-- Refresh tokens để tránh lộ JWT.
-
-## 7. Frameworks và Tools Phổ Biến
+## 8. Frameworks và Tools Phổ Biến
 
 Frameworks giúp phát triển nhanh hơn bằng cách cung cấp cấu trúc sẵn.
 
@@ -502,10 +916,8 @@ Bạn có thể chọn một trong hai: Node.js (dễ học, phổ biến) hoặ
   var builder = WebApplication.CreateBuilder(args);
   var app = builder.Build();
   app.MapGet("/api/hello", () => new { message = "Hello World!" });
-  app.Run();
-  ```
-
-## 8. Xây Dựng API Đơn Giản
+app.Run();
+```
 
 ### Với Node.js và Express.js
 
@@ -558,7 +970,7 @@ Bạn có thể chọn một trong hai: Node.js (dễ học, phổ biến) hoặ
 
 #### Mục Tiêu Chung: Xây dựng và test API cơ bản với framework đã chọn.
 
-## 9. Tích Hợp Database
+## 10. Tích Hợp Database
 
 ### Với Node.js
 
@@ -606,31 +1018,7 @@ Bạn có thể chọn một trong hai: Node.js (dễ học, phổ biến) hoặ
 
 #### Mục Tiêu Chung: Lưu và truy xuất dữ liệu từ DB.
 
-## 10. Authentication & Authorization
-
-### Với Node.js
-1. Cài bcryptjs và jsonwebtoken.
-2. Tạo endpoint đăng ký: Hash password, lưu user.
-3. Tạo endpoint đăng nhập: Verify password, tạo JWT.
-4. Middleware để verify JWT cho protected routes.
-   ```javascript
-   const jwt = require('jsonwebtoken');
-   const auth = (req, res, next) => {
-     const token = req.header('Authorization').replace('Bearer ', '');
-     try {
-       req.user = jwt.verify(token, 'secret');
-       next();
-     } catch (e) { res.status(401).send('Unauthorized'); }
-   };
-   ```
-
-### Với .NET
-- Sử dụng JWT: `dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer`.
-- Tạo endpoints đăng ký/đăng nhập, middleware verify token.
-
-#### Mục Tiêu Chung: Bảo vệ API với JWT.
-
-## 11. Testing và Deployment
+## 13. Testing và Deployment
 
 ### Testing:
 - **Node.js**: Cài Jest, viết unit tests.
@@ -686,55 +1074,181 @@ EXPOSE 80
 ENTRYPOINT ["dotnet", "MyApi.dll"]
 ```
 
-#### Mục Tiêu: Code tested và app chạy online, code được lưu trên GitHub/GitLab.
+#### Mục Tiêu: Code tested, app online, code được lưu trên GitHub/GitLab.
 
-## 12. Lộ Trình Học Backend
+## 12. Coding Conventions
 
-Testing đảm bảo chất lượng, deployment đưa app lên production.
+Coding conventions là các quy tắc viết code thống nhất, giúp code dễ đọc, maintain và collaborate. Áp dụng conventions từ đầu để tránh refactor sau này.
 
-### Testing:
-- Cài Jest (cho JS) hoặc xUnit (.NET).
-- Viết unit tests cho functions, integration tests cho API.
-- Chạy `npm test` hoặc `dotnet test`.
+#### Quy Tắc Chung
+- **Naming**: Sử dụng camelCase cho variables/functions (JavaScript), PascalCase cho classes (JavaScript/.NET). Ví dụ: `userName`, `UserController`.
+- **Indentation**: 2 spaces (JavaScript) hoặc 4 spaces (.NET). Consistent.
+- **Comments**: Comment functions, classes. Sử dụng JSDoc cho JavaScript.
+- **File Naming**: Kebab-case cho files (user-controller.js), PascalCase cho classes.
+- **Line Length**: Giới hạn 80-120 characters.
+- **Imports/Using**: Group imports, sort alphabetically.
 
-### Deployment:
-- Containerize với Docker (Dockerfile như trong essentials).
-- Push code lên GitHub/GitLab: Tạo repo, `git init`, `git add .`, `git commit -m "Initial commit"`, `git push origin main`.
-- Deploy lên Heroku: `heroku create`, `git push heroku main`.
-- Hoặc dùng Vercel cho serverless, integrate với GitHub.
+#### Với Node.js
+- Sử dụng ESLint với Airbnb config.
+- Async/await thay vì callbacks.
+- Destructuring, arrow functions.
+- Ví dụ:
+  ```javascript
+  // Bad
+  function getuser(id){return db.find(id)}
 
-#### Containerization với Docker:
-Docker là nền tảng container hóa cho phép đóng gói ứng dụng và dependencies vào container để chạy nhất quán trên mọi môi trường.
+  // Good
+  async function getUser(id) {
+    const user = await db.find(id);
+    return user;
+  }
+  ```
 
-##### Khái Niệm Cơ Bản:
-- **Image**: Template chỉ đọc chứa code, runtime, libraries.
-- **Container**: Instance chạy của image.
-- **Dockerfile**: Script để build image.
+#### Với .NET
+- Sử dụng StyleCop hoặc EditorConfig.
+- PascalCase cho methods/properties, camelCase cho locals.
+- Braces on new line.
+- Ví dụ:
+  ```csharp
+  // Good
+  public class UserController
+  {
+      public async Task<IActionResult> GetUser(int id)
+      {
+          var user = await _context.Users.FindAsync(id);
+          return Ok(user);
+      }
+  }
+  ```
 
-##### Lệnh Cơ Bản:
-- `docker build -t myapp .`: Build image từ Dockerfile.
-- `docker run -p 3000:3000 myapp`: Chạy container.
-- `docker-compose up`: Chạy multi-container app.
+#### Lợi Ích: Code professional, dễ review.
 
-##### Lợi Ích Cho Backend:
-- Environment consistency (dev, staging, prod).
-- Easy scaling và deployment.
-- Isolation giữa services.
+## 14. Performance Optimization
 
-##### Ví Dụ Dockerfile Cho Node.js App:
-```dockerfile
-FROM node:14
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
-```
+Tối ưu hóa performance giúp ứng dụng nhanh, scalable. Tập trung vào bottlenecks: DB queries, CPU, memory.
 
-#### Mục Tiêu: Code tested và app chạy online, code được lưu trên GitHub/GitLab.
+#### Kỹ Thuật Cơ Bản
+- **Caching**: Sử dụng Redis/Memory cache cho data thường dùng. Cache API responses.
+- **Database Optimization**: Indexing, avoid N+1 queries, use pagination.
+- **Async Operations**: Async/await để non-blocking I/O.
+- **Compression**: Gzip responses.
+- **Load Balancing**: Distribute requests.
 
-## 12. Lộ Trình Học Backend
+#### Với Node.js
+- Sử dụng cluster module cho multi-core.
+- Profiling với clinic.js.
+- Optimize loops, avoid blocking code.
+- Ví dụ: Cache với node-cache.
+
+#### Với .NET
+- Sử dụng async/await, Task.
+- EF Core optimization: AsNoTracking, Include.
+- Profiling với dotTrace.
+- Ví dụ: In-memory cache.
+
+#### Monitoring: Sử dụng PM2 (Node.js) hoặc Application Insights (.NET) để track performance.
+
+#### Mục Tiêu: App responsive, handle high load.
+
+## 11. Authentication & Authorization
+
+Authentication (Xác thực) là kiểm tra danh tính người dùng, Authorization (Ủy quyền) là kiểm tra quyền truy cập.
+
+#### Lý Thuyết Cơ Bản
+##### Phương Pháp Cơ Bản:
+- **Basic Auth**: Gửi username/password trong header, mã hóa base64. Đơn giản nhưng kém bảo mật.
+- **JWT (JSON Web Tokens)**: Token stateless chứa claims (thông tin user), ký bằng secret key. Không cần lưu session trên server, dễ scale.
+- **OAuth**: Framework ủy quyền, cho phép app truy cập tài nguyên user từ provider thứ ba (Google, Facebook) mà không cần password.
+
+##### JWT Cơ Bản:
+- **Cấu trúc**: Header (alg, typ), Payload (claims như user ID, exp), Signature (ký để verify).
+- **Flow**: Client gửi credentials → Server tạo JWT → Client lưu và gửi trong Authorization header → Server verify signature.
+- **Ưu điểm**: Stateless, cross-domain, tự chứa thông tin.
+- **Nhược điểm**: Không thể revoke dễ dàng, cần refresh tokens cho bảo mật.
+
+##### Bảo Mật Cơ Bản:
+- Hash password (bcrypt/scrypt).
+- Sử dụng HTTPS để mã hóa truyền tải.
+- Refresh tokens để gia hạn JWT mà không lộ secret.
+
+#### Implementation với Frameworks
+
+##### Với Node.js
+1. Cài bcryptjs và jsonwebtoken.
+2. Tạo endpoint đăng ký: Hash password, lưu user.
+3. Tạo endpoint đăng nhập: Verify password, tạo JWT.
+4. Middleware để verify JWT cho protected routes.
+   ```javascript
+   const jwt = require('jsonwebtoken');
+   const auth = (req, res, next) => {
+     const token = req.header('Authorization').replace('Bearer ', '');
+     try {
+       req.user = jwt.verify(token, 'secret');
+       next();
+     } catch (e) { res.status(401).send('Unauthorized'); }
+   };
+   ```
+
+##### Với .NET
+- Sử dụng JWT: `dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer`.
+- Tạo endpoints đăng ký/đăng nhập, middleware verify token.
+
+#### Mục Tiêu Chung: Bảo vệ API với JWT.
+
+## 15. Bảo Mật Backend
+
+Bảo mật là yếu tố quan trọng nhất trong backend development. Phần này tập trung vào các khái niệm và best practices để bảo vệ ứng dụng khỏi các mối đe dọa phổ biến.
+
+#### Khái Niệm Cơ Bản
+- **CIA Triad**: Confidentiality (Bảo mật), Integrity (Toàn vẹn), Availability (Khả dụng).
+- **Authentication vs Authorization**: Xác thực (ai bạn là) vs Ủy quyền (bạn được làm gì).
+- **Encryption**: Mã hóa dữ liệu (at rest, in transit).
+
+#### Bảo Mật Truyền Tải (Transport Security)
+- **HTTPS**: Sử dụng SSL/TLS để mã hóa dữ liệu giữa client và server. Luôn enable HTTPS trong production.
+- **HSTS (HTTP Strict Transport Security)**: Force browser sử dụng HTTPS.
+
+#### Bảo Mật Dữ Liệu (Data Security)
+- **Hash Passwords**: Sử dụng bcrypt, scrypt, Argon2. Không lưu plain text.
+- **Encrypt Sensitive Data**: Sử dụng AES cho dữ liệu nhạy cảm như PII.
+- **Key Management**: Lưu keys an toàn, rotate định kỳ.
+
+#### Các Lỗ Hổng Phổ Biến và Phòng Ngừa
+- **SQL Injection**: Validate và sanitize inputs, sử dụng prepared statements/ORM.
+- **XSS (Cross-Site Scripting)**: Escape outputs, validate inputs.
+- **CSRF (Cross-Site Request Forgery)**: Sử dụng CSRF tokens, SameSite cookies.
+- **IDOR (Insecure Direct Object References)**: Implement proper authorization checks.
+- **Rate Limiting**: Giới hạn requests để tránh DDoS, brute force.
+- **Input Validation**: Validate tất cả inputs (type, length, format).
+
+#### Bảo Mật API
+- **API Keys**: Sử dụng cho public APIs, nhưng không đủ bảo mật.
+- **OAuth 2.0**: Cho third-party access.
+- **CORS (Cross-Origin Resource Sharing)**: Configure đúng để tránh unauthorized access.
+- **Helmet.js (Node.js)**: Set security headers.
+
+#### Best Practices
+- **Principle of Least Privilege**: Chỉ cấp quyền tối thiểu cần thiết.
+- **Fail-Safe Defaults**: Mặc định deny, chỉ allow khi cần.
+- **Logging và Monitoring**: Log suspicious activities, monitor for anomalies.
+- **Regular Updates**: Patch vulnerabilities kịp thời.
+- **Security Audits**: Code reviews, penetration testing.
+
+#### Với Node.js
+- Sử dụng Helmet để set headers.
+- Rate limiting với express-rate-limit.
+- Validate với Joi hoặc express-validator.
+- Encrypt với crypto module.
+
+#### Với .NET
+- Sử dụng ASP.NET Core Identity cho auth.
+- Data Protection API cho encryption.
+- Rate limiting với middleware.
+- Validate với DataAnnotations hoặc FluentValidation.
+
+#### Mục Tiêu: Áp dụng best practices để bảo vệ ứng dụng khỏi attacks phổ biến.
+
+## 16. Challenges và Bài Tập
 
 Hướng dẫn từng bước học Backend cho người mới bắt đầu. Lộ trình này giúp bạn nắm vững từ cơ bản đến nâng cao qua thực hành.
 
@@ -815,9 +1329,9 @@ Bảo mật API. Tham khảo Phần 2.
 
 ### Bước 5: Testing và Deployment
 Đảm bảo ổn định và deploy. Tham khảo Phần 2: Testing và Deployment.
-**Mục Tiêu:** Code tested, app online, code trên GitHub/GitLab.
+**Mục Tiêu:** Code tested, app online, code được lưu trên GitHub/GitLab.
 
-## 13. Challenges và Bài Tập
+## 16. Challenges và Bài Tập
 
 Để thực hành kiến thức, tham khảo các bài tập trong repo:
 - Xem danh sách tổng quan trong `table-of-contents.md`.
@@ -825,13 +1339,7 @@ Bảo mật API. Tham khảo Phần 2.
 - Mỗi challenge có mô tả, yêu cầu, dữ liệu mẫu và hướng dẫn giải quyết.
 - Bắt đầu từ challenge cơ bản, làm tuần tự để củng cố lý thuyết.
 
-## 15. Bộ Bài Tập Tư Duy Backend và Dự Án Thực Tế
-
-Xem chi tiết trong file `backend-thinking-exercises.md`.
-
-## 16. Tóm Tắt và Kết Luận
-
-## 14. Tài Nguyên Học Thêm
+## 17. Tài Nguyên Học Thêm
 
 ### Trong Repo Này:
 - `table-of-contents.md`: Danh sách challenges.
@@ -856,3 +1364,9 @@ Xem chi tiết trong file `backend-thinking-exercises.md`.
 - Debugging: Học đọc error messages.
 - Scalability: Nghĩ về performance sớm.
 - Networking: Kết nối cộng đồng dev.
+
+## 18. Bộ Bài Tập Tư Duy Backend và Dự Án Thực Tế
+
+Xem chi tiết trong file `backend-thinking-exercises.md`.
+
+## 19. Tóm Tắt và Kết Luận

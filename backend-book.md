@@ -516,8 +516,6 @@ Cấu trúc dự án backend giúp tổ chức code một cách logic, dễ bả
 └── .gitignore
 ```
 
-### Sơ Đồ Cấu Trúc Dự Án Backend
-
 ### Mô Tả Trực Quan Các Thành Phần Chính
 
 - **controllers/Controllers**: Xử lý logic chính cho endpoints, validate input, gọi services.

@@ -17,36 +17,6 @@ SQL (Structured Query Language) là ngôn ngữ chuẩn để quản lý và tha
 - **Error Handling**: Catch DB errors và trả về proper HTTP status codes.
 - **Caching**: Cache query results với Redis để improve performance.
 
-#### Ví dụ tích hợp với Node.js (sử dụng pg)
-```javascript
-const { Pool } = require('pg');
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-
-// DQL: Get users
-app.get('/users', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM users WHERE age > $1', [18]);
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: 'DB error' });
-  }
-});
-
-// DML: Create user
-app.post('/users', async (req, res) => {
-  const { name, email, age } = req.body;
-  try {
-    const result = await pool.query(
-      'INSERT INTO users (name, email, age) VALUES ($1, $2, $3) RETURNING id',
-      [name, email, age]
-    );
-    res.status(201).json({ id: result.rows[0].id });
-  } catch (err) {
-    res.status(400).json({ error: 'Insert failed' });
-  }
-});
-```
-
 #### Best Practices cho Backend
 - **Validate Input**: Sử dụng Joi hoặc express-validator trước khi query.
 - **Pagination**: Luôn dùng LIMIT/OFFSET hoặc cursor-based cho large datasets.
@@ -55,10 +25,12 @@ app.post('/users', async (req, res) => {
 - **Logging**: Log slow queries và errors.
 - **Security**: Sử dụng prepared statements, limit query complexity.
 
-## 1. Data Query Language (DQL) - Ngôn ngữ truy vấn dữ liệu
+## Phần 1: Thực hiện trong DB (Queries & Operations)
+
+### 1. Data Query Language (DQL) - Ngôn ngữ truy vấn dữ liệu
 DQL chỉ bao gồm lệnh SELECT, dùng để truy vấn và lấy dữ liệu từ database mà không thay đổi nó. Đây là loại truy vấn phổ biến nhất trong ứng dụng backend.
 
-### Lý thuyết
+#### Lý thuyết
 - **Cấu trúc SELECT**: `SELECT columns FROM table WHERE condition ORDER BY column LIMIT n;`
 - **Best practices**: Sử dụng WHERE để lọc sớm, tránh SELECT * trên bảng lớn, dùng LIMIT cho pagination.
 - **JOINs**: INNER, LEFT, RIGHT, FULL để kết hợp dữ liệu từ nhiều bảng.
@@ -66,39 +38,17 @@ DQL chỉ bao gồm lệnh SELECT, dùng để truy vấn và lấy dữ liệu 
 - **Subqueries**: Query lồng nhau, có thể chậm nếu không tối ưu.
 - **Window functions**: ROW_NUMBER, RANK cho phân tích dữ liệu (PostgreSQL, SQL Server).
 
-### Ví dụ chi tiết
-```sql
--- Basic SELECT
-SELECT id, name FROM users WHERE age BETWEEN 18 AND 65 ORDER BY name DESC;
-
--- JOIN
-SELECT u.name, p.title FROM users u INNER JOIN posts p ON u.id = p.user_id;
-
--- Aggregate
-SELECT user_id, COUNT(*) as post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 5;
-
--- Window function
-SELECT name, age, ROW_NUMBER() OVER (ORDER BY age DESC) as rank FROM users;
-```
-
-### Bài tập Phần 1: Thực hiện trong DB (1-5)
+#### Bài tập (1-5)
 1. Viết query SELECT lấy users với pagination (LIMIT/OFFSET).
 2. Viết query lấy posts với user info sử dụng JOIN.
 3. Viết query tính stats (total users, avg age) cho dashboard.
 4. Viết query tìm users theo name/email với LIKE, case-insensitive.
 5. Viết query users với filters (age range, name) và sorting.
 
-### Bài tập Phần 2: API (6-10)
-6. Implement API GET /users với pagination, trả về JSON.
-7. Implement API GET /posts với JOIN, trả về posts với user info.
-8. Implement API cho admin dashboard với aggregates.
-9. Implement search API với LIKE.
-10. Implement advanced filter & sort API.
-
-## 2. Data Manipulation Language (DML) - Ngôn ngữ thao tác dữ liệu
+### 2. Data Manipulation Language (DML) - Ngôn ngữ thao tác dữ liệu
 DML bao gồm INSERT, UPDATE, DELETE, dùng để thay đổi dữ liệu. Các lệnh này ảnh hưởng trực tiếp đến dữ liệu và thường được sử dụng trong transactions.
 
-### Lý thuyết
+#### Lý thuyết
 - **INSERT**: Có thể insert một hoặc nhiều rows. Sử dụng RETURNING để lấy ID vừa insert.
 - **UPDATE**: Luôn có WHERE để tránh update toàn bộ bảng. Có thể update dựa trên subquery.
 - **DELETE**: Tương tự UPDATE, cần WHERE. Sử dụng CASCADE nếu có FK.
@@ -106,39 +56,17 @@ DML bao gồm INSERT, UPDATE, DELETE, dùng để thay đổi dữ liệu. Các 
 - **Bulk operations**: INSERT với VALUES list hoặc SELECT từ bảng khác.
 - **UPSERT**: INSERT ... ON CONFLICT UPDATE (PostgreSQL).
 
-### Ví dụ chi tiết
-```sql
--- INSERT multiple
-INSERT INTO users (name, email) VALUES ('John', 'john@example.com'), ('Jane', 'jane@example.com');
-
--- UPDATE with subquery
-UPDATE users SET age = (SELECT AVG(age) FROM users) WHERE age IS NULL;
-
--- DELETE with JOIN (MySQL/PostgreSQL)
-DELETE u FROM users u LEFT JOIN posts p ON u.id = p.user_id WHERE p.id IS NULL;
-
--- UPSERT
-INSERT INTO users (id, name) VALUES (1, 'John') ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
-```
-
-### Bài tập Phần 1: Thực hiện trong DB (11-15)
+#### Bài tập (11-15)
 11. Viết query INSERT user với RETURNING id.
 12. Viết query INSERT multiple records từ array.
 13. Viết query UPDATE user profile với WHERE.
 14. Viết query UPDATE set is_deleted=true cho soft delete.
 15. Viết transaction BEGIN/COMMIT cho insert user + profile.
 
-### Bài tập Phần 2: API (16-20)
-16. Implement API POST /users với INSERT, validate input.
-17. Implement bulk insert API từ CSV data.
-18. Implement API PUT /users/:id với UPDATE, check ownership.
-19. Implement upsert API cho sync data.
-20. Implement API DELETE với soft delete và FK handling.
-
-## 3. Data Definition Language (DDL) - Ngôn ngữ định nghĩa dữ liệu
+### 3. Data Definition Language (DDL) - Ngôn ngữ định nghĩa dữ liệu
 DDL dùng để định nghĩa và thay đổi cấu trúc database: tạo bảng, index, constraints, etc.
 
-### Lý thuyết
+#### Lý thuyết
 - **CREATE**: Tạo tables, indexes, views, functions.
 - **ALTER**: Thay đổi cấu trúc: add/drop columns, change types, add constraints.
 - **DROP**: Xóa objects. Sử dụng CASCADE cẩn thận.
@@ -147,113 +75,44 @@ DDL dùng để định nghĩa và thay đổi cấu trúc database: tạo bản
 - **Views**: Virtual tables, có thể update nếu simple.
 - **UUID vs SERIAL**: UUID tốt cho distributed systems, tránh conflicts; SERIAL đơn giản hơn nhưng có thể leak info.
 
-### Ví dụ chi tiết
-```sql
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- CREATE with constraints
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    age INT CHECK (age >= 0),
-    created_at TIMESTAMP DEFAULT NOW()
-);
-
--- ALTER
-ALTER TABLE users ADD COLUMN updated_at TIMESTAMP;
-ALTER TABLE users DROP COLUMN age;
-
--- Index
-CREATE INDEX idx_users_email ON users (email);
-CREATE UNIQUE INDEX idx_users_name_email ON users (name, email);
-
--- View
-CREATE VIEW active_users AS SELECT * FROM users WHERE age >= 18;
-```
-
-### Bài tập Phần 1: Thực hiện trong DB (21-25)
+#### Bài tập (21-25)
 21. Viết CREATE TABLE users với UUID, constraints.
 22. Viết ALTER TABLE thêm cột avatar_url.
 23. Viết CREATE INDEX trên email và user_id.
 24. Viết CREATE VIEW user_activity với joins.
 25. Viết ALTER TABLE ADD CHECK cho age.
 
-## 4. Data Control Language (DCL) - Ngôn ngữ kiểm soát dữ liệu
+### 4. Data Control Language (DCL) - Ngôn ngữ kiểm soát dữ liệu
 DCL quản lý quyền truy cập và bảo mật.
 
-### Lý thuyết
+#### Lý thuyết
 - **GRANT**: Cấp quyền SELECT, INSERT, UPDATE, DELETE, etc. trên tables/views.
 - **REVOKE**: Thu hồi quyền.
 - **Roles**: Nhóm quyền, dễ quản lý.
 - **Best practices**: Principle of least privilege, audit permissions.
 
-### Ví dụ chi tiết
-```sql
--- Grant specific
-GRANT SELECT, INSERT ON users TO app_user;
-
--- Grant all
-GRANT ALL PRIVILEGES ON DATABASE mydb TO admin;
-
--- Revoke
-REVOKE INSERT ON users FROM app_user;
-
--- Role
-CREATE ROLE readonly;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly;
-```
-
-### Bài tập Phần 1: Thực hiện trong DB (26-27)
+#### Bài tập (26-27)
 26. Viết GRANT SELECT, INSERT trên users cho app_user role.
 27. Viết REVOKE DELETE permissions từ regular users, chỉ admin có.
 
-## 5. Transaction Control Language (TCL) - Ngôn ngữ kiểm soát giao dịch
+### 5. Transaction Control Language (TCL) - Ngôn ngữ kiểm soát giao dịch
 TCL quản lý transactions để đảm bảo ACID properties.
 
-### Lý thuyết
+#### Lý thuyết
 - **ACID**: Atomicity, Consistency, Isolation, Durability.
 - **Isolation levels**: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.
 - **SAVEPOINT**: Điểm lưu trong transaction.
 - **Best practices**: Sử dụng transactions cho related operations, handle deadlocks.
 
-### Ví dụ chi tiết
-```sql
--- Transaction
-BEGIN;
-INSERT INTO users (name) VALUES ('Alice');
-SAVEPOINT sp1;
-UPDATE users SET age = 25 WHERE name = 'Alice';
-ROLLBACK TO sp1; -- Hoàn tác update
-COMMIT; -- Commit insert
-
--- Isolation
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-```
-
-### Bài tập Phần 1: Thực hiện trong DB (28-30)
+#### Bài tập (28-30)
 28. Viết BEGIN/COMMIT cho create user + create wallet in one transaction.
 29. Viết SAVEPOINT trong order processing, rollback payment if inventory fails.
 30. Viết SET TRANSACTION ISOLATION LEVEL SERIALIZABLE for critical operations.
 
-## Lưu ý chung
-- Luôn test queries trên data sample trước khi production.
-- Sử dụng EXPLAIN để analyze performance.
-- Backup database trước khi chạy DDL.
-- Trong Node.js, sử dụng parameterized queries để tránh SQL injection.
-
-### Ví dụ Backend Scenarios
-- **User Registration API**: DML INSERT + validation, return JWT.
-- **Product Search**: DQL với LIKE, pagination, sorting.
-- **Order Processing**: TCL transaction for deduct inventory + create order.
-- **Admin Dashboard**: DQL aggregates cho stats, caching results.
-- **Data Migration**: DDL ALTER tables, bulk DML updates.
-
-## 6. NoSQL (MongoDB) trong Backend Development
+### 6. NoSQL (MongoDB) trong Backend Development
 MongoDB là document-based NoSQL database phổ biến, phù hợp cho flexible schemas, high scalability, và real-time applications. Khác với SQL relational, MongoDB lưu data dưới dạng BSON documents trong collections, hỗ trợ nested structures và dynamic schemas.
 
-### Lý thuyết sâu
+#### Lý thuyết
 - **Documents & Collections**: Documents là JSON objects, collections tương đương tables nhưng schemaless. Mỗi document có _id (ObjectId).
 - **CRUD Operations**: 
   - Create: insertOne/insertMany
@@ -272,110 +131,11 @@ MongoDB là document-based NoSQL database phổ biến, phù hợp cho flexible 
   - Monitor with MongoDB Atlas/Compass.
   - Backup with mongodump.
 
-### So sánh SQL vs NoSQL
+#### So sánh SQL vs NoSQL
 - **SQL**: Structured, ACID, joins, normalized. Tốt cho complex queries, consistency.
 - **NoSQL**: Flexible, scalable, fast writes, denormalized. Tốt cho big data, real-time, changing schemas.
 
-### Ví dụ tích hợp với Node.js (sử dụng Mongoose)
-```javascript
-const mongoose = require('mongoose');
-
-// Schema với validation
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, unique: true, lowercase: true },
-  age: { type: Number, min: 0, max: 120 },
-  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
-
-// Middleware
-userSchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
-
-// Model
-const User = mongoose.model('User', userSchema);
-
-// Connect
-mongoose.connect('mongodb://localhost/testdb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-// Create
-app.post('/users', async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-// Read with populate
-app.get('/users/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).populate('posts');
-    res.json(user);
-  } catch (err) {
-    res.status(404).json({ error: 'User not found' });
-  }
-});
-
-// Update
-app.put('/users/:id', async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-// Delete
-app.delete('/users/:id', async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(204).send();
-  } catch (err) {
-    res.status(404).json({ error: 'User not found' });
-  }
-});
-
-// Aggregation
-app.get('/users/stats', async (req, res) => {
-  try {
-    const stats = await User.aggregate([
-      { $group: { _id: null, avgAge: { $avg: '$age' }, count: { $sum: 1 } } }
-    ]);
-    res.json(stats[0]);
-  } catch (err) {
-    res.status(500).json({ error: 'Aggregation error' });
-  }
-});
-```
-
-### Ví dụ Aggregation Pipeline
-```javascript
-// Complex aggregation
-const pipeline = [
-  { $match: { age: { $gte: 18 } } },
-  { $group: { _id: '$city', count: { $sum: 1 }, avgAge: { $avg: '$age' } } },
-  { $sort: { count: -1 } },
-  { $limit: 10 }
-];
-const result = await User.aggregate(pipeline);
-```
-
-### Data Modeling Example
-- **Embed**: User document chứa array posts nếu posts ít và không query riêng.
-- **Reference**: User has postIds array, Post collection riêng nếu posts lớn hoặc query phức tạp.
-
-### Bài tập Phần 1: Thực hiện trong DB (31-40)
+#### Bài tập (31-40)
 31. Viết insertOne với Mongoose schema validation, handle duplicate email.
 32. Viết find với filtering (age range, city), sorting (name, createdAt), pagination.
 33. Viết regex cho case-insensitive search, add fuzzy matching với text index.
@@ -387,7 +147,23 @@ const result = await User.aggregate(pipeline);
 39. Viết create text index trên name/description, search với $text.
 40. Viết bulkWrite cho insert/update multiple, handle errors.
 
-### Bài tập Phần 2: Implement API (41-50)
+## Phần 2: Implement API (Backend Implementations)
+
+### DQL APIs (6-10)
+6. Implement API GET /users với pagination, trả về JSON.
+7. Implement API GET /posts với JOIN, trả về posts với user info.
+8. Implement API cho admin dashboard với aggregates.
+9. Implement search API với LIKE.
+10. Implement advanced filter & sort API.
+
+### DML APIs (16-20)
+16. Implement API POST /users với INSERT, validate input.
+17. Implement bulk insert API từ CSV data.
+18. Implement API PUT /users/:id với UPDATE, check ownership.
+19. Implement upsert API cho sync data.
+20. Implement API DELETE với soft delete và FK handling.
+
+### NoSQL APIs (41-50)
 41. Implement POST /users với insert, validation, error handling.
 42. Implement GET /users với filtering, sorting, pagination.
 43. Implement GET /users/search với regex và text search.
@@ -399,7 +175,7 @@ const result = await User.aggregate(pipeline);
 49. Implement GET /search với $text query.
 50. Implement POST /bulk với bulkWrite operations.
 
-## Tài liệu tham khảo
+## Lưu ý chung
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [SQL Tutorial](https://www.w3schools.com/sql/)
 - [SQL Best Practices](https://www.sqlstyle.guide/)

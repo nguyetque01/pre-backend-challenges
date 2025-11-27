@@ -55,6 +55,8 @@ Chào mừng bạn đến với khóa học Pre-Backend! Khóa học này đư�
 - [Jest Testing](https://jestjs.io/)
 - [Docker Docs](https://docs.docker.com/)
 
+Ngoài ra, xem file `sql/sql-queries-types.md` cho chi tiết về các loại truy vấn SQL và bài tập.
+
 ## Challenges và Bài tập
 Trong thư mục này, bạn sẽ tìm thấy các challenge thực tế để áp dụng kiến thức đã học, bao gồm từ cơ bản Node.js, database, đến advanced topics như authentication, testing, deployment, caching, GraphQL, và microservices. Mỗi challenge bao gồm:
 - Mô tả yêu cầu.

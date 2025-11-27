@@ -81,17 +81,19 @@ SELECT user_id, COUNT(*) as post_count FROM posts GROUP BY user_id HAVING COUNT(
 SELECT name, age, ROW_NUMBER() OVER (ORDER BY age DESC) as rank FROM users;
 ```
 
-### Bài tập DQL (1-10)
-1. **API GET /users**: Viết query SELECT lấy users với pagination (LIMIT/OFFSET), trả về JSON cho API.
-2. **JOIN cho API**: Query lấy posts với user info, sử dụng trong endpoint GET /posts.
-3. **Aggregate cho Dashboard**: Query tính stats (total users, avg age) cho admin dashboard.
-4. **Search API**: Query tìm users theo name/email với LIKE, case-insensitive.
-5. **Filter & Sort**: Query users với filters (age range, name) và sorting, cho advanced search API.
-6. **Subquery trong API**: Query lấy users có orders > 100, sử dụng cho user segmentation.
-7. **Pagination với Window**: Sử dụng ROW_NUMBER để implement cursor-based pagination.
-8. **Caching Query**: Query phức tạp cho cache (e.g., top posts), tránh recompute.
-9. **Real-time Data**: Query lấy recent posts (last 24h) cho notifications.
-10. **Analytics**: Query group users by age range, count per group cho reports.
+### Bài tập Phần 1: Thực hiện trong DB (1-5)
+1. Viết query SELECT lấy users với pagination (LIMIT/OFFSET).
+2. Viết query lấy posts với user info sử dụng JOIN.
+3. Viết query tính stats (total users, avg age) cho dashboard.
+4. Viết query tìm users theo name/email với LIKE, case-insensitive.
+5. Viết query users với filters (age range, name) và sorting.
+
+### Bài tập Phần 2: API (6-10)
+6. Implement API GET /users với pagination, trả về JSON.
+7. Implement API GET /posts với JOIN, trả về posts với user info.
+8. Implement API cho admin dashboard với aggregates.
+9. Implement search API với LIKE.
+10. Implement advanced filter & sort API.
 
 ## 2. Data Manipulation Language (DML) - Ngôn ngữ thao tác dữ liệu
 DML bao gồm INSERT, UPDATE, DELETE, dùng để thay đổi dữ liệu. Các lệnh này ảnh hưởng trực tiếp đến dữ liệu và thường được sử dụng trong transactions.
@@ -119,17 +121,19 @@ DELETE u FROM users u LEFT JOIN posts p ON u.id = p.user_id WHERE p.id IS NULL;
 INSERT INTO users (id, name) VALUES (1, 'John') ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
 ```
 
-### Bài tập DML (11-20)
-11. **API POST /users**: Query INSERT user từ request body, validate và return new ID.
-12. **Bulk Insert**: Query INSERT multiple records từ array data (e.g., import CSV).
-13. **Update Profile**: Query UPDATE user profile, chỉ allow update own data (check user_id).
-14. **Soft Delete**: Query UPDATE set is_deleted=true thay vì DELETE, cho audit trail.
-15. **Transaction trong API**: Wrap INSERT user + INSERT profile trong transaction, rollback on error.
-16. **Conditional Update**: Update user status chỉ nếu conditions met (e.g., age > 18).
-17. **Audit Logging**: Query INSERT vào audit_log table mỗi khi UPDATE/DELETE.
-18. **Batch Update**: Update multiple users based on criteria (e.g., bulk email change).
-19. **Upsert for Sync**: Use UPSERT để sync data từ external API.
-20. **Delete Cascade**: Handle DELETE với FK constraints trong API (soft delete related).
+### Bài tập Phần 1: Thực hiện trong DB (11-15)
+11. Viết query INSERT user với RETURNING id.
+12. Viết query INSERT multiple records từ array.
+13. Viết query UPDATE user profile với WHERE.
+14. Viết query UPDATE set is_deleted=true cho soft delete.
+15. Viết transaction BEGIN/COMMIT cho insert user + profile.
+
+### Bài tập Phần 2: API (16-20)
+16. Implement API POST /users với INSERT, validate input.
+17. Implement bulk insert API từ CSV data.
+18. Implement API PUT /users/:id với UPDATE, check ownership.
+19. Implement upsert API cho sync data.
+20. Implement API DELETE với soft delete và FK handling.
 
 ## 3. Data Definition Language (DDL) - Ngôn ngữ định nghĩa dữ liệu
 DDL dùng để định nghĩa và thay đổi cấu trúc database: tạo bảng, index, constraints, etc.
@@ -169,12 +173,12 @@ CREATE UNIQUE INDEX idx_users_name_email ON users (name, email);
 CREATE VIEW active_users AS SELECT * FROM users WHERE age >= 18;
 ```
 
-### Bài tập DDL (21-25)
-21. **Schema Design cho API**: CREATE TABLE users với UUID PRIMARY KEY DEFAULT gen_random_uuid(), timestamps, constraints (NOT NULL, UNIQUE).
-22. **Migration Script**: ALTER TABLE thêm cột avatar_url VARCHAR(255) cho user profiles.
-23. **Index cho Performance**: CREATE INDEX trên email và user_id để optimize API queries.
-24. **View cho Reporting**: CREATE VIEW user_activity với joins cho dashboard API.
-25. **Constraints cho Validation**: ADD CHECK (age >= 0 AND age <= 150), UNIQUE (email).
+### Bài tập Phần 1: Thực hiện trong DB (21-25)
+21. Viết CREATE TABLE users với UUID, constraints.
+22. Viết ALTER TABLE thêm cột avatar_url.
+23. Viết CREATE INDEX trên email và user_id.
+24. Viết CREATE VIEW user_activity với joins.
+25. Viết ALTER TABLE ADD CHECK cho age.
 
 ## 4. Data Control Language (DCL) - Ngôn ngữ kiểm soát dữ liệu
 DCL quản lý quyền truy cập và bảo mật.
@@ -201,9 +205,9 @@ CREATE ROLE readonly;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly;
 ```
 
-### Bài tập DCL (26-27)
-26. **API Permissions**: GRANT SELECT, INSERT trên users cho app_user role.
-27. **Security Audit**: REVOKE DELETE permissions từ regular users, chỉ admin có.
+### Bài tập Phần 1: Thực hiện trong DB (26-27)
+26. Viết GRANT SELECT, INSERT trên users cho app_user role.
+27. Viết REVOKE DELETE permissions từ regular users, chỉ admin có.
 
 ## 5. Transaction Control Language (TCL) - Ngôn ngữ kiểm soát giao dịch
 TCL quản lý transactions để đảm bảo ACID properties.
@@ -228,10 +232,10 @@ COMMIT; -- Commit insert
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 ```
 
-### Bài tập TCL (28-30)
-28. **API Transaction**: BEGIN/COMMIT cho create user + create wallet in one API call.
-29. **Partial Rollback**: SAVEPOINT trong order processing, rollback payment if inventory fails.
-30. **Concurrency Control**: Use SERIALIZABLE for critical operations like stock updates.
+### Bài tập Phần 1: Thực hiện trong DB (28-30)
+28. Viết BEGIN/COMMIT cho create user + create wallet in one transaction.
+29. Viết SAVEPOINT trong order processing, rollback payment if inventory fails.
+30. Viết SET TRANSACTION ISOLATION LEVEL SERIALIZABLE for critical operations.
 
 ## Lưu ý chung
 - Luôn test queries trên data sample trước khi production.
@@ -371,27 +375,29 @@ const result = await User.aggregate(pipeline);
 - **Embed**: User document chứa array posts nếu posts ít và không query riêng.
 - **Reference**: User has postIds array, Post collection riêng nếu posts lớn hoặc query phức tạp.
 
-### Bài tập NoSQL (31-50) 
-31. **API POST /users**: Implement insert với Mongoose schema validation, handle duplicate email error.
-32. **API GET /users**: Add filtering (age range, city), sorting (name, createdAt), pagination.
-33. **Search API**: Use regex cho case-insensitive search, add fuzzy matching với text index.
-34. **Update Profile**: Validate ownership (userId from JWT), update only allowed fields.
-35. **Soft Delete**: Add isDeleted: true, override find để exclude deleted docs.
-36. **Aggregation Stats**: Pipeline group by month (createdAt), count users per month.
-37. **Populate Refs**: User -> Posts, Post -> Comments, deep populate.
-38. **Indexing**: Create compound index (email, age), explain query performance.
-39. **Text Search**: Create text index trên name/description, search với $text.
-40. **Bulk Operations**: Use bulkWrite cho insert/update multiple, handle errors.
-41. **Schema Validation**: Add enum cho status ('active', 'inactive'), custom validator.
-42. **Middleware**: Pre-save hash password với bcrypt, post-save send welcome email.
-43. **Virtuals**: Virtual fullName, virtual postCount từ posts array.
-44. **Transactions**: Session cho transfer money between users (debit/credit).
-45. **Caching**: Cache aggregation results in Redis, invalidate on user create/update.
-46. **Geospatial**: Add location field, query users within radius.
-47. **Time Series**: Store logs/events, use TTL index cho auto-expire.
-48. **Change Streams**: Watch collection changes, emit real-time updates.
-49. **GridFS**: Store large files (images) in MongoDB.
-50. **Migration**: Script migrate old schema to new (add field, transform data).
+### Bài tập Phần 1: Thực hiện trong DB (31-40)
+31. Viết insertOne với Mongoose schema validation, handle duplicate email.
+32. Viết find với filtering (age range, city), sorting (name, createdAt), pagination.
+33. Viết regex cho case-insensitive search, add fuzzy matching với text index.
+34. Viết updateOne validate ownership, update only allowed fields.
+35. Viết soft delete với isDeleted: true, override find để exclude deleted docs.
+36. Viết aggregation pipeline group by month, count users per month.
+37. Viết populate refs User -> Posts, Post -> Comments.
+38. Viết create compound index (email, age), explain query performance.
+39. Viết create text index trên name/description, search với $text.
+40. Viết bulkWrite cho insert/update multiple, handle errors.
+
+### Bài tập Phần 2: Implement API (41-50)
+41. Implement POST /users với insert, validation, error handling.
+42. Implement GET /users với filtering, sorting, pagination.
+43. Implement GET /users/search với regex và text search.
+44. Implement PUT /users/:id với ownership check, update fields.
+45. Implement DELETE /users/:id với soft delete.
+46. Implement GET /users/stats với aggregation pipeline.
+47. Implement GET /users/:id/posts với populate.
+48. Implement POST /indexes để create indexes via API.
+49. Implement GET /search với $text query.
+50. Implement POST /bulk với bulkWrite operations.
 
 ## Tài liệu tham khảo
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)

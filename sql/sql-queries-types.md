@@ -56,8 +56,6 @@ app.post('/users', async (req, res) => {
 - **Security**: Sử dụng prepared statements, limit query complexity.
 
 ## 1. Data Query Language (DQL) - Ngôn ngữ truy vấn dữ liệu
-
-## 1. Data Query Language (DQL) - Ngôn ngữ truy vấn dữ liệu
 DQL chỉ bao gồm lệnh SELECT, dùng để truy vấn và lấy dữ liệu từ database mà không thay đổi nó. Đây là loại truy vấn phổ biến nhất trong ứng dụng backend.
 
 ### Lý thuyết
@@ -83,7 +81,7 @@ SELECT user_id, COUNT(*) as post_count FROM posts GROUP BY user_id HAVING COUNT(
 SELECT name, age, ROW_NUMBER() OVER (ORDER BY age DESC) as rank FROM users;
 ```
 
-### Bài tập DQL (1-10) - Tập trung Backend
+### Bài tập DQL (1-10)
 1. **API GET /users**: Viết query SELECT lấy users với pagination (LIMIT/OFFSET), trả về JSON cho API.
 2. **JOIN cho API**: Query lấy posts với user info, sử dụng trong endpoint GET /posts.
 3. **Aggregate cho Dashboard**: Query tính stats (total users, avg age) cho admin dashboard.
@@ -121,7 +119,7 @@ DELETE u FROM users u LEFT JOIN posts p ON u.id = p.user_id WHERE p.id IS NULL;
 INSERT INTO users (id, name) VALUES (1, 'John') ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name;
 ```
 
-### Bài tập DML (11-20) - Tập trung Backend
+### Bài tập DML (11-20)
 11. **API POST /users**: Query INSERT user từ request body, validate và return new ID.
 12. **Bulk Insert**: Query INSERT multiple records từ array data (e.g., import CSV).
 13. **Update Profile**: Query UPDATE user profile, chỉ allow update own data (check user_id).
@@ -171,7 +169,7 @@ CREATE UNIQUE INDEX idx_users_name_email ON users (name, email);
 CREATE VIEW active_users AS SELECT * FROM users WHERE age >= 18;
 ```
 
-### Bài tập DDL (21-25) - Tập trung Backend
+### Bài tập DDL (21-25)
 21. **Schema Design cho API**: CREATE TABLE users với UUID PRIMARY KEY DEFAULT gen_random_uuid(), timestamps, constraints (NOT NULL, UNIQUE).
 22. **Migration Script**: ALTER TABLE thêm cột avatar_url VARCHAR(255) cho user profiles.
 23. **Index cho Performance**: CREATE INDEX trên email và user_id để optimize API queries.
@@ -203,7 +201,7 @@ CREATE ROLE readonly;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly;
 ```
 
-### Bài tập DCL (26-27) - Tập trung Backend
+### Bài tập DCL (26-27)
 26. **API Permissions**: GRANT SELECT, INSERT trên users cho app_user role.
 27. **Security Audit**: REVOKE DELETE permissions từ regular users, chỉ admin có.
 
@@ -230,7 +228,7 @@ COMMIT; -- Commit insert
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 ```
 
-### Bài tập TCL (28-30) - Tập trung Backend
+### Bài tập TCL (28-30)
 28. **API Transaction**: BEGIN/COMMIT cho create user + create wallet in one API call.
 29. **Partial Rollback**: SAVEPOINT trong order processing, rollback payment if inventory fails.
 30. **Concurrency Control**: Use SERIALIZABLE for critical operations like stock updates.
@@ -247,6 +245,153 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 - **Order Processing**: TCL transaction for deduct inventory + create order.
 - **Admin Dashboard**: DQL aggregates cho stats, caching results.
 - **Data Migration**: DDL ALTER tables, bulk DML updates.
+
+## 6. NoSQL (MongoDB) trong Backend Development
+MongoDB là document-based NoSQL database phổ biến, phù hợp cho flexible schemas, high scalability, và real-time applications. Khác với SQL relational, MongoDB lưu data dưới dạng BSON documents trong collections, hỗ trợ nested structures và dynamic schemas.
+
+### Lý thuyết sâu
+- **Documents & Collections**: Documents là JSON objects, collections tương đương tables nhưng schemaless. Mỗi document có _id (ObjectId).
+- **CRUD Operations**: 
+  - Create: insertOne/insertMany
+  - Read: find/findOne với query filters
+  - Update: updateOne/updateMany với $set, $inc, etc.
+  - Delete: deleteOne/deleteMany
+- **Indexing**: Cải thiện performance queries. Types: single, compound, multikey (arrays), text, geospatial.
+- **Aggregation Pipeline**: Stages như $match, $group, $sort, $project, $lookup (join). Powerful cho analytics.
+- **Replication & Sharding**: Replica sets cho HA, sharding cho horizontal scaling.
+- **Schema vs Schemaless**: Mongoose enforces schemas, validation; native driver flexible.
+- **Data Modeling**: Embed vs Reference. Embed cho 1-1/many, reference cho large or frequently updated.
+- **Best practices**: 
+  - Index on query fields.
+  - Avoid unbounded arrays.
+  - Use TTL indexes cho auto-delete.
+  - Monitor with MongoDB Atlas/Compass.
+  - Backup with mongodump.
+
+### So sánh SQL vs NoSQL
+- **SQL**: Structured, ACID, joins, normalized. Tốt cho complex queries, consistency.
+- **NoSQL**: Flexible, scalable, fast writes, denormalized. Tốt cho big data, real-time, changing schemas.
+
+### Ví dụ tích hợp với Node.js (sử dụng Mongoose)
+```javascript
+const mongoose = require('mongoose');
+
+// Schema với validation
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, unique: true, lowercase: true },
+  age: { type: Number, min: 0, max: 120 },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+// Middleware
+userSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+// Model
+const User = mongoose.model('User', userSchema);
+
+// Connect
+mongoose.connect('mongodb://localhost/testdb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Create
+app.post('/users', async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Read with populate
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('posts');
+    res.json(user);
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+
+// Update
+app.put('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Delete
+app.delete('/users/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(204).send();
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
+
+// Aggregation
+app.get('/users/stats', async (req, res) => {
+  try {
+    const stats = await User.aggregate([
+      { $group: { _id: null, avgAge: { $avg: '$age' }, count: { $sum: 1 } } }
+    ]);
+    res.json(stats[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Aggregation error' });
+  }
+});
+```
+
+### Ví dụ Aggregation Pipeline
+```javascript
+// Complex aggregation
+const pipeline = [
+  { $match: { age: { $gte: 18 } } },
+  { $group: { _id: '$city', count: { $sum: 1 }, avgAge: { $avg: '$age' } } },
+  { $sort: { count: -1 } },
+  { $limit: 10 }
+];
+const result = await User.aggregate(pipeline);
+```
+
+### Data Modeling Example
+- **Embed**: User document chứa array posts nếu posts ít và không query riêng.
+- **Reference**: User has postIds array, Post collection riêng nếu posts lớn hoặc query phức tạp.
+
+### Bài tập NoSQL (31-50) 
+31. **API POST /users**: Implement insert với Mongoose schema validation, handle duplicate email error.
+32. **API GET /users**: Add filtering (age range, city), sorting (name, createdAt), pagination.
+33. **Search API**: Use regex cho case-insensitive search, add fuzzy matching với text index.
+34. **Update Profile**: Validate ownership (userId from JWT), update only allowed fields.
+35. **Soft Delete**: Add isDeleted: true, override find để exclude deleted docs.
+36. **Aggregation Stats**: Pipeline group by month (createdAt), count users per month.
+37. **Populate Refs**: User -> Posts, Post -> Comments, deep populate.
+38. **Indexing**: Create compound index (email, age), explain query performance.
+39. **Text Search**: Create text index trên name/description, search với $text.
+40. **Bulk Operations**: Use bulkWrite cho insert/update multiple, handle errors.
+41. **Schema Validation**: Add enum cho status ('active', 'inactive'), custom validator.
+42. **Middleware**: Pre-save hash password với bcrypt, post-save send welcome email.
+43. **Virtuals**: Virtual fullName, virtual postCount từ posts array.
+44. **Transactions**: Session cho transfer money between users (debit/credit).
+45. **Caching**: Cache aggregation results in Redis, invalidate on user create/update.
+46. **Geospatial**: Add location field, query users within radius.
+47. **Time Series**: Store logs/events, use TTL index cho auto-expire.
+48. **Change Streams**: Watch collection changes, emit real-time updates.
+49. **GridFS**: Store large files (images) in MongoDB.
+50. **Migration**: Script migrate old schema to new (add field, transform data).
 
 ## Tài liệu tham khảo
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)

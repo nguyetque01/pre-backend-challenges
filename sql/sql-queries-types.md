@@ -79,7 +79,7 @@ DDL dùng để định nghĩa và thay đổi cấu trúc database. Đây là b
 - **DROP**: Xóa objects. Sử dụng CASCADE cẩn thận.
 
 #### Bài tập Thiết kế DB (1-15)
-1. Thiết kế table users với columns: id (UUID), name, email, age, created_at.
+1. Thiết kế table users với columns: id (UUID), name, email, age, created_at, created_by, updated_at, updated_by.
 2. Thêm constraints: PRIMARY KEY, UNIQUE email, CHECK age >= 0.
 3. Tạo table posts với FK user_id, title, content, published_at.
 4. Thiết kế table categories và many-to-many relationship với posts.

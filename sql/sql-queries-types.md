@@ -136,7 +136,7 @@ Sau khi có dữ liệu, chúng ta query để lấy thông tin.
 2. SELECT posts với user info sử dụng JOIN.
 3. SELECT stats (total users, avg age) cho dashboard.
 4. SELECT users theo name/email với LIKE.
-5. SELECT với filters (age range, city) và sorting.
+5. SELECT với filters (age range) và sorting.
 6. JOIN 3 tables: users -> posts -> categories.
 7. Aggregate: posts per user với COUNT.
 8. Subquery: users với more than 5 posts.

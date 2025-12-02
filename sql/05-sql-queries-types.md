@@ -14,6 +14,16 @@ SQL là ngôn ngữ để "nói chuyện" với cơ sở dữ liệu, như một
 - Quan trọng tính nhất quán và truy vấn phức tạp.
 - Dự án cần mở rộng và bảo mật cao.
 
+## Mục Lục
+- [Phần 1: DDL - Thiết Kế Database Như Xây Nhà](#phần-1-ddl---thiết-kế-database-như-xây-nhà)
+- [Phần 2: DML - Thao Tác Dữ Liệu Như Quản Lý Sách](#phần-2-dml---thao-tác-dữ-liệu-như-quản-lý-sách)
+- [Phần 3: DQL - Truy Vấn Dữ Liệu Như Tra Cứu Sách](#phần-3-dql---truy-vấn-dữ-liệu-như-tra-cứu-sách)
+- [Phần 4: DCL - Bảo Mật Database Như Khóa Tủ](#phần-4-dcl---bảo-mật-database-như-khóa-tủ)
+- [Phần 5: TCL - Quản Lý Transactions Như Gói An Toàn](#phần-5-tcl---quản-lý-transactions-như-gói-an-toàn)
+- [Phần 6: Nâng Cao - Tính Năng Chuyên Sâu Cho Pro](#phần-6-nâng-cao---tính-năng-chuyên-sâu-cho-pro)
+- [Phần 7: Kết Hợp Với Backend - Thực Hành API](#phần-7-kết-hợp-với-backend---thực-hành-api)
+- [Lưu Ý Cho Người Mới Học SQL Queries](#lưu-ý-cho-người-mới-học-sql-queries)
+
 ## Phần 1: DDL - Thiết Kế Database Như Xây Nhà
 
 ### DDL Là Gì?
@@ -237,6 +247,21 @@ Như xây app thực tế: Kết nối database với code.
 8. **API GET with auth**: Check permissions.
 9. **API POST bulk**: Bulk insert từ array.
 10. **API GET advanced**: Complex query với filters.
+
+## Tổng Kết
+
+Trong hướng dẫn này, chúng ta đã khám phá các loại truy vấn SQL chính, từ DDL đến DCL, TCL, và các tính năng nâng cao.
+
+**Điểm Chính:**
+- **DDL**: Thiết kế database với CREATE, ALTER, indexes.
+- **DML**: Thao tác dữ liệu với INSERT, UPDATE, DELETE.
+- **DQL**: Truy vấn với SELECT, JOIN, aggregates.
+- **DCL**: Bảo mật với GRANT, REVOKE.
+- **TCL**: An toàn với transactions BEGIN/COMMIT/ROLLBACK.
+- **Nâng Cao**: Indexing, views, triggers, full-text search.
+- **Backend Integration**: Kết hợp với API thực tế.
+
+**Lời Khuyên:** Bắt đầu với DQL (SELECT), rồi học DDL và DML. Thử nghiệm với database thực và xây dựng APIs. SQL là kỹ năng cốt lõi cho backend developers.
 
 ## Lưu Ý Cho Người Mới Học SQL Queries
 - **Bắt đầu với SELECT**: Học tìm kiếm trước, rồi thêm/sửa.

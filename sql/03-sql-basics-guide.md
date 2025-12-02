@@ -14,6 +14,15 @@ SQL là ngôn ngữ để "nói chuyện" với cơ sở dữ liệu quan hệ. 
 - Quan trọng tính nhất quán (không được mất tiền hay dữ liệu sai).
 - Cần truy vấn phức tạp (tìm posts theo category và author).
 
+## Mục Lục
+- [Phần 1: Cơ Bản - Thiết Kế Database (DDL)](#phần-1-cơ-bản---thiết-kế-database-ddl)
+- [Phần 2: Thao Tác Dữ Liệu - CRUD Operations (DML)](#phần-2-thao-tác-dữ-liệu---crud-operations-dml)
+- [Phần 3: Truy Vấn Dữ Liệu - Querying (DQL)](#phần-3-truy-vấn-dữ-liệu---querying-dql)
+- [Phần 4: Bảo Mật Database - Permissions (DCL)](#phần-4-bảo-mật-database---permissions-dcl)
+- [Phần 5: Quản Lý Transactions - Safety (TCL)](#phần-5-quản-lý-transactions---safety-tcl)
+- [Phần 6: Nâng Cao - Indexing, Views, Triggers](#phần-6-nâng-cao---indexing-views-triggers)
+- [Lưu Ý Cho Người Mới Học SQL](#lưu-ý-cho-người-mới-học-sql)
+
 ## Phần 1: Cơ Bản - Thiết Kế Database (DDL)
 
 ### DDL Là Gì?
@@ -246,6 +255,20 @@ Index như mục lục: Giúp tìm nhanh.
 8. **Trigger update**: Auto update timestamp.
 9. **Function**: Viết function cho trigger.
 10. **Advanced**: Partitioning bảng lớn.
+
+## Tổng Kết
+
+Trong hướng dẫn này, chúng ta đã khám phá SQL cơ bản, ngôn ngữ mạnh mẽ để quản lý cơ sở dữ liệu quan hệ.
+
+**Điểm Chính:**
+- **DDL**: Thiết kế database với CREATE, ALTER bảng.
+- **DML**: Thao tác dữ liệu với INSERT, UPDATE, DELETE.
+- **DQL**: Truy vấn dữ liệu với SELECT, JOIN, GROUP BY.
+- **DCL**: Bảo mật với GRANT, REVOKE quyền.
+- **TCL**: An toàn với transactions BEGIN/COMMIT/ROLLBACK.
+- **Nâng Cao**: Indexing, views, triggers để tối ưu.
+
+**Lời Khuyên:** Bắt đầu với DDL và DML, rồi học querying và joins. Thử nghiệm với PostgreSQL và xây dựng database cho projects nhỏ. SQL là nền tảng cho nhiều apps enterprise.
 
 ## Lưu Ý Cho Người Mới Học SQL
 - **Bắt đầu với SELECT**: Học tìm kiếm trước, rồi thêm/sửa.

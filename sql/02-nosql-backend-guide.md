@@ -14,6 +14,14 @@ MongoDB là một loại database NoSQL, nghĩa là "không phải SQL". Thay v�
 - Dữ liệu không đồng nhất (mỗi user có thông tin khác nhau).
 - Cần tốc độ cao cho đọc/ghi.
 
+## Mục Lục
+- [Phần 1: Cơ Bản - CRUD Operations (Tạo, Đọc, Sửa, Xóa)](#phần-1-cơ-bản---crud-operations-tạo-đọc-sửa-xóa)
+- [Phần 2: Tìm Kiếm Dữ Liệu - Querying Documents](#phần-2-tìm-kiếm-dữ-liệu---querying-documents)
+- [Phần 3: Xử Lý Dữ Liệu Nâng Cao - Aggregation Framework](#phần-3-xử-lý-dữ-liệu-nâng-cao---aggregation-framework)
+- [Phần 4: Tăng Tốc - Indexing](#phần-4-tăng-tốc---indexing)
+- [Phần 5: Thiết Kế Dữ Liệu - Data Modeling](#phần-5-thiết-kế-dữ-liệu---data-modeling)
+- [Lưu Ý Cho Người Mới Học MongoDB](#lưu-ý-cho-người-mới-học-mongodb)
+
 ## Phần 1: Cơ Bản - CRUD Operations (Tạo, Đọc, Sửa, Xóa)
 
 ### CRUD Là Gì?
@@ -195,6 +203,19 @@ Quyết định embed (gộp vào) hay reference (liên kết) data. Như thiế
 8. **Migration**: Chuyển từ embed sang reference.
 9. **Backup**: Dump database với mongodump.
 10. **Restore**: Restore từ backup.
+
+## Tổng Kết
+
+Trong hướng dẫn này, chúng ta đã khám phá MongoDB, một cơ sở dữ liệu NoSQL linh hoạt và mạnh mẽ cho backend development.
+
+**Điểm Chính:**
+- **CRUD Operations**: Cơ bản tạo, đọc, sửa, xóa documents.
+- **Querying**: Tìm kiếm linh hoạt với operators và conditions.
+- **Aggregation**: Xử lý dữ liệu nâng cao cho báo cáo và thống kê.
+- **Indexing**: Tăng tốc queries với indexes.
+- **Data Modeling**: Thiết kế embed vs reference cho hiệu quả.
+
+**Lời Khuyên:** Bắt đầu với CRUD và querying, rồi học aggregation và indexing. Thử nghiệm với MongoDB Compass và xây dựng projects nhỏ để thực hành. MongoDB phù hợp cho apps cần linh hoạt và mở rộng.
 
 ## Lưu Ý Cho Người Mới Học MongoDB
 - **Bắt đầu với CRUD**: Học insert, find, update, delete trước.

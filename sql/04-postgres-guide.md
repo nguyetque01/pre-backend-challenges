@@ -14,6 +14,15 @@ PostgreSQL là một database SQL mã nguồn mở, như một "kho dữ liệu 
 - Cần tính năng nâng cao như JSON, arrays, hoặc tìm kiếm text.
 - Dự án mã nguồn mở, không muốn trả phí cho database thương mại.
 
+## Mục Lục
+- [Phần 1: Cơ Bản - Bắt Đầu Với PostgreSQL](#phần-1-cơ-bản---bắt-đầu-với-postgresql)
+- [Phần 2: Thiết Kế Database - DDL Với Tính Năng Đặc Biệt](#phần-2-thiết-kế-database---ddl-với-tính-năng-đặc-biệt)
+- [Phần 3: Thao Tác Dữ Liệu - CRUD Với Tính Năng Nâng Cao](#phần-3-thao-tác-dữ-liệu---crud-với-tính-năng-nâng-cao)
+- [Phần 4: Truy Vấn Dữ Liệu - Querying Với PostgreSQL Power](#phần-4-truy-vấn-dữ-liệu---querying-với-postgresql-power)
+- [Phần 5: Bảo Mật Và Hiệu Suất - Backend Best Practices](#phần-5-bảo-mật-và-hiệu-suất---backend-best-practices)
+- [Phần 6: Nâng Cao - Extensions Và Tính Năng Chuyên Sâu](#phần-6-nâng-cao---extensions-và-tính-năng-chuyên-sâu)
+- [Lưu Ý Cho Người Mới Học PostgreSQL](#lưu-ý-cho-người-mới-học-postgresql)
+
 ## Phần 1: Cơ Bản - Bắt Đầu Với PostgreSQL
 
 ### Cài Đặt Và Kết Nối
@@ -212,6 +221,20 @@ Như thêm module cho tủ: PostGIS cho maps, pg_cron cho jobs.
 8. **Event triggers**: Trigger trên DDL changes.
 9. **Logical replication**: Setup cho high availability.
 10. **Performance tuning**: Tweak postgresql.conf.
+
+## Tổng Kết
+
+Trong hướng dẫn này, chúng ta đã khám phá PostgreSQL, một cơ sở dữ liệu SQL mạnh mẽ và linh hoạt cho backend applications.
+
+**Điểm Chính:**
+- **Cơ Bản**: Cài đặt, kết nối, và setup database.
+- **DDL**: Thiết kế với UUID, ENUM, ARRAY, JSONB.
+- **CRUD**: Thao tác dữ liệu với tính năng nâng cao.
+- **Querying**: Truy vấn mạnh mẽ với JOIN, full-text search, aggregates.
+- **Bảo Mật & Hiệu Suất**: Permissions, RLS, indexing, partitioning.
+- **Nâng Cao**: Extensions như PostGIS, transactions, replication.
+
+**Lời Khuyên:** Bắt đầu với cài đặt và DDL, rồi học CRUD và querying. Thử nghiệm với psql và xây dựng apps thực tế. PostgreSQL là lựa chọn tuyệt vời cho projects enterprise.
 
 ## Lưu Ý Cho Người Mới Học PostgreSQL
 - **Bắt đầu với psql**: Học commands cơ bản trước GUI.

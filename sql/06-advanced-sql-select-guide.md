@@ -15,6 +15,18 @@ SELECT là lệnh "đi tìm kho báu" trong SQL, giúp bạn khai thác dữ li�
 - Xử lý dữ liệu linh hoạt (JSON, arrays).
 - Tối ưu performance (subqueries, CTEs).
 
+## Mục Lục
+- [Chương 1: Cơ Bản Về SELECT - Thứ Tự Thực Thi Và Cấu Trúc](#chương-1-cơ-bản-về-select---thứ-tự-thực-thi-và-cấu-trúc)
+- [Chương 2: Kết Hợp Dữ Liệu Với JOIN - Ghép Bản Đồ](#chương-2-kết-hợp-dữ-liệu-với-join---ghép-bản-đồ)
+- [Chương 3: Lọc Dữ Liệu Với WHERE - Bộ Lọc Thông Minh](#chương-3-lọc-dữ-liệu-với-where---bộ-lọc-thông-minh)
+- [Chương 4: Tính Toán Với Functions - Công Cụ Trong Hộp Đồ Nghề](#chương-4-tính-toán-với-functions---công-cụ-trong-hộp-đồ-nghề)
+- [Chương 5: Subqueries Và CTEs - Query Trong Query](#chương-5-subqueries-và-ctes---query-trong-query)
+- [Chương 6: Queries Đệ Quy - Xử Lý Dữ Liệu Hierarchical](#chương-6-queries-đệ-quy---xử-lý-dữ-liệu-hierarchical)
+- [Chương 7: Xử Lý Dữ Liệu Linh Hoạt Với JSON](#chương-7-xử-lý-dữ-liệu-linh-hoạt-với-json)
+- [Chương 8: Khám Phá Bên Trong Database Với Metadata](#chương-8-khám-phá-bên-trong-database-với-metadata)
+- [Chương 9: Lộ Trình Học Và Gợi Ý Bổ Sung](#chương-9-lộ-trình-học-và-gợi-ý-bổ-sung)
+- [Lưu Ý Cho Người Mới Học SELECT Nâng Cao](#lưu-ý-cho-người-mới-học-select-nâng-cao)
+
 ## Chương 1: Cơ Bản Về SELECT - Thứ Tự Thực Thi Và Cấu Trúc
 
 ### Thứ Tự Thực Thi Lệnh SELECT - Như Một Quy Trình Sản Xuất
@@ -337,6 +349,22 @@ Nâng cao: Subqueries, CTEs, JSON, Datetime
     ↓
 Chuyên sâu: Recursive, Optimization, Full-Text, Geospatial
 ```
+
+## Tổng Kết
+
+Trong hướng dẫn này, chúng ta đã khám phá SELECT nâng cao trong SQL, từ thứ tự thực thi đến JOIN, functions, subqueries, và JSON.
+
+**Điểm Chính:**
+- **Thứ Tự Thực Thi**: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT.
+- **JOIN**: INNER, LEFT, RIGHT, FULL để kết hợp dữ liệu.
+- **WHERE**: Lọc với LIKE, BETWEEN, IN, datetime operations.
+- **Functions**: Aggregate (COUNT, SUM), scalar (CONCAT, EXTRACT), window (ROW_NUMBER, RANK).
+- **Subqueries & CTEs**: Query trong query, WITH clauses.
+- **Recursive Queries**: Xử lý dữ liệu hierarchical.
+- **JSON**: Lưu và query dữ liệu linh hoạt.
+- **Metadata**: INFORMATION_SCHEMA, system catalogs.
+
+**Lời Khuyên:** Bắt đầu với JOIN và WHERE, rồi học functions và CTEs. Thử nghiệm với PostgreSQL và xây dựng queries phức tạp. SELECT nâng cao là công cụ mạnh mẽ cho data analysis.
 
 ## Lưu Ý Cho Người Mới Học SELECT Nâng Cao
 - **Bắt đầu từ cơ bản**: Học INNER JOIN trước, rồi LEFT.

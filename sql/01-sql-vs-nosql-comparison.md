@@ -3,6 +3,15 @@
 ## Giới Thiệu
 Khi làm backend, bạn cần chọn cơ sở dữ liệu (database) để lưu trữ dữ liệu. Có hai loại chính: **SQL** (như PostgreSQL) và **NoSQL** (như MongoDB). Bài này giải thích đơn giản sự khác biệt và khi nào nên dùng cái nào. Đừng lo nếu bạn mới, chúng ta sẽ đi từ cơ bản!
 
+## Mục Lục
+- [SQL Là Gì?](#sql-là-gì)
+- [NoSQL Là Gì?](#nosql-là-gì)
+- [So Sánh Cơ Bản](#so-sánh-cơ-bản)
+- [Khi Nào Dùng SQL?](#khi-nào-dùng-sql)
+- [Khi Nào Dùng NoSQL?](#khi-nào-dùng-nosql)
+- [Kết Luận](#kết-luận)
+- [Tài Liệu Học Thêm](#tài-liệu-học-thêm)
+
 ## SQL Là Gì?
 SQL là cơ sở dữ liệu "quan hệ" (relational). Nghĩ như một bảng Excel lớn:
 - Dữ liệu được tổ chức thành **bảng** (tables) với hàng và cột.
@@ -65,6 +74,17 @@ Dùng NoSQL nếu app của bạn:
 - **Chọn NoSQL nếu**: Bạn cần linh hoạt, mở rộng dễ, và chấp nhận dữ liệu không hoàn hảo.
 - **Có thể dùng cả hai**: SQL cho dữ liệu quan trọng, NoSQL cho cache hoặc logs.
 - **Lời khuyên cho người mới**: Bắt đầu với SQL để học cơ bản, rồi thử NoSQL khi cần. Đọc docs và thử nghiệm!
+
+## Tổng Kết
+
+Trong bài này, chúng ta đã khám phá sự khác biệt giữa SQL và NoSQL, hai loại cơ sở dữ liệu phổ biến trong backend development.
+
+**Điểm Chính:**
+- **SQL**: Cơ sở dữ liệu quan hệ với bảng cố định, phù hợp cho dữ liệu nhất quán và truy vấn phức tạp.
+- **NoSQL**: Cơ sở dữ liệu không quan hệ với tài liệu linh hoạt, tốt cho mở rộng lớn và dữ liệu thay đổi.
+- **Khi nào dùng**: SQL cho apps cần tính toán chính xác, NoSQL cho apps cần tốc độ và linh hoạt.
+
+**Lời Khuyên:** Nếu bạn mới, bắt đầu với SQL để hiểu cơ bản về database, rồi học NoSQL khi xây dựng apps lớn hơn. Thử nghiệm với cả hai để thấy sự khác biệt thực tế.
 
 ## Tài Liệu Học Thêm
 - [SQL đơn giản](https://www.w3schools.com/sql/)

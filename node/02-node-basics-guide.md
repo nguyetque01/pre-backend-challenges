@@ -236,5 +236,4 @@ child_process như "trợ lý": Chạy shell commands.
 ## Tổng Kết
 Hướng dẫn này đã giới thiệu cơ bản Node.js: modules, file system, HTTP, async, events, và nâng cao như streams, child processes. Bạn giờ có nền tảng để xây dựng servers đơn giản. Hãy thực hành bài tập để củng cố kiến thức!
 
-Node.js như cánh cửa backend cho JS devs! Khi quen, bạn xây apps realtime. Chúc học vui!</content>
-<parameter name="filePath">d:\WorkSpace\Books\Pre-Backend-Challenges\node\02-node-basics-guide.md
+Node.js như cánh cửa backend cho JS devs! Khi quen, bạn xây apps realtime. Chúc học vui!

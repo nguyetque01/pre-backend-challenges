@@ -428,6 +428,267 @@ Ngoài Node.js và Express.js, cộng đồng JS đã phát triển nhiều runt
 
 Những công nghệ này mở rộng "đế chế" JS backend, cho phép bạn chọn theo nhu cầu: performance (Bun/Fastify), structure (NestJS), hoặc simplicity (Koa). Hãy thử một vài để so sánh với Node/Express!
 
+## Bài Tập Thực Hành
+Dưới đây là các bài tập đơn giản, khả thi cho người mới bắt đầu. Mỗi bài tập có hướng dẫn chi tiết, bước bước, để bạn dễ theo dõi. Bạn chỉ cần máy tính với Node.js cài đặt (từ nodejs.org), và một trình duyệt như Chrome. Hãy bắt đầu từ bài 1 và làm tuần tự để xây dựng kiến thức dần dần.
+
+1. **Quan Sát Mạng (Inspect Network)**:  
+   Mục tiêu: Hiểu cách client (browser) gửi request và server phản hồi.  
+   Bước:  
+   - Mở Chrome, nhấn F12 để mở Developer Tools.  
+   - Chọn tab "Network".  
+   - Gõ địa chỉ một trang web đơn giản như "google.com" vào thanh URL và nhấn Enter.  
+   - Quan sát danh sách requests xuất hiện: click vào một request (như GET google.com) để xem chi tiết headers (thông tin gửi), status code (200 OK nghĩa là thành công), và response body (nội dung trả về).  
+   Gợi ý: Nếu không thấy gì, refresh trang (F5). Bài tập này không cần code, chỉ quan sát để hiểu HTTP cơ bản.
+
+2. **Tạo Server Đơn Giản Với Node.js**:  
+   Mục tiêu: Tạo server đầu tiên để hiểu Node.js chạy trên server.  
+   Bước:  
+   - Tạo folder mới, ví dụ "my-first-server".  
+   - Tạo file "server.js" với nội dung:  
+     ```javascript
+     const http = require('http');
+     const server = http.createServer((req, res) => {
+       res.end('Hello World');
+     });
+     server.listen(3000);
+     ```  
+   - Mở terminal, chạy `node server.js`.  
+   - Mở browser, gõ "http://localhost:3000" – bạn sẽ thấy "Hello World".  
+   Gợi ý: Nếu lỗi "port in use", thay 3000 thành 3001. Dừng server bằng Ctrl+C.
+
+3. **Tạo Route Cơ Bản Với Express**:  
+   Mục tiêu: Hiểu routing trong Express.  
+   Bước:  
+   - Trong folder mới, chạy `npm init -y` để tạo package.json.  
+   - Chạy `npm install express`.  
+   - Tạo file "app.js" với nội dung:  
+     ```javascript
+     const express = require('express');
+     const app = express();
+     app.get('/api/test', (req, res) => res.json({ message: 'Test successful' }));
+     app.listen(3000);
+     ```  
+   - Chạy `node app.js`, mở browser đến "http://localhost:3000/api/test" – bạn sẽ thấy JSON response.  
+   Gợi ý: Nếu không thấy, kiểm tra console terminal có lỗi.
+
+4. **JavaScript Phía Client**:  
+   Mục tiêu: Hiểu client-server interaction với JS.  
+   Bước:  
+   - Tạo file "index.html" trong cùng folder:  
+     ```html
+     <!DOCTYPE html>
+     <html>
+     <body>
+       <button onclick="fetchAPI()">Click me</button>
+       <script>
+         function fetchAPI() {
+           fetch('/api/test')
+             .then(res => res.json())
+             .then(data => alert(data.message));
+         }
+       </script>
+     </body>
+     </html>
+     ```  
+   - Chạy server từ bài 3, mở "http://localhost:3000/index.html" (hoặc serve file tĩnh bằng Express nếu cần).  
+   - Click button, bạn sẽ thấy alert với message từ server.  
+   Gợi ý: Nếu fetch lỗi, thêm `app.use(express.static('.'));` vào app.js để serve HTML.
+
+5. **Flow Hoàn Chỉnh Từ Client Đến Server**:  
+   Mục tiêu: Xây dựng form gửi data từ client đến server.  
+   Bước:  
+   - Thêm vào "index.html":  
+     ```html
+     <form onsubmit="login(event)">
+       <input id="username" placeholder="Username">
+       <button type="submit">Login</button>
+     </form>
+     ```  
+   - Thêm vào script:  
+     ```javascript
+     function login(event) {
+       event.preventDefault();
+       const username = document.getElementById('username').value;
+       fetch('/api/login', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ username })
+       }).then(res => res.json()).then(data => alert(data.message));
+     }
+     ```  
+   - Thêm vào "app.js":  
+     ```javascript
+     app.use(express.json());
+     app.post('/api/login', (req, res) => {
+       console.log('User logged in:', req.body.username);
+       res.json({ message: 'Login successful' });
+     });
+     ```  
+   - Chạy và test form.  
+   Gợi ý: Dùng browser console để debug nếu không hoạt động.
+
+6. **Debug Cơ Bản**:  
+   Mục tiêu: Học cách debug bằng console.log.  
+   Bước:  
+   - Trong "app.js" từ bài 5, thêm `console.log('Request received:', req.url);` vào handler.  
+   - Chạy server, gửi request từ browser hoặc Postman.  
+   - Xem terminal output khi request đến.  
+   Gợi ý: Thêm nhiều console.log để theo dõi flow.
+
+7. **So Sánh Node Thuần Và Express**:  
+   Mục tiêu: Hiểu tại sao dùng framework.  
+   Bước:  
+   - Viết lại server từ bài 2 bằng Express (như bài 3).  
+   - So sánh: Node thuần cần nhiều code cho routing/JSON, Express đơn giản hơn.  
+   Gợi ý: Đếm số dòng code và thời gian setup.
+
+8. **App Todo Đơn Giản**:  
+   Mục tiêu: Xây dựng app thực tế đầu tiên.  
+   Bước:  
+   - Thêm array `let todos = [];` vào "app.js".  
+   - Thêm routes:  
+     ```javascript
+     app.get('/todos', (req, res) => res.json(todos));
+     app.post('/todos', (req, res) => {
+       todos.push(req.body.todo);
+       res.json({ message: 'Added' });
+     });
+     ```  
+   - Cập nhật "index.html" với form thêm todo và list hiển thị.  
+   - Chạy và test thêm/xem todos.  
+   Gợi ý: Dùng JS để update list mà không reload.
+
+11. **Hiểu Event Loop**:  
+   Mục tiêu: Hiểu non-blocking trong JS.  
+   Bước:  
+   - Tạo file "eventloop.js":  
+     ```javascript
+     console.log('Start');
+     setTimeout(() => console.log('Timeout'), 0);
+     console.log('End');
+     ```  
+   - Chạy `node eventloop.js`, quan sát output: "Start", "End", rồi "Timeout".  
+   Gợi ý: Thêm Promise để so sánh thứ tự thực thi.
+
+12. **Promises Và Async/Await**:  
+   Mục tiêu: Chuyển từ callback sang async.  
+   Bước:  
+   - Tạo file "file.txt" với nội dung "Hello".  
+   - Tạo "readfile.js":  
+     ```javascript
+     const fs = require('fs').promises;
+     async function read() {
+       try {
+         const data = await fs.readFile('file.txt', 'utf8');
+         console.log(data);
+       } catch (err) {
+         console.error(err);
+       }
+     }
+     read();
+     ```  
+   - Chạy `node readfile.js`.  
+   Gợi ý: So sánh với callback version.
+
+13. **Modules Trong Node**:  
+   Mục tiêu: Hiểu cách chia code thành modules.  
+   Bước:  
+   - Tạo "math.js":  
+     ```javascript
+     module.exports = { add: (a, b) => a + b };
+     ```  
+   - Tạo "main.js":  
+     ```javascript
+     const math = require('./math');
+     console.log(math.add(2, 3));
+     ```  
+   - Chạy `node main.js`.  
+   Gợi ý: Thử require path khác.
+
+14. **Server HTTP Thuần Node Với JSON**:  
+   Mục tiêu: Server trả JSON mà không Express.  
+   Bước:  
+   - Tạo "server-json.js":  
+     ```javascript
+     const http = require('http');
+     const server = http.createServer((req, res) => {
+       if (req.url === '/api/data') {
+         res.writeHead(200, { 'Content-Type': 'application/json' });
+         res.end(JSON.stringify({ data: 'Hello' }));
+       }
+     });
+     server.listen(3000);
+     ```  
+   - Chạy và test với browser hoặc curl.  
+   Gợi ý: Xử lý req.method cho POST.
+
+15. **Middleware Trong Express**:  
+   Mục tiêu: Hiểu middleware chain.  
+   Bước:  
+   - Trong "app.js", thêm:  
+     ```javascript
+     app.use((req, res, next) => {
+       console.log('Time:', Date.now());
+       next();
+     });
+     app.get('/api/users', (req, res) => res.json([]));
+     ```  
+   - Chạy và request đến /api/users, xem log.  
+   Gợi ý: Thêm `app.use(express.json());` để parse body.
+
+16. **Routing CRUD Với Express**:  
+   Mục tiêu: Tạo API đầy đủ.  
+   Bước:  
+   - Thêm array `let todos = [];` và routes:  
+     ```javascript
+     app.get('/todos', (req, res) => res.json(todos));
+     app.post('/todos', (req, res) => {
+       todos.push({ id: todos.length + 1, text: req.body.text });
+       res.json(todos[todos.length - 1]);
+     });
+     ```  
+   - Test với Postman.  
+   Gợi ý: Thêm DELETE route.
+
+17. **Flow Client-Server Với Form**:  
+   Mục tiêu: End-to-end từ form đến response.  
+   Bước:  
+   - Tạo form HTML gửi POST đến /api/submit.  
+   - Trong "app.js", thêm:  
+     ```javascript
+     app.post('/api/submit', (req, res) => res.json({ received: req.body }));
+     ```  
+   - Test submit form.  
+   Gợi ý: Prevent reload với JS.
+
+18. **Mock Database**:  
+   Mục tiêu: Giả lập DB đơn giản.  
+   Bước:  
+   - Thay array bằng object `let db = { todos: [] };`.  
+   - Thêm functions:  
+     ```javascript
+     function find() { return db.todos; }
+     function save(todo) { db.todos.push(todo); }
+     ```  
+   - Sử dụng trong routes.  
+   Gợi ý: Thêm ID counter.
+
+19. **Xử Lý Lỗi**:  
+   Mục tiêu: Học error handling.  
+   Bước:  
+   - Trong handler, thêm:  
+     ```javascript
+     try {
+       if (!req.body.text) throw new Error('Text required');
+       // logic
+       res.json({ success: true });
+     } catch (err) {
+       res.status(400).json({ error: err.message });
+     }
+     ```  
+   - Test với input rỗng.  
+   Gợi ý: Gửi status 400 cho lỗi.
+
 ## Lưu Ý Cho Người Mới
 - **Bắt Đầu Nhỏ**: Học từng phần – JS cơ bản, rồi Node, Express.
 - **Thử Nghiệm**: Code hands-on, đừng chỉ đọc.

@@ -1,242 +1,249 @@
-# Các Loại Truy Vấn Trong SQL
+# Hướng Dẫn Các Loại Truy Vấn SQL Cho Người Mới: Ngôn Ngữ Nói Chuyện Với Database
 
-## Giới thiệu
-SQL (Structured Query Language) là ngôn ngữ chuẩn để quản lý và thao tác cơ sở dữ liệu quan hệ. Các truy vấn SQL được phân loại theo chức năng thành 5 nhóm chính: DQL, DML, DDL, DCL, TCL
+## Giới Thiệu: SQL Là Gì Và Tại Sao Thú Vị?
+SQL là ngôn ngữ để "nói chuyện" với cơ sở dữ liệu, như một người phiên dịch giữa bạn và kho dữ liệu khổng lồ. Thay vì lục tung tủ đồ hỗn độn, SQL giúp bạn tìm kiếm nhanh như tra cứu sách trong thư viện thông minh. Mỗi truy vấn SQL như một câu hỏi hoặc lệnh: "Cho tôi xem posts của user này", hoặc "Thêm user mới vào".
 
-### SQL trong Backend Development
-- **Kết nối DB**: Sử dụng libraries như `pg` (PostgreSQL) hoặc Sequelize ORM trong Node.js.
-- **Parameterized Queries**: Tránh SQL injection bằng placeholders ($1, $2).
-- **Connection Pooling**: Quản lý multiple connections hiệu quả.
-- **Migrations**: Sử dụng tools như Knex.js để version schema changes.
-- **Error Handling**: Catch DB errors và trả về proper HTTP status codes.
-- **Caching**: Cache query results với Redis để improve performance.
+### Tại Sao Học Các Loại Truy Vấn SQL?
+- **Như quản lý thư viện số**: Tạo kệ sách (DDL), thêm/sửa sách (DML), tìm sách (DQL), khóa tủ (DCL), và đảm bảo mọi thứ ổn (TCL).
+- **Mạnh mẽ cho app**: Từ blog đơn giản đến mạng xã hội lớn, SQL xử lý dữ liệu hiệu quả.
+- **Dễ bắt đầu**: Bắt đầu với SELECT, rồi học thêm dần.
+- **Ví dụ vui**: Tưởng tượng app blog CMS: Users đăng posts, posts thuộc categories. SQL giúp bạn quản lý như một thư viện viên siêu tốc!
 
-### Ưu điểm của PostgreSQL
-PostgreSQL là RDBMS mã nguồn mở mạnh mẽ, phù hợp cho backend development với nhiều tính năng advanced:
+### Khi Nào Dùng SQL Queries?
+- App cần dữ liệu có cấu trúc rõ ràng (e-commerce, CMS).
+- Quan trọng tính nhất quán và truy vấn phức tạp.
+- Dự án cần mở rộng và bảo mật cao.
 
-#### JSONB - JSON Binary
-- **Lưu trữ JSON**: Column type JSONB lưu flexible data structures.
-- **Query nhanh**: Index GIN cho JSONB queries, operators @>, ?, etc.
-- **Ví dụ**: `SELECT * FROM users WHERE metadata @> '{"role": "admin"}'`
-- **Ứng dụng**: Metadata, configurations, nested data mà không cần schema changes.
+## Phần 1: DDL - Thiết Kế Database Như Xây Nhà
 
-#### Rich Data Types
-- **UUID**: `gen_random_uuid()` cho distributed systems.
-- **ARRAY**: `TEXT[]`, `INTEGER[]` cho multiple values.
-- **ENUM**: Custom enumerated types.
-- **RANGE**: Date ranges, numeric ranges.
-- **INET/CIDR**: IP addresses.
-- **Ví dụ**: `CREATE TYPE user_status AS ENUM ('active', 'inactive', 'banned');`
+### DDL Là Gì?
+DDL là Data Definition Language, như bản thiết kế cho nhà: Tạo phòng (bảng), thêm cửa sổ (cột), và sắp xếp đồ đạc (constraints). Không thêm dữ liệu, chỉ định hình cấu trúc.
 
-#### Advanced Features
-- **Full-text Search**: TSVECTOR, TSQUERY cho search engines.
-- **GIS (PostGIS)**: Geographic data, spatial queries.
-- **Triggers & Functions**: PL/pgSQL stored procedures.
-- **Partitioning**: Table partitioning cho large datasets.
-- **Replication**: Streaming replication, logical replication.
-- **Extensibility**: Custom types, operators, functions.
+#### Ví Dụ Thú Vị: Xây Dựng App Blog CMS
+Tạo bảng users, posts, categories như thiết kế phòng cho gia đình số.
 
-#### Performance & Reliability
-- **ACID Compliance**: Strong consistency.
-- **MVCC**: Multi-version concurrency control.
-- **Indexes**: B-tree, Hash, GIN, GiST, SP-GiST.
-- **Query Planner**: Sophisticated optimizer.
-- **Monitoring**: pg_stat_statements, pg_buffercache.
+- **Tạo bảng users**:
+  ```
+  CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  ```
 
-#### Best Practices với PostgreSQL
-- Sử dụng JSONB cho flexible schemas.
-- Leverage arrays cho simple lists.
-- Use UUID cho primary keys trong microservices.
-- Implement full-text search cho content.
-- Monitor query performance với EXPLAIN ANALYZE.
+- **Thêm cột cho posts**:
+  ```
+  ALTER TABLE posts ADD COLUMN tags TEXT[];
+  ```
 
-#### Best Practices cho Backend
-- **Validate Input**: Sử dụng Joi hoặc express-validator trước khi query.
-- **Pagination**: Luôn dùng LIMIT/OFFSET hoặc cursor-based cho large datasets.
-- **Indexing**: Tạo indexes trên columns thường query (e.g., user_id, email).
-- **Transactions**: Wrap related operations (e.g., create user + create profile).
-- **Logging**: Log slow queries và errors.
-- **Security**: Sử dụng prepared statements, limit query complexity.
+- **Tạo index để tìm nhanh**:
+  ```
+  CREATE INDEX idx_posts_user ON posts(user_id);
+  ```
 
-## Phần 1: Thiết kế và Thao tác Database
+#### Bài Tập Thực Hành Cho Người Mới
+1. **Tạo database**: CREATE DATABASE cms_blog;
+2. **Tạo bảng users**: Với id, name, email, created_at.
+3. **Tạo bảng categories**: id, name, description.
+4. **Tạo bảng posts**: Liên kết với users và categories.
+5. **Thêm cột**: ALTER để thêm published BOOLEAN.
+6. **Tạo index**: Index trên email users.
+7. **Foreign keys**: Đảm bảo posts liên kết đúng với users.
+8. **Constraints**: UNIQUE trên email, NOT NULL trên name.
+9. **Views**: CREATE VIEW recent_posts AS SELECT * FROM posts WHERE created_at > NOW() - INTERVAL '7 days';
+10. **Drop table**: DROP TABLE test_table (cẩn thận!).
 
-### 1. Data Definition Language (DDL) - Thiết kế Database
-DDL dùng để định nghĩa và thay đổi cấu trúc database. Đây là bước đầu tiên khi tạo ứng dụng backend - thiết kế schema.
+## Phần 2: DML - Thao Tác Dữ Liệu Như Quản Lý Sách
 
-#### Lý thuyết về Database Design
-- **Tables**: Đại diện cho entities (users, posts, orders). Mỗi table có columns và rows.
-- **Columns**: Thuộc tính của entity. Chọn data types phù hợp (VARCHAR, INT, UUID, TIMESTAMP).
-- **Primary Key**: Định danh duy nhất cho mỗi row (thường là ID).
-- **Foreign Key**: Liên kết giữa tables (user_id trong posts table).
-- **Constraints**: Đảm bảo data integrity (NOT NULL, UNIQUE, CHECK).
-- **Indexes**: Tăng tốc queries nhưng chậm writes.
-- **Views**: Virtual tables cho complex queries.
-- **UUID vs SERIAL**: UUID cho distributed systems, SERIAL cho simple apps.
+### DML Là Gì?
+DML là Data Manipulation Language, như thêm, sửa, xóa sách trong tủ: Thêm cuốn mới, sửa tiêu đề, hoặc dọn dẹp sách cũ.
 
-#### Lý thuyết DDL Commands
-- **CREATE**: Tạo tables, indexes, views, functions.
-- **ALTER**: Thay đổi cấu trúc: add/drop columns, change types, add constraints.
-- **DROP**: Xóa objects. Sử dụng CASCADE cẩn thận.
+#### Ví Dụ Thú Vị: Quản Lý Users Và Posts Trong Blog
+- **Thêm user mới**:
+  ```
+  INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');
+  ```
 
-#### Bài tập Thiết kế DB (1-15)
-1. Thiết kế table users với columns: id (UUID), name, email, age, created_at, created_by, updated_at, updated_by.
-2. Thêm constraints: PRIMARY KEY, UNIQUE email, CHECK age >= 0.
-3. Tạo table posts với FK user_id, title, content, published_at.
-4. Thiết kế table categories và many-to-many relationship với posts.
-5. Tạo indexes trên email và user_id cho performance.
-6. Viết CREATE VIEW cho active users (age >= 18).
-7. ALTER TABLE thêm column avatar_url VARCHAR(255).
-8. Tạo compound index trên (user_id, created_at).
-9. Viết CREATE TABLE orders với FKs và constraints.
-10. Thiết kế schema cho e-commerce app (users, products, orders, reviews).
-11. Tạo table products với JSONB metadata cho flexible attributes.
-12. Tạo ENUM type user_status ('active', 'inactive', 'banned').
-13. Tạo table tags với ARRAY column tag_names TEXT[].
-14. Tạo table events với RANGE column event_period TSRANGE.
-15. Tạo table logs với JSONB data cho arbitrary log entries.
+- **Sửa thông tin post**:
+  ```
+  UPDATE posts SET title = 'New Title' WHERE id = 1;
+  ```
 
-### 2. Data Manipulation Language (DML) - Thao tác Dữ liệu
-Sau khi thiết kế DB, chúng ta thêm dữ liệu vào tables.
+- **Xóa comment cũ**:
+  ```
+  DELETE FROM comments WHERE created_at < '2023-01-01';
+  ```
 
-#### Lý thuyết DML
-- **INSERT**: Thêm dữ liệu mới. Sử dụng RETURNING để lấy ID.
-- **UPDATE**: Sửa dữ liệu existing. Luôn có WHERE.
-- **DELETE**: Xóa dữ liệu. Cẩn thận với CASCADE.
-- **Transactions**: Wrap multiple operations để đảm bảo consistency.
+#### Bài Tập Thực Hành
+1. **Insert user**: Thêm user với name và email.
+2. **Insert posts**: Tạo 3 posts cho user khác nhau.
+3. **Update user**: Thay đổi name của user.
+4. **Update posts**: Set published = true cho posts cũ.
+5. **Delete post**: Xóa post cụ thể.
+6. **Bulk insert**: Thêm nhiều categories cùng lúc.
+7. **Upsert**: INSERT ON CONFLICT để update nếu email trùng.
+8. **Soft delete**: Update is_deleted = true thay vì delete.
+9. **Transaction insert**: BEGIN; INSERT user; INSERT profile; COMMIT;
+10. **Kiểm tra**: SELECT COUNT(*) sau mỗi thao tác.
 
-#### Bài tập Thao tác Dữ liệu (1-15)
-1. INSERT user với RETURNING id.
-2. INSERT multiple users từ array data.
-3. UPDATE user profile với WHERE id = ?.
-4. UPDATE set is_deleted=true cho soft delete.
-5. DELETE user và CASCADE delete posts.
-6. Transaction: INSERT user + INSERT profile.
-7. Bulk INSERT từ CSV-like data.
-8. UPSERT user data (INSERT OR UPDATE).
-9. UPDATE multiple rows với subquery.
-10. Transaction rollback on error.
-11. INSERT product với JSONB metadata {'brand': 'Apple', 'specs': {...}}.
-12. UPDATE user status sử dụng ENUM value.
-13. INSERT tags với ARRAY ['javascript', 'nodejs'].
-14. UPDATE event với RANGE period.
-15. INSERT log entry với JSONB data.
+## Phần 3: DQL - Truy Vấn Dữ Liệu Như Tra Cứu Sách
 
-### 3. Data Query Language (DQL) - Truy vấn Dữ liệu
-Sau khi có dữ liệu, chúng ta query để lấy thông tin.
+### DQL Là Gì?
+DQL là Data Query Language, như tìm sách trong thư viện: Tìm theo tác giả, tiêu đề, hoặc kết hợp nhiều điều kiện.
 
-#### Lý thuyết DQL
-- **SELECT**: Cấu trúc cơ bản với WHERE, ORDER BY, LIMIT.
-- **JOINs**: Kết hợp dữ liệu từ multiple tables.
-- **Aggregates**: COUNT, SUM, AVG với GROUP BY.
-- **Subqueries**: Nested queries.
-- **Window functions**: Advanced analytics.
+#### Ví Dụ Thú Vị: Tìm Posts Trong Blog
+- **Tìm tất cả posts**:
+  ```
+  SELECT * FROM posts;
+  ```
 
-#### Bài tập Truy vấn Dữ liệu (1-15)
-1. SELECT users với pagination (LIMIT/OFFSET).
-2. SELECT posts với user info sử dụng JOIN.
-3. SELECT stats (total users, avg age) cho dashboard.
-4. SELECT users theo name/email với LIKE.
-5. JOIN 3 tables: users -> posts -> categories.
-6. SELECT với filters (age range) và sorting.
-7. Aggregate: posts per user với COUNT.
-8. Subquery: users với more than 5 posts.
-9. Window function: user ranking by post count.
-10. Complex query với multiple JOINs và aggregates.
-11. Query products WHERE metadata @> '{"brand": "Apple"}'.
-12. SELECT users WHERE status = 'active'::user_status.
-13. SELECT tags WHERE 'javascript' = ANY(tag_names).
-14. SELECT events WHERE event_period && '[2023-01-01,2023-12-31]'.
-15. Query logs WHERE data ->> 'level' = 'error'.
+- **Tìm posts của user với JOIN**:
+  ```
+  SELECT p.title, u.name FROM posts p JOIN users u ON p.user_id = u.id;
+  ```
 
-### 4. Data Control Language (DCL) - Bảo mật Database
-DCL quản lý quyền truy cập.
+- **Tìm với điều kiện**:
+  ```
+  SELECT * FROM posts WHERE published = true ORDER BY created_at DESC LIMIT 10;
+  ```
 
-#### Lý thuyết DCL
-- **GRANT**: Cấp quyền cho users/roles.
-- **REVOKE**: Thu hồi quyền.
-- **Roles**: Nhóm quyền.
+- **Đếm và nhóm**:
+  ```
+  SELECT category_id, COUNT(*) FROM posts GROUP BY category_id;
+  ```
 
-#### Bài tập Bảo mật (1-2)
-1. GRANT SELECT, INSERT trên users cho app_user.
-2. REVOKE DELETE từ regular users.
+#### Bài Tập Thực Hành
+1. **SELECT cơ bản**: Lấy tất cả users.
+2. **WHERE đơn giản**: Posts với published = true.
+3. **JOIN hai bảng**: Posts với users để lấy author.
+4. **JOIN ba bảng**: Posts, users, categories.
+5. **ORDER BY**: Sắp xếp posts theo created_at.
+6. **LIMIT/OFFSET**: Phân trang, lấy 5 posts đầu.
+7. **Aggregate**: Đếm posts per user.
+8. **HAVING**: Users có > 2 posts.
+9. **Subquery**: Posts của users từ subquery.
+10. **Complex query**: Top categories theo số posts.
 
-### 5. Transaction Control Language (TCL) - Quản lý Transactions
-TCL đảm bảo data consistency.
+## Phần 4: DCL - Bảo Mật Database Như Khóa Tủ
 
-#### Lý thuyết TCL
-- **ACID**: Atomicity, Consistency, Isolation, Durability.
-- **Isolation levels**: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.
-- **SAVEPOINT**: Partial rollback.
+### DCL Là Gì?
+DCL là Data Control Language, như khóa tủ và chia chìa khóa: Cho phép ai đọc, ai viết, ai xóa.
 
-#### Bài tập Transactions (1-3)
-1. BEGIN/COMMIT cho create user + wallet.
-2. SAVEPOINT trong order processing.
-3. SET ISOLATION LEVEL SERIALIZABLE.
+#### Ví Dụ Thú Vị: Phân Quyền Cho Blog
+- **Cho phép đọc**:
+  ```
+  GRANT SELECT ON posts TO reader;
+  ```
 
-### 6. NoSQL (MongoDB) - Alternative Database
-MongoDB cho flexible schemas.
+- **Thu hồi quyền**:
+  ```
+  REVOKE DELETE ON users FROM editor;
+  ```
 
-#### Lý thuyết NoSQL
-- **Documents & Collections**: JSON-like data.
-- **CRUD Operations**: insertOne, find, updateOne, deleteOne.
-- **Indexing & Aggregation**: Performance optimization.
-- **Data Modeling**: Embed vs Reference.
+#### Bài Tập Thực Hành
+1. **Tạo role**: CREATE ROLE editor;
+2. **Grant select**: Cho editor đọc users và posts.
+3. **Grant insert**: Cho editor thêm posts.
+4. **Revoke**: Thu hồi quyền xóa từ editor.
+5. **Check permissions**: Dùng \dp để xem quyền.
+6. **Role hierarchy**: Tạo role admin kế thừa editor.
+7. **Grant on schema**: Quyền trên toàn bộ schema.
+8. **Revoke all**: Thu hồi tất cả quyền từ user.
+9. **Test access**: Đăng nhập với role khác để thử.
+10. **Backup roles**: pg_dump roles.
 
-#### Bài tập NoSQL (1-10)
-1. insertOne user với validation.
-2. find users với filtering, sorting, pagination.
-3. updateOne user profile.
-4. aggregation pipeline cho stats.
-5. populate refs User -> Posts.
-6. create compound index.
-7. text search với $text.
-8. bulkWrite operations.
-9. soft delete với isDeleted.
-10. transaction cho money transfer.
+## Phần 5: TCL - Quản Lý Transactions Như Gói An Toàn
 
-## Phần 2: Implement API (Backend Implementations)
+### TCL Là Gì?
+TCL là Transaction Control Language, như gói quà: Mọi thứ bên trong phải ổn, hoặc hủy hết nếu có lỗi.
 
-### DDL APIs (Thiết kế DB qua API)
-1. API POST /tables để create table dynamically.
-2. API PUT /tables/:name để alter table (add column).
-3. API POST /indexes để create index.
-4. API GET /schema để inspect current schema.
-5. API DELETE /tables/:name để drop table (admin only).
+#### Ví Dụ Thú Vị: Publish Post Và Cập Nhật Thống Kê
+- **Transaction đơn giản**:
+  ```
+  BEGIN;
+  INSERT INTO posts (title, user_id) VALUES ('New Post', 1);
+  UPDATE users SET post_count = post_count + 1 WHERE id = 1;
+  COMMIT;
+  ```
 
-### DML APIs (Thao tác Dữ liệu qua API)
-6. API POST /users với INSERT, validate input.
-7. API PUT /users/:id với UPDATE, check ownership.
-8. API DELETE /users/:id với soft delete.
-9. API POST /bulk-insert từ CSV data.
-10. API PUT /users/:id/upsert cho sync data.
+- **Rollback nếu lỗi**:
+  ```
+  BEGIN;
+  -- Thao tác
+  ROLLBACK; -- Hủy nếu sai
+  ```
 
-### DQL APIs (Truy vấn Dữ liệu qua API)
-11. API GET /users với pagination, trả về JSON.
-12. API GET /posts với JOIN, trả về posts với user info.
-13. API GET /dashboard với aggregates (stats).
-14. API GET /search với LIKE queries.
-15. API GET /users với advanced filters & sorting.
+#### Bài Tập Thực Hành
+1. **Begin commit**: Thêm user và post trong transaction.
+2. **Rollback**: Thử rollback sau insert.
+3. **Savepoint**: Tạo savepoint giữa thao tác.
+4. **Nested transaction**: Transaction trong transaction.
+5. **Isolation levels**: Set READ COMMITTED.
+6. **Locking**: SELECT FOR UPDATE để khóa row.
+7. **Deadlock**: Tạo và xử lý deadlock.
+8. **Autocommit**: Tắt autocommit.
+9. **Error handling**: Catch lỗi trong transaction.
+10. **Performance**: Đo thời gian transaction lớn.
 
-### Bảo mật & Transaction APIs
-16. API POST /permissions để grant/revoke permissions.
-17. API POST /transactions để wrap multiple operations.
-18. API POST /backup để create DB backup.
+## Phần 6: Nâng Cao - Tính Năng Chuyên Sâu Cho Pro
 
-### NoSQL APIs
-19. API POST /users với insert, validation, error handling.
-20. API GET /users với filtering, sorting, pagination.
-21. API PUT /users/:id với ownership check, update fields.
-22. API DELETE /users/:id với soft delete.
-23. API GET /users/stats với aggregation pipeline.
-24. API GET /users/:id/posts với populate.
-25. API POST /indexes để create indexes via API.
-26. API GET /search với $text query.
-27. API POST /bulk với bulkWrite operations.
-28. API POST /transactions cho money transfer.
-29. API GET /users/search với regex và text search.
-30. API PUT /users/:id/profile với updateOne.
+### Indexing Và Views: Tăng Tốc Và Tiện Lợi
+- **Index như mục lục**: CREATE INDEX để query nhanh.
+- **Views như bảng ảo**: CREATE VIEW cho queries phức tạp.
 
-## Lưu ý chung
-- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-- [SQL Tutorial](https://www.w3schools.com/sql/)
-- [SQL Best Practices](https://www.sqlstyle.guide/)
+#### Triggers Và Functions: Tự Động Hành Động
+- **Trigger**: Auto-update khi insert.
+  ```
+  CREATE TRIGGER update_timestamp BEFORE UPDATE ON posts FOR EACH ROW EXECUTE FUNCTION update_modified_column();
+  ```
+
+#### Full-Text Search: Tìm Kiếm Như Google
+- **Tìm text**:
+  ```
+  SELECT * FROM posts WHERE to_tsvector('english', content) @@ to_tsquery('tutorial');
+  ```
+
+#### Bài Tập Thực Hành
+1. **Tạo index**: Index trên user_id posts.
+2. **Explain query**: Dùng EXPLAIN để xem index dùng không.
+3. **Index partial**: Index chỉ cho posts published.
+4. **Drop index**: Xóa index không dùng.
+5. **Tạo view**: View posts với user name.
+6. **View updatable**: View có thể update.
+7. **Trigger insert**: Trigger log khi insert user.
+8. **Trigger update**: Auto update timestamp.
+9. **Function**: Viết function cho trigger.
+10. **Full-text**: Tìm posts chứa 'backend'.
+
+## Phần 7: Kết Hợp Với Backend - Thực Hành API
+
+### Implement API Với SQL Queries
+Như xây app thực tế: Kết nối database với code.
+
+#### Ví Dụ Thú Vị: API Cho Blog CMS
+- **GET /posts**: SELECT với JOIN và pagination.
+- **POST /users**: INSERT với validation.
+- **PUT /posts/:id**: UPDATE với check ownership.
+
+#### Bài Tập Thực Hành
+1. **API GET users**: Trả về JSON với pagination.
+2. **API POST user**: Insert với error handling.
+3. **API PUT user**: Update profile.
+4. **API DELETE post**: Soft delete.
+5. **API GET search**: Query với LIKE.
+6. **API GET stats**: Aggregate cho dashboard.
+7. **API POST transaction**: Wrap multiple inserts.
+8. **API GET with auth**: Check permissions.
+9. **API POST bulk**: Bulk insert từ array.
+10. **API GET advanced**: Complex query với filters.
+
+## Lưu Ý Cho Người Mới Học SQL Queries
+- **Bắt đầu với SELECT**: Học tìm kiếm trước, rồi thêm/sửa.
+- **Thử với tool**: Dùng DBeaver hoặc pgAdmin để GUI.
+- **Practive với data thực**: Tạo database cho app cá nhân.
+- **Đọc docs vui**: [SQLZoo](https://sqlzoo.net/) có bài tập interactive.
+- **Lỗi thường gặp**: Nhớ semicolon ;, dùng prepared statements.
+- **Kết hợp với ORM**: Học Sequelize sau khi quen raw SQL.
+
+SQL như ngôn ngữ bí mật của database! Khi quen, bạn có thể quản lý dữ liệu như một wizard. Chúc học vui!

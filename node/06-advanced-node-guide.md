@@ -357,6 +357,61 @@ Monitoring như "camera an ninh": Theo dõi health, performance.
 9. **Log aggregation**: ELK stack.
 10. **Dashboards**: Grafana.
 
+## Chương 11: Coding Conventions - Viết Code Chuyên Nghiệp
+
+### Tại Sao Coding Conventions Quan Trọng?
+Coding conventions như "luật giao thông": Đảm bảo code consistent, readable, maintainable. Giúp teamwork, giảm bugs, dễ review.
+
+#### Nguyên Tắc Cơ Bản
+- **Consistency**: Dùng style giống nhau.
+- **Readability**: Code dễ hiểu.
+- **Maintainability**: Dễ sửa, extend.
+- **Best Practices**: Theo community standards.
+
+### Naming Conventions
+- **Variables/Functions**: camelCase (userName, getUser).
+- **Classes**: PascalCase (UserController).
+- **Constants**: UPPER_SNAKE_CASE (MAX_USERS).
+- **Files**: kebab-case (user-controller.js).
+
+### Code Structure
+- **Imports**: Group built-in, third-party, local.
+- **Functions**: Short, single responsibility.
+- **Comments**: JSDoc cho functions.
+- **Error Handling**: Try/catch, custom errors.
+
+### Tools
+- **ESLint**: Lint code.
+- **Prettier**: Format code.
+- **Husky**: Pre-commit hooks.
+
+#### Ví Dụ Thú Vị: Clean Function
+```javascript
+/**
+ * Get user by ID
+ * @param {string} id - User ID
+ * @returns {Promise<Object>} User object
+ */
+async function getUserById(id) {
+  if (!id) throw new ValidationError('ID required');
+  const user = await User.findById(id);
+  if (!user) throw new NotFoundError('User not found');
+  return user;
+}
+```
+
+#### Bài Tập Thực Hành
+1. **ESLint setup**: npm install eslint.
+2. **Prettier config**: .prettierrc.
+3. **Husky hooks**: pre-commit lint.
+4. **JSDoc**: Document functions.
+5. **Custom errors**: Class ValidationError.
+6. **Consistent naming**: Refactor code.
+7. **Code review**: Peer review.
+8. **Style guide**: Airbnb style.
+9. **Linting CI**: GitHub Actions.
+10. **Refactor legacy**: Clean old code.
+
 ## Tổng Kết
 
 Trong chương cuối này, chúng ta đã khám phá các khái niệm nâng cao trong Node.js, từ streams để xử lý dữ liệu lớn, clusters cho multi-core, performance tuning, security, authentication, testing, deployment, monitoring, microservices, đến real-time apps với WebSockets. Những kỹ năng này giúp bạn xây dựng backend applications scalable, secure, và production-ready.

@@ -12,6 +12,7 @@ Series Node.js này bao gồm 7 files hướng dẫn chi tiết từ cơ bản �
 - [04: Node.js Databases Guide](./04-node-databases-guide.md) - Kết nối Node.js với databases: MongoDB (NoSQL), PostgreSQL (SQL), ORMs, authentication.
 - [05: Node.js Operations Types](./05-node-operations-types.md) - Các loại operations: synchronous/asynchronous, HTTP, file system, database, events, streams, child processes, timers, error handling.
 - [06: Advanced Node.js Guide](./06-advanced-node-guide.md) - Nâng cao: streams, clusters, performance tuning, security, authentication, testing, deployment, monitoring, microservices, real-time apps.
+- [Node.js Glossary](./node-glossary.md) - Danh sách khái niệm, thuật ngữ, công cụ với links đến mô tả chi tiết.
 
 ## Lộ Trình Học
 1. Bắt đầu từ file 00 để hiểu backend cơ bản.
@@ -19,5 +20,14 @@ Series Node.js này bao gồm 7 files hướng dẫn chi tiết từ cơ bản �
 3. Xây dựng apps với Express và databases (03-04).
 4. Khám phá operations và nâng cao (05-06).
 5. Thực hành với projects thực tế.
+
+## Tài Nguyên Học Thêm
+- **Docs Chính Thức**: [Node.js Docs](https://nodejs.org/en/docs/), [Express Docs](https://expressjs.com/).
+- **Tutorials**: [MDN Web Docs](https://developer.mozilla.org/), [freeCodeCamp](https://www.freecodecamp.org/).
+- **Courses**: Udemy Node.js, Coursera Backend Development.
+- **Communities**: Stack Overflow, Reddit r/node, GitHub repos.
+- **Tools**: Postman, VS Code, Git.
+- **Books**: "Node.js Design Patterns", "Express in Action".
+- **YouTube**: Traversy Media, Academind.
 
 Chúc học vui với series Node.js!

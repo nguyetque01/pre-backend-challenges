@@ -13,13 +13,15 @@ Hãy bắt đầu!
 ## Mục Lục
 - [Lời Mở Đầu](#lời-mở-đầu)
 - [Chương 1: Cơ Bản Về Website - Mô Hình Client-Server](#chương-1-cơ-bản-về-website---mô-hình-client-server)
-- [Chương 2: JavaScript – Ngôn Ngữ Siêu Linh Hoạt](#chương-2-javascript-–-ngôn-ngữ-siêu-linh-hoạt)
-- [Chương 3: Node.js – Mang JS Lên Server](#chương-3-nodejs-–-mang-js-lên-server)
-- [Chương 4: Express.js – Framework Xây Web Apps](#chương-4-expressjs-–-framework-xây-web-apps)
-- [Chương 5: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối](#chương-5-quy-trình-xử-lý-request-–-từ-đầu-đến-cuối)
-- [Chương 6: Tại Sao Và Làm Thế Nào Chúng Làm Được?](#chương-6-tại-sao-và-làm-thế-nào-chúng-làm-được)
-- [Chương 7: Flow Quan Hệ Và Vai Trò Trong Client-Server](#chương-7-flow-quan-hệ-và-vai-trò-trong-client-server)
-- [Chương 8: Ngoài Ra Chúng Có Thể Làm Gì?](#chương-8-ngoài-ra-chúng-có-thể-làm-gì)
+- [Chương 2: Các Nhiệm Vụ Cơ Bản Của Backend](#chương-2-các-nhiệm-vụ-cơ-bản-của-backend)
+- [Chương 3: JavaScript – Ngôn Ngữ Siêu Linh Hoạt](#chương-3-javascript-–-ngôn-ngữ-siêu-linh-hoạt)
+- [Chương 4: Node.js – Mang JS Lên Server](#chương-4-nodejs-–-mang-js-lên-server)
+- [Chương 5: Express.js – Framework Xây Web Apps](#chương-5-expressjs-–-framework-xây-web-apps)
+- [Chương 6: API và JSON – Cơ Sở Giao Tiếp](#chương-6-api-và-json-–-cơ-sở-giao-tiếp)
+- [Chương 7: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối](#chương-7-quy-trình-xử-lý-request-–-từ-đầu-đến-cuối)
+- [Chương 8: Tại Sao Và Làm Thế Nào Chúng Làm Được?](#chương-8-tại-sao-và-làm-thế-nào-chúng-làm-được)
+- [Chương 9: Flow Quan Hệ Và Vai Trò Trong Client-Server](#chương-9-flow-quan-hệ-và-vai-trò-trong-client-server)
+- [Chương 10: Ngoài Ra Chúng Có Thể Làm Gì?](#chương-10-ngoài-ra-chúng-có-thể-làm-gì)
 - [Bài Tập Thực Hành](#bài-tập-thực-hành)
 - [Bài Tập Mở Rộng](#bài-tập-mở-rộng)
 - [Lưu Ý Cho Người Mới](#lưu-ý-cho-người-mới)
@@ -77,7 +79,75 @@ Server là "bếp nhà hàng" – máy tính mạnh mẽ lưu trữ website. Nó
 
 **Ví dụ**: Như gọi Uber – Bạn đặt xe (request), server Uber tìm tài xế, gửi xe đến (response).
 
-## Chương 2: JavaScript – Ngôn Ngữ Siêu Linh Hoạt
+## Chương 2: Các Nhiệm Vụ Cơ Bản Của Backend
+
+Backend không chỉ nhận request và trả response, mà còn xử lý nhiều logic phức tạp để đảm bảo ứng dụng hoạt động hiệu quả, bảo mật và scalable. Dưới đây là các nội dung chính mà Backend developers thường thực hiện, dựa trên kiến thức từ client-server flow.
+
+#### 1. **Xử Lý Request và Validation**:
+   - Parse dữ liệu từ request (JSON, form data, query params).
+   - Validate input để tránh lỗi hoặc attacks.
+   - Ví dụ: Sử dụng thư viện như Joi (Node.js) hoặc DataAnnotations (.NET) để validate.
+
+#### 2. **Business Logic**:
+   - Thực hiện logic nghiệp vụ: Tính toán, xử lý quy trình (workflow).
+   - Ví dụ: Tính tổng đơn hàng, kiểm tra inventory trước khi đặt hàng.
+
+#### 3. **Database Management**:
+   - Thiết kế schema (tables, relationships).
+   - Thực hiện CRUD operations (Create, Read, Update, Delete).
+   - Migration: Cập nhật schema mà không mất dữ liệu.
+
+#### 4. **Authentication và Authorization**:
+   - Xác thực user: Login, logout, password reset.
+   - Ủy quyền: Kiểm tra quyền truy cập resources.
+   - Bảo mật: Hash passwords, rate limiting, CORS.
+
+#### 5. **Error Handling và Logging**:
+   - Catch và xử lý errors: Trả về appropriate status codes và messages.
+   - Logging: Ghi lại events, errors để debug và monitor.
+   - Monitoring: Track uptime, response times với tools như PM2, Application Insights.
+
+#### 6. **Caching và Performance**:
+   - Cache dữ liệu thường dùng: Redis, in-memory cache.
+   - Optimize queries, use indexes.
+   - Load balancing, horizontal scaling.
+
+#### 7. **Security**:
+   - Bảo vệ chống attacks: CSRF, XSS, SQL injection.
+   - Encryption: HTTPS, encrypt sensitive data.
+   - Compliance: GDPR, PCI-DSS nếu cần.
+
+#### 8. **API Design và Documentation**:
+   - Thiết kế RESTful/GraphQL APIs.
+   - Document APIs với Swagger/OpenAPI.
+   - Versioning APIs để backward compatibility.
+
+#### 9. **Testing**:
+   - Unit tests: Test functions riêng lẻ.
+   - Integration tests: Test components cùng nhau.
+   - End-to-end tests: Simulate user interactions.
+
+#### 10. **Deployment và DevOps**:
+    - Containerization: Docker.
+    - CI/CD: Automated build, test, deploy.
+    - Monitoring production: Logs, alerts.
+
+#### 11. **Maintenance và Optimization**:
+    - Refactor code để maintainability.
+    - Performance tuning: Profiling, optimizing bottlenecks.
+    - Update dependencies, security patches.
+
+#### Ví Dụ Workflow Backend:
+1. Nhận request từ client.
+2. Validate và parse data.
+3. Kiểm tra auth.
+4. Thực hiện business logic (query DB, tính toán).
+5. Trả response hoặc handle error.
+6. Log event.
+
+Những nội dung này giúp Backend không chỉ "chạy" mà còn robust, secure và scalable. Khi học, tập trung vào từng phần và áp dụng qua projects nhỏ.
+
+## Chương 3: JavaScript – Ngôn Ngữ Siêu Linh Hoạt
 JavaScript (JS) là "ngôn ngữ siêu anh hùng" – ban đầu chỉ cho browser, giờ chinh phục server nhờ Node.js. Nó như cầu nối giữa bạn và máy tính.
 
 ### Vai Trò Trong Website
@@ -96,7 +166,7 @@ JavaScript (JS) là "ngôn ngữ siêu anh hùng" – ban đầu chỉ cho brows
 - **Trong Browser**: Engine V8 (từ Chrome) phân tích code, thực thi. Ví dụ: `document.getElementById('btn').addEventListener('click', () => alert('Chào!'))`.
 - **Trên Server**: V8 chạy JS, truy cập hệ điều hành (files, network).
 
-## Chương 3: Node.js – Mang JS Lên Server
+## Chương 4: Node.js – Mang JS Lên Server
 Node.js là "môi trường runtime" cho JS trên server – như lắp bếp nấu ăn cho JS. Dùng engine V8, nên nhanh và mạnh.
 
 ### Vai Trò Trong Website
@@ -126,7 +196,7 @@ server.listen(3000);
 - **NPM**: Kho 1 triệu+ packages – như tủ gia vị khổng lồ.
 - **Real-time**: WebSockets cho chat, games.
 
-## Chương 4: Express.js – Framework Xây Web Apps
+## Chương 5: Express.js – Framework Xây Web Apps
 Express là "framework" cho Node.js – như sách công thức nấu ăn. Cung cấp tools xây web apps nhanh, thay code Node thuần phức tạp.
 
 ### Vai Trò Trong Website
@@ -157,7 +227,47 @@ app.listen(3000);
 - **Ecosystem**: Middleware cho mọi thứ (auth, CORS).
 - **Phát Triển Nhanh**: Từ ý tưởng đến API trong phút.
 
-## Chương 5: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối
+## Chương 6: API và JSON – Cơ Sở Giao Tiếp
+
+Sau khi biết Express là công cụ xây web apps, chúng ta cần hiểu "ngôn ngữ giao tiếp" giữa client và server: API và JSON. Đây là nền tảng cho apps hiện đại, giúp frontend (client) và backend (server) trao đổi dữ liệu hiệu quả. Phần này tập trung làm rõ khái niệm cho người mới, trước khi học code thực tế ở các file sau.
+
+### API (Application Programming Interface)
+API như "cửa hàng dịch vụ" – một giao diện cho phép ứng dụng phần mềm giao tiếp với nhau mà không cần biết logic bên trong. Trong backend, API thường là RESTful API, dùng HTTP để trao đổi.
+
+#### Tại Sao Quan Trọng Cho Người Mới?
+- **Giao Tiếp An Toàn**: Frontend (như app mobile) gọi API để lấy dữ liệu từ backend, mà không cần biết server lưu dữ liệu như thế nào.
+- **Ví Dụ Đời Sống**: Như gọi món qua menu nhà hàng – bạn không cần biết bếp nấu thế nào, chỉ cần gọi và nhận món.
+- **Ứng Dụng**: Apps như Facebook, Uber dùng API để lấy tin nhắn, vị trí, v.v.
+
+#### RESTful API Cơ Bản
+- **HTTP Methods**: GET (lấy dữ liệu), POST (tạo mới), PUT (cập nhật), DELETE (xóa).
+- **Endpoints**: Đường dẫn như /api/users (lấy danh sách user).
+- **Stateless**: Mỗi request độc lập, không lưu trạng thái.
+
+### JSON (JavaScript Object Notation)
+JSON như "gói quà" nhẹ nhàng – định dạng dữ liệu text-based, dễ đọc, dùng trao đổi giữa client và server. Nó có cấu trúc key-value, giống object JavaScript.
+
+#### Tại Sao Dùng JSON Cho Người Mới?
+- **Dễ Hiểu**: Như viết ghi chú – {"tên": "An", "tuổi": 25}.
+- **Hỗ Trợ Rộng**: Hầu hết ngôn ngữ lập trình đều xử lý được JSON.
+- **Nhẹ Và Nhanh**: Ít dung lượng hơn XML, phù hợp web.
+
+#### Ví Dụ JSON Đơn Giản
+```json
+{
+  "tên": "Lan",
+  "tuổi": 30,
+  "sở thích": ["đọc sách", "code"]
+}
+```
+
+#### Sử Dụng Cơ Bản
+- **Gửi Từ Client**: Browser gửi JSON trong request body.
+- **Nhận Từ Server**: Server trả JSON response, client parse và hiển thị.
+
+API và JSON là "cầu nối" giúp client-server "nói chuyện" hiệu quả. Bạn sẽ thấy chúng trong code Express ở file 03, nhưng giờ đã hiểu khái niệm rồi!
+
+## Chương 7: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối
 Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật số.
 
 ### Các Bước Phía Sau
@@ -184,7 +294,7 @@ Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật s
 - **Security**: HTTPS mã hóa, Express helmet bảo vệ headers.
 - **Performance**: Caching, clustering scale.
 
-## Chương 6: Tại Sao Và Làm Thế Nào Chúng Làm Được?
+## Chương 7: Tại Sao Và Làm Thế Nào Chúng Làm Được?
 
 Trong chương này, chúng ta sẽ đào sâu hơn: Tại sao JavaScript (JS), Node.js, và Express.js có thể làm được những việc "kỳ diệu" như vậy? Chúng ta sẽ giải thích từng bước, với ví dụ đơn giản, để bạn hiểu rõ cơ chế bên trong. Đừng lo nếu nghe phức tạp – chúng ta sẽ đi từ cơ bản!
 
@@ -333,7 +443,7 @@ Express xây trên Node, đơn giản hóa mọi thứ. Hãy tưởng tượng x
 
 **Tóm Tắt**: Express làm framework bằng cách trừu tượng hóa Node, cung cấp routing/middleware. Từ code phức tạp, giờ xây apps trong phút!
 
-## Chương 7: Flow Quan Hệ Và Vai Trò Trong Client-Server
+## Chương 8: Flow Quan Hệ Và Vai Trò Trong Client-Server
 
 Trong chương này, chúng ta sẽ vẽ "bản đồ" quan hệ giữa JS, Node.js, Express.js, và cách chúng hợp tác trong mô hình client-server. Bạn sẽ thấy flow từ đầu đến cuối, với ví dụ thực tế. Hãy tưởng tượng như một chuyến đi: từ khách hàng đến bếp, rồi trở lại!
 ### Flow Quan Hệ (Hành Trình Của Một Request)
@@ -393,7 +503,7 @@ Mô hình client-server như "khách hàng - nhà cung cấp": Client yêu cầu
 
 **Tóm Tắt**: Flow từ client qua internet đến server (Node/Express/JS), xử lý, rồi về. Chúng là "đội ngũ" hoàn hảo cho web apps, từ đơn giản đến phức tạp!
 
-## Chương 8: Ngoài Ra Chúng Có Thể Làm Gì?
+## Chương 9: Ngoài Ra Chúng Có Thể Làm Gì?
 Website chỉ là khởi đầu. JS, Node, Express là "siêu năng lực" cho nhiều thứ:
 - **Real-Time Apps**: WebSockets (Socket.io) cho chat, games.
 - **Xử Lý Files**: Streams cho files lớn, uploads.

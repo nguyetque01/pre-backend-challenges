@@ -1,18 +1,18 @@
-# Hướng Dẫn Express.js Cho Người Mới: Framework Web Nhanh Và Dễ
+# Hướng Dẫn Express.js Cho Người Học Backend: Framework Web Chuyên Sâu
 
-## Giới Thiệu: Express.js Là Gì?
-Express.js là framework web phổ biến nhất cho Node.js, như một "bộ công cụ" để xây dựng APIs và web apps nhanh chóng. Thay vì code thuần Node.js phức tạp, Express cung cấp routing, middleware, và utilities để focus vào logic app.
+## Giới Thiệu: Express.js Trong Series Học Backend
+Xin chào! Trong phần "Phía Sau Website", chúng ta biết Express.js là framework đơn giản hóa Node.js, cung cấp routing và middleware để xây web apps nhanh. Phần 01 so sánh Node.js với .NET, nhấn mạnh Node.js phù hợp real-time và APIs. Phần 02 học Node.js thuần: modules, HTTP servers, async programming. Giờ, chúng ta áp dụng kiến thức đó vào Express.js: Học cách xây APIs chuyên nghiệp, xử lý middleware, routing, và nâng cao như auth, templates. Đây là bước thực hành cho backend devs, từ Node thuần sang framework hiệu quả.
 
-### Tại Sao Express Thú Vị?
-- **Minimalist**: Chỉ cung cấp cần thiết, linh hoạt mở rộng.
-- **Middleware chain**: Như dây chuyền xử lý requests.
-- **Routing**: Định tuyến dễ dàng.
-- **Ví dụ vui**: Tưởng tượng Node.js là xe máy, Express là xe hơi: Nhanh hơn, tiện nghi hơn!
+### Tại Sao Học Express Chuyên Sâu?
+- **Đơn giản hóa Node.js**: Thay code HTTP phức tạp bằng routing/middleware dễ.
+- **Xây APIs nhanh**: RESTful APIs cho apps modern.
+- **Mở rộng kiến thức**: Từ phần 02, giờ thêm abstraction.
+- **Ví dụ vui**: Như từ lái xe tay sang tự động – vẫn lái, nhưng tiện hơn!
 
 ### Khi Nào Dùng Express?
 - REST APIs, web apps.
 - Prototyping nhanh.
-- Microservices.
+- Microservices với Node.js.
 
 ## Mục Lục
 - [Giới Thiệu: Express.js Là Gì?](#giới-thiệu-expressjs-là-gì)
@@ -22,52 +22,91 @@ Express.js là framework web phổ biến nhất cho Node.js, như một "bộ c
 - [Phần 4: CRUD Operations - Tạo, Đọc, Sửa, Xóa](#phần-4-crud-operations---tạo-đọc-sửa-xóa)
 - [Phần 5: Error Handling - Xử Lý Lỗi](#phần-5-error-handling---xử-lý-lỗi)
 - [Phần 6: Nâng Cao - Authentication, Sessions, Templates](#phần-6-nâng-cao---authentication-sessions-templates)
-- [Phần 7: Alternatives to Express - Nếu Không Dùng Express](#phần-7-alternatives-to-express---nếu-không-dùng-express)
+- [Phần 7: API Documentation với Swagger/OpenAPI](#phần-7-api-documentation-với-swaggeropenapi)
+- [Phần 8: Alternatives to Express - Nếu Không Dùng Express](#phần-8-alternatives-to-express---nếu-không-dùng-express)
 - [Lưu Ý Cho Người Mới Học Express](#lưu-ý-cho-người-mới-học-express)
 - [Tổng Kết](#tổng-kết)
 
 ## Phần 1: Cơ Bản - Setup, Routing, Middleware
 
 ### Setup: Cài Đặt Và Chạy
-Express như setup workshop: Dễ dàng.
+Express như setup workshop: Dễ dàng. Dùng package managers như npm, pnpm, yarn để quản lý.
 
-#### Ví Dụ Thú Vị: Hello World App
+#### Package.json Và Scripts
+File định nghĩa project, dependencies, scripts.
+```json
+{
+  "name": "express-app",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  }
+}
+```
+- **Package-lock.json**: Lock versions, tạo tự động.
+- **Node_modules**: Folder chứa installed packages.
+
+#### .env Và Environment Variables
+Lưu config như port, secrets.
+```javascript
+require('dotenv').config();
+const port = process.env.PORT || 3000;
+```
+- **Ví dụ**: PORT=3000, DB_URL=...
+
+#### Nodemon: Auto-Restart
+Cài `npm install -D nodemon`, script "dev" để restart khi thay đổi.
+
+#### VS Code Extensions
+- **Express.js Extension**: IntelliSense.
+- **REST Client**: Test APIs.
+
+#### Ví Dụ: Hello World App
 - **Cài đặt**:
   ```bash
   npm init -y
-  npm install express
+  npm install express dotenv
+  npm install -D nodemon
   ```
 
 - **Tạo server**:
   ```javascript
+  require('dotenv').config();
   const express = require('express');
   const app = express();
+  const port = process.env.PORT || 3000;
 
   app.get('/', (req, res) => {
     res.send('Hello World!');
   });
 
-  app.listen(3000, () => console.log('Server on 3000'));
+  app.listen(port, () => console.log(`Server on ${port}`));
   ```
 
 #### Bài Tập Thực Hành Cho Người Mới
-1. **Init project**: npm init, install express.
-2. **Basic route**: GET /hello.
-3. **Multiple routes**: /users, /posts.
-4. **Params**: /users/:id.
-5. **Query**: /search?q=term.
-6. **Post route**: POST /users.
-7. **Put/Patch/Delete**: CRUD routes.
-8. **Static files**: express.static.
-9. **Error handling**: next(err).
-10. **Nodemon**: npm install -D nodemon, scripts.
+1. **Init project**: npm init -y, install express.
+2. **Scripts**: Thêm "start", "dev" vào package.json.
+3. **.env**: Tạo file, set PORT=3000.
+4. **Nodemon**: Cài và dùng script dev.
+5. **Package-lock**: Xem sau install.
+6. **Node_modules**: List contents.
+7. **VS Code**: Cài extensions.
+8. **Basic route**: GET /hello.
+9. **Multiple routes**: /users, /posts.
+10. **Run dev**: npm run dev, test routes.
 
 ## Phần 2: Middleware - Xử Lý Requests
 
 ### Middleware Là Gì?
 Middleware như "trạm kiểm soát": Chạy giữa request và response.
 
-#### Ví Dụ Thú Vị: Logger Và Auth
+#### Ví Dụ: Logger Và Auth
 - **Logger**:
   ```javascript
   app.use((req, res, next) => {
@@ -98,7 +137,7 @@ Middleware như "trạm kiểm soát": Chạy giữa request và response.
 ### Routing Là Gì?
 Routing như "bản đồ": Định tuyến requests đến handlers.
 
-#### Ví Dụ Thú Vị: API Routes
+#### Ví Dụ: API Routes
 - **Basic routing**:
   ```javascript
   app.get('/api/users', (req, res) => {
@@ -130,7 +169,7 @@ Routing như "bản đồ": Định tuyến requests đến handlers.
 ### CRUD Là Gì?
 CRUD như quản lý database: Create, Read, Update, Delete.
 
-#### Ví Dụ Thú Vị: User Management
+#### Ví Dụ: User Management
 - **Create**:
   ```javascript
   app.post('/users', (req, res) => {
@@ -165,7 +204,7 @@ CRUD như quản lý database: Create, Read, Update, Delete.
 ### Error Handling Là Gì?
 Error handling như "bảo hiểm": Đảm bảo app không crash.
 
-#### Ví Dụ Thú Vị: Safe API
+#### Ví Dụ: Safe API
 - **Async errors**:
   ```javascript
   app.get('/users/:id', async (req, res, next) => {
@@ -220,7 +259,80 @@ Templates như "mẫu": Pug, EJS.
 9. **Static auth**: Hardcoded users.
 10. **Logout**: Clear session/token.
 
-## Phần 7: Alternatives to Express - Nếu Không Dùng Express
+## Phần 7: API Documentation với Swagger/OpenAPI
+
+### Tại Sao Cần API Documentation?
+API documentation như "sách hướng dẫn": Giúp frontend devs, clients hiểu cách dùng API. Swagger/OpenAPI là standard phổ biến, tạo docs interactive.
+
+#### Swagger/OpenAPI Là Gì?
+- **OpenAPI**: Specification để describe REST APIs.
+- **Swagger**: Tools implement OpenAPI (Swagger UI, Swagger Editor).
+
+#### Cài Đặt Và Setup
+- **Cài đặt**: `npm install swagger-jsdoc swagger-ui-express`
+- **Setup**:
+  ```javascript
+  const swaggerJsdoc = require('swagger-jsdoc');
+  const swaggerUi = require('swagger-ui-express');
+
+  const options = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Express API',
+        version: '1.0.0',
+      },
+    },
+    apis: ['./routes/*.js'], // Paths to files with annotations
+  };
+
+  const specs = swaggerJsdoc(options);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  ```
+
+#### Documenting Routes
+Dùng JSDoc comments để describe endpoints.
+
+- **Ví dụ**:
+  ```javascript
+  /**
+   * @swagger
+   * /users:
+   *   get:
+   *     summary: Get all users
+   *     responses:
+   *       200:
+   *         description: List of users
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: integer
+   *                   name:
+   *                     type: string
+   */
+  app.get('/users', (req, res) => {
+    res.json(users);
+  });
+  ```
+
+#### Bài Tập Thực Hành
+1. **Setup Swagger**: Cài đặt, serve tại /api-docs.
+2. **Document GET /users**: Thêm JSDoc comment.
+3. **Document POST /users**: Với request body schema.
+4. **Schemas**: Define User schema.
+5. **Responses**: 200, 404, 400.
+6. **Auth**: Document Bearer token.
+7. **Parameters**: Path params, query params.
+8. **Tags**: Group endpoints.
+9. **Examples**: Request/response examples.
+10. **Test docs**: Truy cập /api-docs, test endpoints.
+
+## Phần 8: Alternatives to Express - Nếu Không Dùng Express
 
 ### Quan Hệ Giữa Node.js Và Express
 Node.js là "trái tim" - runtime JavaScript cho server, cung cấp core modules như `http`, `fs`, `events`. Express là framework "áo khoác" - built on top of Node's `http` module, cung cấp abstractions như routing, middleware để dễ code hơn. Không có Express, bạn vẫn dùng Node thuần, nhưng Express làm mọi thứ nhanh và tiện hơn.
@@ -343,8 +455,8 @@ Express tốt cho beginners, nhưng có thể chậm cho high-performance apps, 
 - **Đọc docs vui**: [Express docs](https://expressjs.com/) có examples.
 - **Lỗi thường gặp**: Forget next() in middleware.
 
-## Tổng Kết
-Hướng dẫn này đã bao quát Express.js từ cơ bản đến nâng cao: setup, routing, middleware, CRUD, error handling, auth, và alternatives. Bạn giờ có thể xây dựng APIs mạnh mẽ. Thực hành bài tập để áp dụng!
+## Tổng Kết: Kết Thúc Series Node.js, Bước Sang Học Tiếp
+Trong series Node.js này, chúng ta đã học từ cơ bản websites (00-how-websites-work.md), so sánh Node.js với .NET (01-node-vs-other-backends.md), Node.js thuần (02-node-basics-guide.md), đến Express.js (03-express-guide.md). Bạn giờ master xây APIs với Node.js: Từ HTTP servers thuần, routing/middleware, CRUD, auth, đến alternatives. Thực hành bài tập để củng cố!
 
-Express như công cụ backend! Khi master, bạn xây APIs nhanh. Chúc học vui!</content>
+Tiếp theo, học SQL để kết nối databases (series SQL), hoặc thử challenges để áp dụng kiến thức thực tế. Express như công cụ backend mạnh mẽ – giờ bạn sẵn sàng xây apps chuyên nghiệp. Chúc học vui, và hẹn gặp ở phần tiếp theo!</content>
 <parameter name="filePath">d:\WorkSpace\Books\Pre-Backend-Challenges\node\03-express-guide.md

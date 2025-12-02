@@ -79,6 +79,23 @@ Server là "bếp nhà hàng" – máy tính mạnh mẽ lưu trữ website. Nó
 
 **Ví dụ**: Như gọi Uber – Bạn đặt xe (request), server Uber tìm tài xế, gửi xe đến (response).
 
+**Diagram Client-Server Cơ Bản**:
+```
+[Browser (Client)]
+     |
+     | HTTP Request (GET /page)
+     v
+[Internet]
+     |
+     | HTTP Response (200 OK, HTML)
+     v
+[Server]
+     |
+     | Process (Logic, DB)
+     v
+[Database]
+```
+
 ## Chương 2: Các Nhiệm Vụ Cơ Bản Của Backend
 
 Backend không chỉ nhận request và trả response, mà còn xử lý nhiều logic phức tạp để đảm bảo ứng dụng hoạt động hiệu quả, bảo mật và scalable. Dưới đây là các nội dung chính mà Backend developers thường thực hiện, dựa trên kiến thức từ client-server flow.
@@ -229,30 +246,18 @@ app.listen(3000);
 
 ## Chương 6: API và JSON – Cơ Sở Giao Tiếp
 
-Sau khi biết Express là công cụ xây web apps, chúng ta cần hiểu "ngôn ngữ giao tiếp" giữa client và server: API và JSON. Đây là nền tảng cho apps hiện đại, giúp frontend (client) và backend (server) trao đổi dữ liệu hiệu quả. Phần này tập trung làm rõ khái niệm cho người mới, trước khi học code thực tế ở các file sau.
+Sau khi hiểu Express là công cụ xây web apps, chúng ta khám phá "ngôn ngữ giao tiếp" giữa client và server: JSON và API. Đây là nền tảng cho apps hiện đại, giúp trao đổi dữ liệu hiệu quả. Chương này giải thích logic từ định dạng dữ liệu đến giao tiếp, với ví dụ thực tế cho người mới.
 
-### API (Application Programming Interface)
-API như "cửa hàng dịch vụ" – một giao diện cho phép ứng dụng phần mềm giao tiếp với nhau mà không cần biết logic bên trong. Trong backend, API thường là RESTful API, dùng HTTP để trao đổi.
+### JSON – Định Dạng Dữ Liệu Linh Hoạt
+JSON (JavaScript Object Notation) là định dạng text nhẹ, dễ đọc, dùng trao đổi dữ liệu giữa client và server. Nó giống object JavaScript nhưng là string, hỗ trợ mọi ngôn ngữ lập trình.
 
-#### Tại Sao Quan Trọng Cho Người Mới?
-- **Giao Tiếp An Toàn**: Frontend (như app mobile) gọi API để lấy dữ liệu từ backend, mà không cần biết server lưu dữ liệu như thế nào.
-- **Ví Dụ Đời Sống**: Như gọi món qua menu nhà hàng – bạn không cần biết bếp nấu thế nào, chỉ cần gọi và nhận món.
-- **Ứng Dụng**: Apps như Facebook, Uber dùng API để lấy tin nhắn, vị trí, v.v.
+#### Tại Sao Dùng JSON?
+- **Dễ Hiểu Và Linh Hoạt**: Cấu trúc key-value đơn giản, như ghi chú {"tên": "Lan", "tuổi": 30}.
+- **Hỗ Trợ Rộng**: Hầu hết ngôn ngữ xử lý JSON native, không cần thư viện phức tạp.
+- **Nhẹ Và Nhanh**: Ít dung lượng hơn XML, phù hợp web tốc độ cao.
+- **An Toàn**: Chỉ text, tránh lỗi parsing.
 
-#### RESTful API Cơ Bản
-- **HTTP Methods**: GET (lấy dữ liệu), POST (tạo mới), PUT (cập nhật), DELETE (xóa).
-- **Endpoints**: Đường dẫn như /api/users (lấy danh sách user).
-- **Stateless**: Mỗi request độc lập, không lưu trạng thái.
-
-### JSON (JavaScript Object Notation)
-JSON như "gói quà" nhẹ nhàng – định dạng dữ liệu text-based, dễ đọc, dùng trao đổi giữa client và server. Nó có cấu trúc key-value, giống object JavaScript.
-
-#### Tại Sao Dùng JSON Cho Người Mới?
-- **Dễ Hiểu**: Như viết ghi chú – {"tên": "An", "tuổi": 25}.
-- **Hỗ Trợ Rộng**: Hầu hết ngôn ngữ lập trình đều xử lý được JSON.
-- **Nhẹ Và Nhanh**: Ít dung lượng hơn XML, phù hợp web.
-
-#### Ví Dụ JSON Đơn Giản
+#### Ví Dụ JSON Cơ Bản
 ```json
 {
   "tên": "Lan",
@@ -261,11 +266,116 @@ JSON như "gói quà" nhẹ nhàng – định dạng dữ liệu text-based, d�
 }
 ```
 
-#### Sử Dụng Cơ Bản
-- **Gửi Từ Client**: Browser gửi JSON trong request body.
-- **Nhận Từ Server**: Server trả JSON response, client parse và hiển thị.
+#### Sử Dụng Trong Client-Server
+- **Client Gửi**: Browser gửi JSON trong request body (POST/PUT).
+- **Server Nhận**: Server parse JSON thành object, xử lý logic.
+- **Server Trả**: Server gửi JSON response, client parse và render (update UI).
 
-API và JSON là "cầu nối" giúp client-server "nói chuyện" hiệu quả. Bạn sẽ thấy chúng trong code Express ở file 03, nhưng giờ đã hiểu khái niệm rồi!
+Ví dụ: Client gửi {"username": "john", "password": "secret"} qua POST /login, server trả {"token": "abc123"} nếu thành công.
+
+JSON là "gói quà" dữ liệu, làm cầu nối cho mọi trao đổi.
+
+### API – Giao Diện Lập Trình Ứng Dụng
+API là tập quy tắc cho phép phần mềm giao tiếp mà không biết logic bên trong. Trong backend, API thường RESTful, dùng HTTP để client truy cập server.
+
+#### Tại Sao Quan Trọng Cho Người Mới?
+- **Tách Biệt Frontend/Backend**: Frontend chỉ gọi API, không lo server.
+- **Bảo Mật Và Kiểm Soát**: Server quyết định truy cập, validate data.
+- **Scalable**: Dễ mở rộng cho web, mobile, IoT.
+- **Ví Dụ Thực Tế**: App thời tiết gọi API OpenWeatherMap để lấy data, client nhận JSON và hiển thị.
+
+#### Loại API Chính
+- **REST**: Phổ biến nhất, stateless, dùng HTTP. Ví dụ: Twitter API.
+- **SOAP**: Dùng XML, phức tạp, cho enterprise. Ví dụ: Banking APIs.
+- **GraphQL**: Client query chính xác data, linh hoạt hơn REST. Ví dụ: Facebook API.
+- **WebSockets**: Cho real-time, như chat.
+
+REST là tiêu chuẩn cho web apps, chúng ta tập trung vào nó.
+
+### Endpoint – Điểm Cuối Cụ Thể
+Endpoint là URL cụ thể client gọi để truy cập API, như "địa chỉ" của chức năng.
+
+#### Cấu Trúc Endpoint
+- **Base URL**: Domain API, ví dụ https://api.example.com.
+- **Version**: /v1 (tránh breaking changes).
+- **Resource**: /users (tài nguyên chính).
+- **Identifier**: /123 (ID cụ thể, optional).
+- **Ví Dụ Đầy Đủ**: https://api.example.com/v1/users/123.
+
+#### Ví Dụ Endpoint Với HTTP Methods
+- GET /api/users: Lấy danh sách users.
+- POST /api/users: Tạo user mới.
+- GET /api/users/1: Lấy user ID 1.
+- PUT /api/users/1: Cập nhật user ID 1.
+- DELETE /api/users/1: Xóa user ID 1.
+
+Query parameters thêm filter: GET /api/users?page=1&limit=10.
+
+### RESTful API – Style Thiết Kế Chuẩn
+RESTful là style thiết kế API dựa trên REST, làm cho API dễ hiểu và consistent.
+
+#### 6 Nguyên Tắc Cơ Bản (Roy Fielding)
+1. **Client-Server**: Tách biệt, dễ scale.
+2. **Stateless**: Mỗi request độc lập, không lưu state (dùng JWT nếu cần).
+3. **Cacheable**: Responses cache được để tăng tốc.
+4. **Uniform Interface**: Consistent (resources, HTTP methods, hypermedia).
+5. **Layered System**: Có thể proxy/load balancers.
+6. **Code on Demand (Optional)**: Server gửi code (như JS).
+
+#### Ví Dụ RESTful API Cho Users
+- **Resource**: Users.
+- **Endpoints**:
+  - GET /api/users: List users (200 OK, JSON array).
+  - POST /api/users: Create user (201 Created, JSON new).
+  - GET /api/users/:id: Get user (200 OK hoặc 404 Not Found).
+  - PUT /api/users/:id: Update user (200 OK, JSON updated).
+  - DELETE /api/users/:id: Delete user (204 No Content).
+- **HTTP Status Codes**: 200 (OK), 201 (Created), 400 (Bad Request), 401 (Unauthorized), 404 (Not Found), 500 (Server Error).
+
+RESTful làm API predictable và scalable.
+
+### Cách Server Xử Lý API (Với Node/Express)
+Server nhận request, xử lý qua bước, trả response. Express đơn giản hóa.
+
+#### Bước Xử Lý Cơ Bản
+1. **Nhận Request**: Express lắng nghe port, parse thành req object (method, URL, headers, body).
+2. **Middleware**: Chạy chuỗi middleware (auth, parse JSON, logging).
+3. **Routing**: Match URL với handler (e.g., app.get('/api/users', handler)).
+4. **Handler Logic**: Thực hiện business logic (query DB, validate).
+5. **Trả Response**: Gửi JSON qua res object (status, headers, body).
+
+#### Ví Dụ Code Với Express
+```javascript
+const express = require('express');
+const app = express();
+app.use(express.json()); // Middleware parse JSON
+
+// GET /api/users
+app.get('/api/users', (req, res) => {
+  const users = [{ id: 1, name: 'John' }];
+  res.status(200).json(users);
+});
+
+// POST /api/users
+app.post('/api/users', (req, res) => {
+  const newUser = req.body;
+  if (!newUser.name) return res.status(400).json({ error: 'Name required' });
+  newUser.id = 2;
+  res.status(201).json(newUser);
+});
+
+app.listen(3000);
+```
+
+#### Chi Tiết Bên Trong
+- **Routing**: Express match pattern, gọi handler.
+- **Error Handling**: Try/catch, trả 500 nếu lỗi.
+- **Security**: Middleware CORS, rate limiting.
+- **Performance**: Cache, optimize DB.
+
+Ví dụ flow: POST /api/users với {"name": "Jane"} → Parse → Validate → Save → Trả 201 + JSON.
+
+JSON và API là nền tảng giao tiếp. Với Express, bạn xây dựng APIs dễ dàng. Tiếp theo, chúng ta xem quy trình xử lý request chi tiết hơn!
 
 ## Chương 7: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối
 Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật số.
@@ -293,6 +403,198 @@ Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật s
 - **Memory**: V8 garbage collect, nhưng chú ý leaks.
 - **Security**: HTTPS mã hóa, Express helmet bảo vệ headers.
 - **Performance**: Caching, clustering scale.
+
+### Chi Tiết Về HTTP Request và Response
+
+HTTP (HyperText Transfer Protocol) là giao thức cốt lõi của web, cho phép client và server giao tiếp. Hãy đào sâu vào cấu trúc và cơ chế của HTTP request và response, để bạn hiểu rõ cách dữ liệu di chuyển và xử lý.
+
+#### HTTP Là Gì?
+- **Định Nghĩa**: HTTP là giao thức truyền tải siêu văn bản, dùng để trao đổi dữ liệu giữa client (như browser) và server qua internet. Nó là "ngôn ngữ" mà web apps dùng để "nói chuyện".
+- **Phiên Bản**: 
+  - HTTP/1.0: Cơ bản, mỗi request một connection.
+  - HTTP/1.1: Phổ biến nhất, persistent connections, pipelining.
+  - HTTP/2: Nhanh hơn với multiplexing (nhiều requests trên một connection), header compression, server push.
+  - HTTP/3: Dựa trên QUIC (UDP-based), giảm latency, tốt cho mobile.
+- **Stateless**: Mỗi request độc lập, server không nhớ trạng thái trước. Dùng cookies/sessions để duy trì (như login).
+- **Port Mặc Định**: 80 cho HTTP, 443 cho HTTPS.
+
+#### Cấu Trúc HTTP Request
+Request là tin nhắn từ client đến server. Nó gồm ba phần chính:
+
+1. **Request Line**:
+   - Cấu trúc: `METHOD URL HTTP/VERSION`
+   - Ví dụ: `GET /api/users HTTP/1.1`
+   - **Methods (Phương Thức)**: Xác định hành động.
+     - GET: Lấy dữ liệu (không thay đổi server).
+     - POST: Tạo mới resource (như đăng ký user).
+     - PUT: Cập nhật toàn bộ resource.
+     - PATCH: Cập nhật một phần (như đổi email).
+     - DELETE: Xóa resource.
+     - HEAD: Như GET nhưng chỉ lấy headers (kiểm tra tồn tại).
+     - OPTIONS: Kiểm tra methods server hỗ trợ (cho CORS).
+     - TRACE: Debug, server echo request.
+     - CONNECT: Tạo tunnel (cho HTTPS proxy).
+   - **URL**: Đường dẫn đầy đủ, gồm protocol, host, path, query params.
+     - Ví dụ: `https://api.example.com/users?page=1&limit=10`
+
+2. **Headers (Tiêu Đề)**:
+   - Key-Value pairs cung cấp metadata.
+   - **Common Headers**:
+     - Host: example.com (bắt buộc trong HTTP/1.1).
+     - User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" (browser info).
+     - Accept: "application/json, text/plain" (định dạng client chấp nhận).
+     - Accept-Language: "vi,en-US" (ngôn ngữ ưu tiên).
+     - Accept-Encoding: "gzip, deflate" (compression client hỗ trợ).
+     - Content-Type: "application/json" (định dạng body, cho POST/PUT).
+     - Content-Length: "34" (kích thước body bytes).
+     - Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." (token xác thực).
+     - Cookie: "session=abc123; user=john" (dữ liệu từ server trước).
+     - Referer: "https://example.com/login" (trang nguồn).
+     - X-Forwarded-For: "192.168.1.1" (IP thực nếu qua proxy).
+   - Headers có thể custom, như X-API-Key.
+
+3. **Body (Thân)**:
+   - Dữ liệu gửi (chỉ cho methods như POST, PUT).
+   - Định dạng: JSON, XML, form data, binary (files).
+   - Ví dụ JSON: `{"username": "john", "password": "secret"}`
+   - Form data: `username=john&password=secret` (Content-Type: application/x-www-form-urlencoded).
+   - Multipart: Cho file uploads (Content-Type: multipart/form-data).
+
+**Ví dụ Request Đầy Đủ**:
+```
+POST /api/login HTTP/1.1
+Host: api.example.com
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+Content-Length: 44
+Authorization: Bearer token123
+
+{"username": "john", "password": "secret"}
+```
+
+#### Cấu Trúc HTTP Response
+Response là tin nhắn từ server về client. Cũng gồm ba phần:
+
+1. **Status Line**:
+   - Cấu trúc: `HTTP/VERSION STATUS_CODE REASON_PHRASE`
+   - Ví dụ: `HTTP/1.1 200 OK`
+   - **Status Codes (Mã Trạng Thái)**: 3-digit number chỉ kết quả.
+     - 1xx Informational: Tiến trình (100 Continue: Server sẵn sàng nhận body).
+     - 2xx Success: Thành công.
+       - 200 OK: Request thành công.
+       - 201 Created: Resource mới tạo (trả Location header).
+       - 202 Accepted: Request accepted nhưng chưa xử lý xong.
+       - 204 No Content: Thành công nhưng không có body.
+     - 3xx Redirection: Client cần hành động khác.
+       - 301 Moved Permanently: URL mới vĩnh viễn (SEO-friendly).
+       - 302 Found: URL mới tạm thời.
+       - 303 See Other: Dùng GET cho URL khác.
+       - 304 Not Modified: Resource không đổi (cache hit).
+       - 307 Temporary Redirect: Giữ method gốc.
+       - 308 Permanent Redirect: Giữ method, vĩnh viễn.
+     - 4xx Client Error: Lỗi từ client.
+       - 400 Bad Request: Request sai (validation fail).
+       - 401 Unauthorized: Cần auth.
+       - 403 Forbidden: Auth OK nhưng không quyền.
+       - 404 Not Found: Resource không tồn tại.
+       - 405 Method Not Allowed: Method không hỗ trợ.
+       - 409 Conflict: Conflict với state hiện tại (như duplicate).
+       - 413 Payload Too Large: Body quá lớn.
+       - 415 Unsupported Media Type: Content-Type sai.
+       - 422 Unprocessable Entity: Validation fail (WebDAV).
+       - 429 Too Many Requests: Rate limit.
+     - 5xx Server Error: Lỗi từ server.
+       - 500 Internal Server Error: Lỗi không mong muốn.
+       - 501 Not Implemented: Method không hỗ trợ.
+       - 502 Bad Gateway: Proxy nhận response lỗi từ upstream.
+       - 503 Service Unavailable: Server overload hoặc maintenance.
+       - 504 Gateway Timeout: Upstream không phản hồi kịp.
+
+2. **Headers**:
+   - Metadata về response.
+   - **Common Headers**:
+     - Content-Type: "application/json" (định dạng body).
+     - Content-Length: "123" (kích thước body).
+     - Content-Encoding: "gzip" (compression).
+     - Cache-Control: "no-cache, max-age=3600" (caching rules).
+     - Expires: "Wed, 21 Oct 2025 07:28:00 GMT" (thời gian hết hạn).
+     - ETag: "\"abc123\"" (entity tag cho cache validation).
+     - Last-Modified: "Wed, 21 Oct 2025 07:28:00 GMT" (thời gian sửa cuối).
+     - Set-Cookie: "session=xyz; HttpOnly; Secure; SameSite=Strict" (set cookie).
+     - Location: "/new-url" (cho redirects).
+     - Access-Control-Allow-Origin: "*" (CORS).
+     - Server: "nginx/1.18.0" (server software).
+     - X-Rate-Limit-Remaining: "99" (rate limiting).
+
+3. **Body**:
+   - Dữ liệu trả về.
+   - Có thể là HTML, JSON, XML, file binary, etc.
+   - Ví dụ JSON: `{"users": [{"id": 1, "name": "John"}]}`
+
+**Ví dụ Response Đầy Đủ**:
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 25
+Cache-Control: no-cache
+Set-Cookie: session=abc123; HttpOnly
+
+{"message": "Login successful"}
+```
+
+**Diagram HTTP Request-Response**:
+```
+Client                          Server
+  |                               |
+  |--- HTTP Request ------------->|
+  | (Method, URL, Headers, Body)  |
+  |<-- HTTP Response -------------|
+  | (Status, Headers, Body)       |
+  |                               |
+```
+
+#### HTTPS: Bảo Mật HTTP
+- **SSL/TLS**: Giao thức mã hóa trên HTTP, tạo kênh bảo mật.
+  - Handshake: Client và server thỏa thuận key, verify certificate.
+  - Mã hóa: Dữ liệu được encrypt, chống eavesdropping và tampering.
+- **Certificate**: Digital cert từ CA (như Let's Encrypt), chứng thực identity server.
+- **Port**: 443 (HTTP là 80).
+- **Tại Sao Quan Trọng**: Bảo vệ password, data nhạy cảm. Browser hiển thị padlock nếu HTTPS.
+- **HSTS**: Strict-Transport-Security header buộc HTTPS.
+
+#### Cookies và Sessions
+- **Cookies**: Cơ chế lưu data trên client, gửi với mỗi request đến domain đó.
+  - Server set qua Set-Cookie header.
+  - Attributes: Expires (thời hạn), Domain (scope), Path, Secure (chỉ HTTPS), HttpOnly (chỉ server), SameSite (CSRF protection).
+  - Ví dụ: Set-Cookie: user=john; Expires=Wed, 21 Oct 2025; HttpOnly
+- **Sessions**: Lưu state trên server, client giữ session ID trong cookie.
+  - Server tạo session ID unique, lưu data (như user info) trong memory/DB.
+  - Bảo mật hơn cookies vì data không lộ.
+
+#### Caching
+- **Mục Đích**: Giảm latency, bandwidth, server load.
+- **Browser Cache**: Lưu response locally.
+  - Headers: Cache-Control (public/private, max-age), Expires.
+- **Conditional Requests**: Client gửi If-None-Match (ETag) hoặc If-Modified-Since để check thay đổi.
+  - Server trả 304 Not Modified nếu không đổi.
+- **CDN (Content Delivery Network)**: Cache global, phục vụ từ server gần nhất (như Cloudflare).
+- **Proxy Cache**: Nginx, Varnish cache responses.
+
+#### Redirects
+- Server hướng client đến URL khác.
+- Status codes 3xx + Location header.
+- Ví dụ: 301 /old-page → /new-page (SEO transfer ranking).
+
+#### Errors và Debugging
+- **Common Issues**: 404 (wrong URL), 500 (code bug), 429 (rate limit).
+- **Tools**:
+  - Browser DevTools: Inspect requests/responses.
+  - Postman/Curl: Test APIs.
+  - Wireshark: Packet-level inspection.
+- **Logs**: Server log requests (IP, method, status, time) cho monitoring.
+- **Best Practices**: Validate input, handle errors gracefully, use HTTPS always.
+
+HTTP là nền tảng của web apps. Hiểu sâu giúp bạn debug hiệu quả, optimize performance, và xây dựng APIs secure. Trong Node/Express, bạn dùng req/res objects để handle chúng!
 
 ## Chương 8: Flow Quan Hệ Và Vai Trò Trong Client-Server
 
@@ -377,6 +679,19 @@ JS làm backend nhờ một số "bí kíp" kỹ thuật. Hãy tưởng tượng
      - Event loop kiểm tra stack (call stack) rỗng.
      - Chạy callback hoặc handler.
      - Nếu async, delegate I/O, tiếp tục loop.
+
+**Diagram Event Loop Cơ Bản**:
+```
+[Call Stack] <-- Execute sync code
+     |
+     | (Async task: setTimeout, I/O)
+     v
+[Event Queue] <-- Add callbacks
+     |
+     | (When stack empty)
+     v
+[Event Loop] <-- Process queue
+```
 
 2. **Promises và Async/Await**: JS cũ dùng "callbacks" (như hứa "sẽ gọi lại sau"), dễ gây "callback hell" (nhiều tầng lồng nhau, khó hiểu). Promises như "hợp đồng": "Tôi hứa sẽ trả kết quả". Async/await làm code sạch hơn: `await` như "chờ một chút", nhưng không block toàn bộ. Ví dụ: Query database – JS nói "đợi tôi lấy dữ liệu", nhưng tiếp tục làm việc khác.
    - **Ví dụ code đơn giản**:
@@ -482,6 +797,12 @@ Express xây trên Node, đơn giản hóa mọi thứ. Hãy tưởng tượng x
        next(); // Tiếp tục đến middleware tiếp theo
      });
      ```
+
+**Diagram Middleware Chain**:
+```
+Request --> [Middleware 1] --> [Middleware 2] --> [Handler] --> Response
+             (e.g., Auth)      (e.g., Parse JSON)   (Logic)
+```
 
 3. **Abstraction**: Express che Node HTTP low-level. Bạn không cần viết `res.writeHead(200)`, chỉ `res.json({data})`. Focus logic, không boilerplate.
    - **Ví dụ đầy đủ**:

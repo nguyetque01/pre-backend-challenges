@@ -19,9 +19,9 @@ Hãy bắt đầu!
 - [Chương 5: Express.js – Framework Xây Web Apps](#chương-5-expressjs-–-framework-xây-web-apps)
 - [Chương 6: API và JSON – Cơ Sở Giao Tiếp](#chương-6-api-và-json-–-cơ-sở-giao-tiếp)
 - [Chương 7: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối](#chương-7-quy-trình-xử-lý-request-–-từ-đầu-đến-cuối)
-- [Chương 8: Tại Sao Và Làm Thế Nào Chúng Làm Được?](#chương-8-tại-sao-và-làm-thế-nào-chúng-làm-được)
-- [Chương 9: Flow Quan Hệ Và Vai Trò Trong Client-Server](#chương-9-flow-quan-hệ-và-vai-trò-trong-client-server)
-- [Chương 10: Ngoài Ra Chúng Có Thể Làm Gì?](#chương-10-ngoài-ra-chúng-có-thể-làm-gì)
+- [Chương 8: Flow Quan Hệ Và Vai Trò Trong Client-Server](#chương-8-flow-quan-hệ-và-vai-trò-trong-client-server)
+- [Chương 9: Tại Sao Và Làm Thế Nào JS, Node.js Và Express.js Làm Được?](#chương-9-tại-sao-và-làm-thế-nào-js-nodejs-và-expressjs-làm-được)
+- [Chương 10: Ngoài Ra JS, Node.js Và Express.js Có Thể Làm Gì?](#chương-10-ngoài-ra-js-nodejs-và-expressjs-có-thể-làm-gì)
 - [Bài Tập Thực Hành](#bài-tập-thực-hành)
 - [Bài Tập Mở Rộng](#bài-tập-mở-rộng)
 - [Lưu Ý Cho Người Mới](#lưu-ý-cho-người-mới)
@@ -294,7 +294,67 @@ Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật s
 - **Security**: HTTPS mã hóa, Express helmet bảo vệ headers.
 - **Performance**: Caching, clustering scale.
 
-## Chương 7: Tại Sao Và Làm Thế Nào Chúng Làm Được?
+## Chương 8: Flow Quan Hệ Và Vai Trò Trong Client-Server
+
+Trong chương này, chúng ta sẽ vẽ "bản đồ" quan hệ giữa JS, Node.js, Express.js, và cách chúng hợp tác trong mô hình client-server. Bạn sẽ thấy flow từ đầu đến cuối, với ví dụ thực tế. Hãy tưởng tượng như một chuyến đi: từ khách hàng đến bếp, rồi trở lại!
+### Flow Quan Hệ (Hành Trình Của Một Request)
+
+Hãy theo dõi một request từ client đến server và ngược lại. Chúng ta dùng diagram text-based để dễ hình dung, như bản đồ đường.
+```
+[Trình Duyệt (Client)]
+     ↓ (HTTP Request: GET /api/users)
+[Internet]
+     ↓
+[Node.js Server (Runtime)]
+     ↓ (Event Loop nhận request)
+[Express.js (Framework)]
+     ↓ (Middleware: parse JSON, auth)
+[Routing: Match /api/users]
+     ↓ (Handler: Logic - Query DB)
+[Cơ Sở Dữ Liệu (e.g., MongoDB)]
+     ↓ (Trả dữ liệu: {users: [...]})
+[Express: Format Response]
+     ↓ (Gửi JSON Response)
+[Node.js: Gửi qua HTTP]
+     ↓
+[Internet]
+     ↓
+[Trình Duyệt: Render/Update DOM với JS]
+```
+
+### Quan Hệ Với Thế Giới Web
+
+- **JS (JavaScript)**: Là "ngôn ngữ cốt lõi" của web. Ban đầu chỉ cho frontend (thay đổi UI), giờ chinh phục backend (xử lý server). Nó "universal" – chạy mọi nơi nhờ V8 engine.
+- **Node.js**: Là "môi trường runtime" cho JS trên server. Cho phép JS truy cập OS, xây dựng servers/APIs. Như "cánh cửa" mở ra thế giới backend cho JS.
+- **Express.js**: Là "framework" trên Node, đơn giản hóa web apps. Cung cấp routing/middleware, như "bộ công cụ" xây nhanh APIs.
+
+**Ví dụ Quan Hệ**: JS như "người lái xe" (code), Node như "xe" (runtime), Express như "GPS" (framework). Cùng nhau, họ lái từ client đến server mượt mà, tạo ra web apps đầy năng động.
+
+### Vai Trò Trong Mô Hình Client-Server
+
+Mô hình client-server như "khách hàng - nhà cung cấp": Client yêu cầu, server cung cấp. JS, Node, Express làm cầu nối hoàn hảo.
+
+- **Client (Trình Duyệt)**: 
+  - Gửi requests (HTTP GET/POST) qua JS (fetch API).
+  - JS handle UI: Tương tác, render data (update DOM).
+  - Ví dụ: Bạn nhập form login, JS gửi POST /login với dữ liệu.
+
+- **Server (Node.js + Express.js)**:
+  - Nhận requests qua Node HTTP.
+  - Xử lý logic với JS (query DB, tính toán).
+  - Gửi responses (JSON/HTML) qua Express.
+  - Ví dụ: Nhận POST /login, kiểm tra DB, trả JWT token.
+
+- **JS/Node/Express Là Cầu Nối**:
+  - JS: Ngôn ngữ universal, event-driven, async.
+  - Node: Runtime server, non-blocking I/O, APIs OS.
+  - Express: Framework web, routing, middleware, abstraction.
+
+**Ví dụ Vai Trò**: Trong app chat, client (JS) gửi message, server (Node/Express) broadcast qua WebSockets, DB lưu. Tất cả hợp tác tạo trải nghiệm real-time, mượt mà.
+
+**Tóm Tắt**: Flow từ client qua internet đến server (Node/Express/JS), xử lý, rồi về. Chúng là "đội ngũ" hoàn hảo cho web apps, từ đơn giản đến phức tạp!
+
+## Chương 9: Tại Sao Và Làm Thế Nào JS, Node.js Và Express.js Làm Được?
 
 Trong chương này, chúng ta sẽ đào sâu hơn: Tại sao JavaScript (JS), Node.js, và Express.js có thể làm được những việc "kỳ diệu" như vậy? Chúng ta sẽ giải thích từng bước, với ví dụ đơn giản, để bạn hiểu rõ cơ chế bên trong. Đừng lo nếu nghe phức tạp – chúng ta sẽ đi từ cơ bản!
 
@@ -443,67 +503,7 @@ Express xây trên Node, đơn giản hóa mọi thứ. Hãy tưởng tượng x
 
 **Tóm Tắt**: Express làm framework bằng cách trừu tượng hóa Node, cung cấp routing/middleware. Từ code phức tạp, giờ xây apps trong phút!
 
-## Chương 8: Flow Quan Hệ Và Vai Trò Trong Client-Server
-
-Trong chương này, chúng ta sẽ vẽ "bản đồ" quan hệ giữa JS, Node.js, Express.js, và cách chúng hợp tác trong mô hình client-server. Bạn sẽ thấy flow từ đầu đến cuối, với ví dụ thực tế. Hãy tưởng tượng như một chuyến đi: từ khách hàng đến bếp, rồi trở lại!
-### Flow Quan Hệ (Hành Trình Của Một Request)
-
-Hãy theo dõi một request từ client đến server và ngược lại. Chúng ta dùng diagram text-based để dễ hình dung, như bản đồ đường.
-```
-[Trình Duyệt (Client)]
-     ↓ (HTTP Request: GET /api/users)
-[Internet]
-     ↓
-[Node.js Server (Runtime)]
-     ↓ (Event Loop nhận request)
-[Express.js (Framework)]
-     ↓ (Middleware: parse JSON, auth)
-[Routing: Match /api/users]
-     ↓ (Handler: Logic - Query DB)
-[Cơ Sở Dữ Liệu (e.g., MongoDB)]
-     ↓ (Trả dữ liệu: {users: [...]})
-[Express: Format Response]
-     ↓ (Gửi JSON Response)
-[Node.js: Gửi qua HTTP]
-     ↓
-[Internet]
-     ↓
-[Trình Duyệt: Render/Update DOM với JS]
-```
-
-### Quan Hệ Với Thế Giới Web
-
-- **JS (JavaScript)**: Là "ngôn ngữ cốt lõi" của web. Ban đầu chỉ cho frontend (thay đổi UI), giờ chinh phục backend (xử lý server). Nó "universal" – chạy mọi nơi nhờ V8 engine.
-- **Node.js**: Là "môi trường runtime" cho JS trên server. Cho phép JS truy cập OS, xây dựng servers/APIs. Như "cánh cửa" mở ra thế giới backend cho JS.
-- **Express.js**: Là "framework" trên Node, đơn giản hóa web apps. Cung cấp routing/middleware, như "bộ công cụ" xây nhanh APIs.
-
-**Ví dụ Quan Hệ**: JS như "người lái xe" (code), Node như "xe" (runtime), Express như "GPS" (framework). Cùng nhau, họ lái từ client đến server mượt mà, tạo ra web apps đầy năng động.
-
-### Vai Trò Trong Mô Hình Client-Server
-
-Mô hình client-server như "khách hàng - nhà cung cấp": Client yêu cầu, server cung cấp. JS, Node, Express làm cầu nối hoàn hảo.
-
-- **Client (Trình Duyệt)**: 
-  - Gửi requests (HTTP GET/POST) qua JS (fetch API).
-  - JS handle UI: Tương tác, render data (update DOM).
-  - Ví dụ: Bạn nhập form login, JS gửi POST /login với dữ liệu.
-
-- **Server (Node.js + Express.js)**:
-  - Nhận requests qua Node HTTP.
-  - Xử lý logic với JS (query DB, tính toán).
-  - Gửi responses (JSON/HTML) qua Express.
-  - Ví dụ: Nhận POST /login, kiểm tra DB, trả JWT token.
-
-- **JS/Node/Express Là Cầu Nối**:
-  - JS: Ngôn ngữ universal, event-driven, async.
-  - Node: Runtime server, non-blocking I/O, APIs OS.
-  - Express: Framework web, routing, middleware, abstraction.
-
-**Ví dụ Vai Trò**: Trong app chat, client (JS) gửi message, server (Node/Express) broadcast qua WebSockets, DB lưu. Tất cả hợp tác tạo trải nghiệm real-time, mượt mà.
-
-**Tóm Tắt**: Flow từ client qua internet đến server (Node/Express/JS), xử lý, rồi về. Chúng là "đội ngũ" hoàn hảo cho web apps, từ đơn giản đến phức tạp!
-
-## Chương 9: Ngoài Ra Chúng Có Thể Làm Gì?
+## Chương 10: Ngoài Ra JS, Node.js Và Express.js Có Thể Làm Gì?
 Website chỉ là khởi đầu. JS, Node, Express là "siêu năng lực" cho nhiều thứ:
 - **Real-Time Apps**: WebSockets (Socket.io) cho chat, games.
 - **Xử Lý Files**: Streams cho files lớn, uploads.

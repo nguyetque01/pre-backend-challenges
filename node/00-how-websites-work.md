@@ -160,7 +160,7 @@ app.listen(3000);
 ## Chương 5: Quy Trình Xử Lý Request – Từ Đầu Đến Cuối
 Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật số.
 
-### Bước Bước Phía Sau
+### Các Bước Phía Sau
 1. **Client Gửi Request**: Bạn click link. Browser tạo HTTP request (GET /api/users), gửi qua internet đến IP server.
 2. **Server Nhận**: Node.js HTTP server lắng nghe, trigger sự kiện.
 3. **Express Xử Lý**:
@@ -171,7 +171,7 @@ Hãy theo dõi hành trình của một request, như phiêu lưu kỹ thuật s
 5. **Response**: Express format JSON, gửi về.
 6. **Client Nhận**: Browser render/update DOM với JS.
 
-**Ví dụ Thú Vị: Đăng Nhập**
+**Ví dụ: Đăng Nhập**
 - Request: POST /login với {email, password}.
 - Middleware: Express.json() parse body.
 - Handler: Node query DB, kiểm tra password (bcrypt), tạo JWT.

@@ -23,7 +23,9 @@ Repo này phù hợp cho người mới bắt đầu Backend, giúp bạn xây d
 - Áp dụng kiến thức qua bài tập thực tế.
 
 ### 3. Tài Liệu Chuyên Sâu
-- **node/**: `node-express-guide.md` – Hướng dẫn chi tiết Node.js, Express.js, OOP, Database, Testing, Projects.
+- **node/**: 
+  - `node-express-guide.md` – Hướng dẫn chi tiết Node.js, Express.js, OOP, Database, Testing, Projects.
+  - **Node.js Series Cho Người Mới Học Backend** (7 files): Từ cơ bản (phía sau website, so sánh backends) đến nâng cao (operations, advanced topics). Bao gồm TOC và tổng kết cho mỗi file.
 - **dotnet/**: `dotnet-aspnet-guide.md` – Hướng dẫn tương tự cho .NET, ASP.NET Core.
 - **sql/**: `sql-queries-types.md` – Cơ bản SQL, các loại truy vấn, bài tập.
 

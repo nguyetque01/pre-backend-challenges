@@ -6,6 +6,14 @@ Dưới đây là danh sách các bài tập (challenges) trong khóa học Pre-
 ### Tài liệu Lý thuyết
 - [Node.js và Express.js Guide](./node/node-express-guide.md) - Lý thuyết và bài tập về Node.js, Express, thiết kế source, tư duy backend.
 - [SQL Queries Types](./sql/sql-queries-types.md) - Các loại truy vấn SQL, NoSQL và bài tập thực hành.
+- **Node.js Series Cho Người Mới Học Backend:**
+  - [00: How Websites Work](./node/00-how-websites-work.md) - Giải thích phía sau website, vai trò backend.
+  - [01: Node.js vs Other Backends](./node/01-node-vs-other-backends.md) - So sánh Node.js với Python, PHP, Ruby, Java.
+  - [02: Node.js Basics Guide](./node/02-node-basics-guide.md) - Cơ bản Node.js: modules, file system, HTTP, async.
+  - [03: Express.js Guide](./node/03-express-guide.md) - Hướng dẫn Express: routing, middleware, CRUD.
+  - [04: Node.js Databases Guide](./node/04-node-databases-guide.md) - Kết nối và làm việc với databases (MongoDB, PostgreSQL).
+  - [05: Node.js Operations Types](./node/05-node-operations-types.md) - Các loại operations: sync/async, HTTP, file system, DB, events, streams, etc.
+  - [06: Advanced Node.js Guide](./node/06-advanced-node-guide.md) - Nâng cao: streams, clusters, security, deployment, real-time.
 
 ## Danh sách Bài tập
 
